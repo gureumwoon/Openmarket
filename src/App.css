@@ -1,10 +1,24 @@
-.App {
-  text-align: center;
+.App {}
+
+* {
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+p {
+  margin: 0;
+}
+
+label {
+  margin: 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -32,6 +46,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
