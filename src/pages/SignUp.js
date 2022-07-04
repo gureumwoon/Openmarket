@@ -4,10 +4,16 @@ import Input from "../elements/Input";
 import Button from "../elements/Button";
 
 //assets
-import Hodu from "../assets/images/Logo-hodu2.png"
+import Hodu from "../assets/images/Logo-hodu2.png";
+import arrowUp from "../assets/images/icon-up-arrow.svg";
 
 function SignUp() {
     const [tab, setTab] = useState(0)
+    const [dropdown, setDropDown] = useState(false)
+
+    const hadnleArrow = () => {
+        setDropDown(!dropdown)
+    }
 
     return (
         <SignUpSection>
@@ -51,7 +57,18 @@ function SignUp() {
                             <Input label="비밀번호 재확인" height="44px" />
                             <Input label="이름" height="44px" />
                             <div className='phone'>
-                                <Input label="휴대전화 번호" height="44px" />
+                                <div className='dropdown'>
+                                    <Input label="휴대전화 번호" height="44px" />
+                                    <img src={arrowUp} alt="" onClick={hadnleArrow} />
+                                    {dropdown === true ? <ul className="dropdown-items">
+                                        <li className="dropdown-item" >
+                                            <button className="dropdown-option" >male</button>
+                                        </li>
+                                        <li className="dropdown-item" >
+                                            <button className="dropdown-option" >female</button>
+                                        </li>
+                                    </ul> : null}
+                                </div>
                                 <Input height="44px" />
                                 <Input height="44px" />
                             </div>
@@ -204,14 +221,44 @@ const SignUpForm = styled.div`
             display: flex;
             align-items: end;
             justify-content: center;
-            input:first-child::after{
-
-            }
             label:first-child {
                 margin-right: 12px;
+                position: relative;
+            }
+            img {
+                position: absolute;
+                left: 456px;
+                bottom: 294px;
+                cursor: pointer;
             }
             label:last-child {
                 margin-left: 12px;
+            }
+            .dropdown {
+                display: flex;
+                flex-direction: column;
+                .dropdown-items {
+            margin-top: -10px;
+            margin-bottom: 13px;
+            width: 343px;
+            border-radius: 10px;
+            height: 63px;
+            box-shadow: 0 2px 5px 1px rgba(64 60 67 / 16%);
+            transition: border-color 200ms ease-in, padding 200ms ease-in,max-height 200ms ease-in,box-shadow 200ms ease-in;
+            padding-top: 6px;
+            box-sizing: border-box;
+            .dropdown-item {
+                width: 100%;
+                height: 25px;
+                line-height: 25px;
+                text-align: center;
+                cursor:pointer;
+                &:hover {
+                    background-color: #c4c4c4;
+                    transition: all 0.5s;
+                }
+            }
+         }
             }
           }
         }
