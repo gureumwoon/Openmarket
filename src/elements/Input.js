@@ -2,14 +2,14 @@ import React from 'react'
 import styled from "styled-components";
 
 function Input(props) {
-    const { label, type, placeholder, value, _onChange, margin, width, height, padding, is_flex } = props;
+    const { label, type, placeholder, defaultValue, _onChange, margin, width, height, padding, is_flex } = props;
     const styles = { width, height, margin, padding, is_flex }
     return (
         <label>
             <LabelText>{label}</LabelText>
             <InputField
                 type={type}
-                value={value}
+                defaultValue={defaultValue}
                 placeholder={placeholder}
                 onChange={_onChange}
                 {...styles}

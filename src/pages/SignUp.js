@@ -10,9 +10,32 @@ import arrowUp from "../assets/images/icon-up-arrow.svg";
 function SignUp() {
     const [tab, setTab] = useState(0)
     const [dropdown, setDropDown] = useState(false)
+    const [phoneData, setPhoneData] = useState("")
+
+    // 구매 회원가입 정보 저장
+    const [id, setId] = useState("")
+    const [pw, setPw] = useState("")
+    const [pw2, setPw2] = useState("")
+    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
+
+    // 에러 메세지
+    const [idMessage, setIdMessage] = useState("")
+    const [pwMessage, setPwMessage] = useState("")
+    const [pw2Message, setPw2Message] = useState("")
+    const [emailMessage, setEmailMessage] = useState("")
 
     const hadnleArrow = () => {
         setDropDown(!dropdown)
+    }
+
+    const handleSelect = (e) => {
+        setPhoneData(e.target.textContent)
+        setDropDown(false)
+    }
+
+    const pwCheck = (e) => {
+        setPw(e.target.value)
     }
 
     return (
@@ -53,19 +76,34 @@ function SignUp() {
                                     width="122px"
                                 >중복확인</Button>
                             </div>
-                            <Input label="비밀번호" height="44px" />
-                            <Input label="비밀번호 재확인" height="44px" />
+                            <p></p>
+                            <Input type="password" label="비밀번호" height="44px" _onChange={pwCheck} />
+                            <p></p>
+                            <Input type="password" label="비밀번호 재확인" height="44px" />
+                            <p></p>
                             <Input label="이름" height="44px" />
                             <div className='phone'>
                                 <div className='dropdown'>
-                                    <Input label="휴대전화 번호" height="44px" />
-                                    <img src={arrowUp} alt="" onClick={hadnleArrow} />
+                                    <Input defaultValue={phoneData} label="휴대전화 번호" height="44px" />
+                                    <img className={`${!dropdown ? "on" : "off"}`} src={arrowUp} alt="" onClick={hadnleArrow} />
                                     {dropdown === true ? <ul className="dropdown-items">
-                                        <li className="dropdown-item" >
-                                            <button className="dropdown-option" >male</button>
+                                        <li className="dropdown-item" onClick={handleSelect}>
+                                            <button className="dropdown-option" >010</button>
                                         </li>
-                                        <li className="dropdown-item" >
-                                            <button className="dropdown-option" >female</button>
+                                        <li className="dropdown-item" onClick={handleSelect}>
+                                            <button className="dropdown-option" >011</button>
+                                        </li>
+                                        <li className="dropdown-item" onClick={handleSelect}>
+                                            <button className="dropdown-option" >016</button>
+                                        </li>
+                                        <li className="dropdown-item" onClick={handleSelect}>
+                                            <button className="dropdown-option" >017</button>
+                                        </li>
+                                        <li className="dropdown-item" onClick={handleSelect}>
+                                            <button className="dropdown-option" >018</button>
+                                        </li>
+                                        <li className="dropdown-item" onClick={handleSelect}>
+                                            <button className="dropdown-option" >019</button>
                                         </li>
                                     </ul> : null}
                                 </div>
@@ -227,8 +265,8 @@ const SignUpForm = styled.div`
             }
             img {
                 position: absolute;
-                left: 456px;
-                bottom: 294px;
+                top: 58px;
+                left: 88px;
                 cursor: pointer;
             }
             label:last-child {
@@ -237,24 +275,29 @@ const SignUpForm = styled.div`
             .dropdown {
                 display: flex;
                 flex-direction: column;
+                position: relative;
                 .dropdown-items {
-            margin-top: -10px;
-            margin-bottom: 13px;
-            width: 343px;
-            border-radius: 10px;
-            height: 63px;
-            box-shadow: 0 2px 5px 1px rgba(64 60 67 / 16%);
-            transition: border-color 200ms ease-in, padding 200ms ease-in,max-height 200ms ease-in,box-shadow 200ms ease-in;
-            padding-top: 6px;
-            box-sizing: border-box;
+                    position: absolute;
+                    z-index: 2;
+                    background-color: white;
+                    border: 1px solid #C4C4C4;
+                    top: 100px;
+                    width: 114.84px;
+                    border-radius: 5px;
+                    height: 100px;
+                    overflow-y: scroll;
+                    box-shadow: 0 2px 5px 1px rgba(64 60 67 / 16%);
+                    transition: border-color 200ms ease-in, padding 200ms ease-in,max-height 200ms ease-in,box-shadow 200ms ease-in;
+                    padding-top: 6px;
+                    box-sizing: border-box;
             .dropdown-item {
                 width: 100%;
-                height: 25px;
+                height: 28px;
                 line-height: 25px;
                 text-align: center;
                 cursor:pointer;
                 &:hover {
-                    background-color: #c4c4c4;
+                    background-color:#E0E0E0;
                     transition: all 0.5s;
                 }
             }
@@ -278,6 +321,9 @@ const SignUpForm = styled.div`
           }
         }
     }
+    img.off{
+            transform:rotate(180deg)
+        }
 `
 
 const Logo = styled.img`
