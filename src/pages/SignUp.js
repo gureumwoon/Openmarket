@@ -25,6 +25,12 @@ function SignUp() {
     const [pw2Message, setPw2Message] = useState("")
     const [emailMessage, setEmailMessage] = useState("")
 
+    // 유효성 검사
+    const [isPw, setIsPw] = useState()
+    const [isPw2, setIsPw2] = useState()
+    const [isId, setIsId] = useState()
+    const [isEmail, setIsEmail] = useState()
+
     const hadnleArrow = () => {
         setDropDown(!dropdown)
     }
@@ -34,8 +40,58 @@ function SignUp() {
         setDropDown(false)
     }
 
+    // Id 유효성 검사
+    const idCheck = (e) => {
+        setId(e.target.value)
+        const regId = /^[a-zA-Z][0-9a-zA-Z]{0,19}$/
+
+        if (!regId.test(id)) {
+            setIdMessage("닉네임 형식에 맞게 입력해주세요")
+            setIsId(false)
+        } else {
+            setIdMessage("멋진 아이디네요 :)")
+            setIsId(true)
+        }
+    }
+
+    // 비밀번호 유효성 검사
     const pwCheck = (e) => {
         setPw(e.target.value)
+        const regPw = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/
+
+        if (!regPw.test(pw)) {
+            setPwMessage("8자 이상 영문, 숫자 조합으로 입력해주세요")
+            setIsPw(false)
+        } else {
+            setPwMessage("올바른 비밀번호 입니다.")
+            setIsPw(true)
+        }
+    }
+
+    // 비밀번호 확인 유효성 검사
+    const isSamePw = (e) => {
+        setPw2(e.target.value)
+        if (pw === e.target.value) {
+            setPw2Message("비밀번호가 일치합니다.")
+            setIsPw2(true)
+        } else {
+            setPw2Message("비밀번호가 일치하지 않습니다")
+            setIsPw2(false)
+        }
+    }
+
+    // 이메일 유효성 검사
+    const emailCheck = (e) => {
+        setEmail(e.target.value)
+        const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+
+        if (!regEmail.test(email)) {
+            setEmailMessage("이메일 형식에 맞게 입력해주세요")
+            setIsEmail(false)
+        } else {
+            setEmailMessage("올바른 이메일 형식 입니다")
+            setIsEmail(true)
+        }
     }
 
     return (
@@ -69,6 +125,12 @@ function SignUp() {
                                     height="44px"
                                     label="아이디"
                                     margin="0 12px 0 0"
+                                    _onChange={idCheck}
+                                    borderColor={
+                                        id.length > 0 && (
+                                            isId ? "#21BF48" : "#EB5757"
+                                        )
+                                    }
                                 />
                                 <Button
                                     height="44px"
@@ -76,11 +138,55 @@ function SignUp() {
                                     width="122px"
                                 >중복확인</Button>
                             </div>
-                            <p></p>
-                            <Input type="password" label="비밀번호" height="44px" _onChange={pwCheck} />
-                            <p></p>
-                            <Input type="password" label="비밀번호 재확인" height="44px" />
-                            <p></p>
+                            <div>
+                                {id.length > 0 && (
+                                    <>
+                                        <Message className={`${isId ? "success" : "error"}`}>
+                                            {idMessage}
+                                        </Message>
+                                    </>
+                                )}
+                            </div>
+                            <Input
+                                type="password"
+                                label="비밀번호"
+                                height="44px"
+                                _onChange={pwCheck}
+                                borderColor={
+                                    pw.length > 0 && (
+                                        isPw ? "#21BF48" : "#EB5757"
+                                    )
+                                }
+                            />
+                            <div>
+                                {pw.length > 0 && (
+                                    <>
+                                        <Message className={`${isPw ? "success" : "error"}`}>
+                                            {pwMessage}
+                                        </Message>
+                                    </>
+                                )}
+                            </div>
+                            <Input
+                                type="password"
+                                label="비밀번호 재확인"
+                                height="44px"
+                                _onChange={isSamePw}
+                                borderColor={
+                                    pw2.length > 0 && (
+                                        isPw2 ? "#21BF48" : "#EB5757"
+                                    )
+                                }
+                            />
+                            <div>
+                                {pw2.length > 0 && (
+                                    <>
+                                        <Message className={`${isPw2 ? "success" : "error"}`}>
+                                            {pw2Message}
+                                        </Message>
+                                    </>
+                                )}
+                            </div>
                             <Input label="이름" height="44px" />
                             <div className='phone'>
                                 <div className='dropdown'>
@@ -110,7 +216,23 @@ function SignUp() {
                                 <Input height="44px" />
                                 <Input height="44px" />
                             </div>
-                            <Input label="이메일" height="44px" />
+                            <Input
+                                label="이메일"
+                                height="44px"
+                                _onChange={emailCheck}
+                                borderColor={
+                                    email.length > 0 && (
+                                        isEmail ? "#21BF48" : "#EB5757"
+                                    )
+                                }
+                            />
+                            {email.length > 0 && (
+                                <>
+                                    <Message className={`${isEmail ? "success" : "error"}`}>
+                                        {emailMessage}
+                                    </Message>
+                                </>
+                            )}
                         </li>
                     </ul>
                     :
@@ -160,7 +282,11 @@ function SignUp() {
                 <input type="checkbox" />
                 <p>호두샵의 이용약관 및 개인정보처리방침에 대한 내용을 확인하였고 동의합니다.</p>
             </label>
-            <Button _disabled={true} width="380px" height="50px" margin="0px 0px 100px" font_size="17px" >가입하기</Button>
+            {tab === 0 ?
+                <Button _disabled={true} width="380px" height="50px" margin="0px 0px 100px" font_size="17px" >가입하기</Button>
+                :
+                <Button _disabled={true} width="380px" height="50px" margin="0px 0px 100px" font_size="17px" >가입하기</Button>
+            }
         </SignUpSection>
     )
 }
@@ -324,6 +450,12 @@ const SignUpForm = styled.div`
     img.off{
             transform:rotate(180deg)
         }
+`
+const Message = styled.p`
+  font-size: 13px;
+  align-self: flex-start;
+  margin-top: 10px;
+  color: ${(props) => (props.className === "success" ? "#21BF48" : "#EB5757;")}
 `
 
 const Logo = styled.img`
