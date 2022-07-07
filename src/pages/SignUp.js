@@ -19,17 +19,25 @@ function SignUp() {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
 
-    // 에러 메세지
+    // 구매자 계정 에러 메세지
     const [idMessage, setIdMessage] = useState("")
     const [pwMessage, setPwMessage] = useState("")
     const [pw2Message, setPw2Message] = useState("")
     const [emailMessage, setEmailMessage] = useState("")
 
-    // 유효성 검사
+    // 판매자 계정 에러 메세지
+    const [salesIdMessage, setSalesIdMessage] = useState("")
+    const [salesPwMessage, setSalesPwMessage] = useState("")
+
+    // 구매자 계정 유효성 검사
     const [isPw, setIsPw] = useState()
     const [isPw2, setIsPw2] = useState()
     const [isId, setIsId] = useState()
     const [isEmail, setIsEmail] = useState()
+
+    // 판매자 계정 유효성 검사
+    const [salesIsId, setSalesIsId] = useState()
+    const [salesIsPw, setSalesIsPw] = useState()
 
     const hadnleArrow = () => {
         setDropDown(!dropdown)
@@ -94,6 +102,24 @@ function SignUp() {
         }
     }
 
+    /////////////
+    // 판매자 //
+    /////////////
+
+    // 판매자 Id 유효성 검사
+    const salesIdCheck = (e) => {
+        setId(e.target.value)
+        const regId = /^[a-zA-Z][0-9a-zA-Z]{0,19}$/
+
+        if (!regId.test(id)) {
+            setSalesIdMessage("닉네임 형식에 맞게 입력해주세요")
+            setSalesIsId(false)
+        } else {
+            setSalesIdMessage("멋진 아이디네요 :)")
+            setSalesIsId(true)
+        }
+    }
+
     return (
         <SignUpSection>
             <h1>
@@ -116,7 +142,7 @@ function SignUp() {
                 </li>
             </ul>
             <SignUpForm>
-                {tab === 0 ?
+                {tab === 0 &&
                     <ul className='normal-form_wrap'>
                         <li className='normal-user'>
                             <div className='id-container'>
@@ -138,15 +164,13 @@ function SignUp() {
                                     width="122px"
                                 >중복확인</Button>
                             </div>
-                            <div>
-                                {id.length > 0 && (
-                                    <>
-                                        <Message className={`${isId ? "success" : "error"}`}>
-                                            {idMessage}
-                                        </Message>
-                                    </>
-                                )}
-                            </div>
+                            {id.length > 0 && (
+                                <>
+                                    <Message className={`${isId ? "success" : "error"}`}>
+                                        {idMessage}
+                                    </Message>
+                                </>
+                            )}
                             <Input
                                 type="password"
                                 label="비밀번호"
@@ -158,15 +182,13 @@ function SignUp() {
                                     )
                                 }
                             />
-                            <div>
-                                {pw.length > 0 && (
-                                    <>
-                                        <Message className={`${isPw ? "success" : "error"}`}>
-                                            {pwMessage}
-                                        </Message>
-                                    </>
-                                )}
-                            </div>
+                            {pw.length > 0 && (
+                                <>
+                                    <Message className={`${isPw ? "success" : "error"}`}>
+                                        {pwMessage}
+                                    </Message>
+                                </>
+                            )}
                             <Input
                                 type="password"
                                 label="비밀번호 재확인"
@@ -178,17 +200,16 @@ function SignUp() {
                                     )
                                 }
                             />
-                            <div>
-                                {pw2.length > 0 && (
-                                    <>
-                                        <Message className={`${isPw2 ? "success" : "error"}`}>
-                                            {pw2Message}
-                                        </Message>
-                                    </>
-                                )}
-                            </div>
+                            {pw2.length > 0 && (
+                                <>
+                                    <Message className={`${isPw2 ? "success" : "error"}`}>
+                                        {pw2Message}
+                                    </Message>
+                                </>
+                            )}
+
                             <Input label="이름" height="44px" />
-                            <div className='phone'>
+                            <Phone>
                                 <div className='dropdown'>
                                     <Input defaultValue={phoneData} label="휴대전화 번호" height="44px" />
                                     <img className={`${!dropdown ? "on" : "off"}`} src={arrowUp} alt="" onClick={hadnleArrow} />
@@ -215,7 +236,7 @@ function SignUp() {
                                 </div>
                                 <Input height="44px" />
                                 <Input height="44px" />
-                            </div>
+                            </Phone>
                             <Input
                                 label="이메일"
                                 height="44px"
@@ -228,14 +249,15 @@ function SignUp() {
                             />
                             {email.length > 0 && (
                                 <>
-                                    <Message className={`${isEmail ? "success" : "error"}`}>
+                                    <Message className={`${isEmail ? "success" : "error"}`} style={{ marginBottom: "15px" }}>
                                         {emailMessage}
                                     </Message>
                                 </>
                             )}
                         </li>
                     </ul>
-                    :
+                }
+                {tab === 1 &&
                     <ul className='form-wrap'>
                         <li className='sales-user'>
                             <div className='id-container'>
@@ -244,6 +266,7 @@ function SignUp() {
                                     height="44px"
                                     label="아이디"
                                     margin="0 12px 0 0"
+                                    _onChange={salesIdCheck}
                                 />
                                 <Button
                                     height="44px"
@@ -251,14 +274,44 @@ function SignUp() {
                                     width="122px"
                                 >중복확인</Button>
                             </div>
+                            {id.length > 0 && (
+                                <>
+                                    <Message className={`${salesIsId ? "success" : "error"}`}>
+                                        {salesIdMessage}
+                                    </Message>
+                                </>
+                            )}
                             <Input label="비밀번호" height="44px" />
                             <Input label="비밀번호 재확인" height="44px" />
                             <Input label="이름" height="44px" />
-                            <div className='phone'>
-                                <Input label="휴대전화 번호" height="44px" />
+                            <Phone>
+                                <div className='dropdown'>
+                                    <Input defaultValue={phoneData} label="휴대전화 번호" height="44px" />
+                                    <img className={`${!dropdown ? "on" : "off"}`} src={arrowUp} alt="" onClick={hadnleArrow} />
+                                    {dropdown === true ? <ul className="dropdown-items">
+                                        <li className="dropdown-item" onClick={handleSelect}>
+                                            <button className="dropdown-option" >010</button>
+                                        </li>
+                                        <li className="dropdown-item" onClick={handleSelect}>
+                                            <button className="dropdown-option" >011</button>
+                                        </li>
+                                        <li className="dropdown-item" onClick={handleSelect}>
+                                            <button className="dropdown-option" >016</button>
+                                        </li>
+                                        <li className="dropdown-item" onClick={handleSelect}>
+                                            <button className="dropdown-option" >017</button>
+                                        </li>
+                                        <li className="dropdown-item" onClick={handleSelect}>
+                                            <button className="dropdown-option" >018</button>
+                                        </li>
+                                        <li className="dropdown-item" onClick={handleSelect}>
+                                            <button className="dropdown-option" >019</button>
+                                        </li>
+                                    </ul> : null}
+                                </div>
                                 <Input height="44px" />
                                 <Input height="44px" />
-                            </div>
+                            </Phone>
                             <Input label="이메일" height="44px" />
                             <div className='id-container'>
                                 <Input
@@ -283,7 +336,7 @@ function SignUp() {
                 <p>호두샵의 이용약관 및 개인정보처리방침에 대한 내용을 확인하였고 동의합니다.</p>
             </label>
             {tab === 0 ?
-                <Button _disabled={true} width="380px" height="50px" margin="0px 0px 100px" font_size="17px" >가입하기</Button>
+                <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={!isId || !isPw || !isPw2 || !isEmail ? true : false} >가입하기</Button>
                 :
                 <Button _disabled={true} width="380px" height="50px" margin="0px 0px 100px" font_size="17px" >가입하기</Button>
             }
@@ -381,8 +434,30 @@ const SignUpForm = styled.div`
             .id-container {
               display: flex;
           }
-          .phone {
-            display: flex;
+        }
+    }
+    .form-wrap{
+        padding: 40px 35px 36px;
+        width: 100%;
+        height: 800px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        li {
+            .id-container {
+              display: flex;
+          }
+        }
+    }
+    img.off{
+            transform:rotate(180deg)
+        }
+`
+
+const Phone = styled.div`
+   display: flex;
             align-items: end;
             justify-content: center;
             label:first-child {
@@ -429,32 +504,13 @@ const SignUpForm = styled.div`
             }
          }
             }
-          }
-        }
-    }
-    .form-wrap{
-        padding: 40px 35px 36px;
-        width: 100%;
-        height: 800px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        box-sizing: border-box;
-        li {
-            .id-container {
-              display: flex;
-          }
-        }
-    }
-    img.off{
-            transform:rotate(180deg)
-        }
 `
+
 const Message = styled.p`
   font-size: 13px;
   align-self: flex-start;
-  margin-top: 10px;
+  height: 5px;
+  margin: 5px 0;
   color: ${(props) => (props.className === "success" ? "#21BF48" : "#EB5757;")}
 `
 
