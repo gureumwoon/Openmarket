@@ -11,6 +11,8 @@ function SignUp() {
     const [tab, setTab] = useState(0)
     const [dropdown, setDropDown] = useState(false)
     const [phoneData, setPhoneData] = useState("")
+    const [phoneData2, setPhoneData2] = useState("")
+    const [phoneData3, setPhoneData3] = useState("")
 
     // 구매 회원가입 정보 저장
     const [id, setId] = useState("")
@@ -28,6 +30,8 @@ function SignUp() {
     // 판매자 계정 에러 메세지
     const [salesIdMessage, setSalesIdMessage] = useState("")
     const [salesPwMessage, setSalesPwMessage] = useState("")
+    const [salesPw2Message, setSalesPw2Message] = useState("")
+    const [salesEmailMessage, setSalesEmailMessage] = useState("")
 
     // 구매자 계정 유효성 검사
     const [isPw, setIsPw] = useState()
@@ -38,6 +42,8 @@ function SignUp() {
     // 판매자 계정 유효성 검사
     const [salesIsId, setSalesIsId] = useState()
     const [salesIsPw, setSalesIsPw] = useState()
+    const [salesIsPw2, setSalesIsPw2] = useState()
+    const [salesIsEmail, setSalesIsEmail] = useState()
 
     const hadnleArrow = () => {
         setDropDown(!dropdown)
@@ -52,13 +58,22 @@ function SignUp() {
     const idCheck = (e) => {
         setId(e.target.value)
         const regId = /^[a-zA-Z][0-9a-zA-Z]{0,19}$/
-
-        if (!regId.test(id)) {
-            setIdMessage("닉네임 형식에 맞게 입력해주세요")
-            setIsId(false)
-        } else {
-            setIdMessage("멋진 아이디네요 :)")
-            setIsId(true)
+        if (tab === 0) {
+            if (!regId.test(id)) {
+                setIdMessage("닉네임 형식에 맞게 입력해주세요")
+                setIsId(false)
+            } else {
+                setIdMessage("멋진 아이디네요 :)")
+                setIsId(true)
+            }
+        } else if (tab === 1) {
+            if (!regId.test(id)) {
+                setSalesIdMessage("닉네임 형식에 맞게 입력해주세요")
+                setSalesIsId(false)
+            } else {
+                setSalesIdMessage("멋진 아이디네요 :)")
+                setSalesIsId(true)
+            }
         }
     }
 
@@ -67,24 +82,44 @@ function SignUp() {
         setPw(e.target.value)
         const regPw = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/
 
-        if (!regPw.test(pw)) {
-            setPwMessage("8자 이상 영문, 숫자 조합으로 입력해주세요")
-            setIsPw(false)
-        } else {
-            setPwMessage("올바른 비밀번호 입니다.")
-            setIsPw(true)
+        if (tab === 0) {
+            if (!regPw.test(pw)) {
+                setPwMessage("8자 이상 영문, 숫자 조합으로 입력해주세요")
+                setIsPw(false)
+            } else {
+                setPwMessage("올바른 비밀번호 입니다.")
+                setIsPw(true)
+            }
+        } else if (tab === 1) {
+            if (!regPw.test(pw)) {
+                setSalesPwMessage("8자 이상 영문, 숫자 조합으로 입력해주세요")
+                setSalesIsPw(false)
+            } else {
+                setSalesPwMessage("올바른 비밀번호 입니다.")
+                setSalesIsPw(true)
+            }
         }
     }
 
     // 비밀번호 확인 유효성 검사
     const isSamePw = (e) => {
         setPw2(e.target.value)
-        if (pw === e.target.value) {
-            setPw2Message("비밀번호가 일치합니다.")
-            setIsPw2(true)
-        } else {
-            setPw2Message("비밀번호가 일치하지 않습니다")
-            setIsPw2(false)
+        if (tab === 0) {
+            if (pw === e.target.value) {
+                setPw2Message("비밀번호가 일치합니다.")
+                setIsPw2(true)
+            } else {
+                setPw2Message("비밀번호가 일치하지 않습니다")
+                setIsPw2(false)
+            }
+        } else if (tab === 1) {
+            if (pw === e.target.value) {
+                setSalesPw2Message("비밀번호가 일치합니다.")
+                setSalesIsPw2(true)
+            } else {
+                setSalesPw2Message("비밀번호가 일치하지 않습니다")
+                setSalesIsPw2(false)
+            }
         }
     }
 
@@ -93,30 +128,22 @@ function SignUp() {
         setEmail(e.target.value)
         const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
-        if (!regEmail.test(email)) {
-            setEmailMessage("이메일 형식에 맞게 입력해주세요")
-            setIsEmail(false)
-        } else {
-            setEmailMessage("올바른 이메일 형식 입니다")
-            setIsEmail(true)
-        }
-    }
-
-    /////////////
-    // 판매자 //
-    /////////////
-
-    // 판매자 Id 유효성 검사
-    const salesIdCheck = (e) => {
-        setId(e.target.value)
-        const regId = /^[a-zA-Z][0-9a-zA-Z]{0,19}$/
-
-        if (!regId.test(id)) {
-            setSalesIdMessage("닉네임 형식에 맞게 입력해주세요")
-            setSalesIsId(false)
-        } else {
-            setSalesIdMessage("멋진 아이디네요 :)")
-            setSalesIsId(true)
+        if (tab === 0) {
+            if (!regEmail.test(email)) {
+                setEmailMessage("이메일 형식에 맞게 입력해주세요")
+                setIsEmail(false)
+            } else {
+                setEmailMessage("올바른 이메일 형식 입니다")
+                setIsEmail(true)
+            }
+        } else if (tab === 1) {
+            if (!regEmail.test(email)) {
+                setSalesEmailMessage("이메일 형식에 맞게 입력해주세요")
+                setSalesIsEmail(false)
+            } else {
+                setSalesEmailMessage("올바른 이메일 형식 입니다")
+                setSalesIsEmail(true)
+            }
         }
     }
 
@@ -266,7 +293,7 @@ function SignUp() {
                                     height="44px"
                                     label="아이디"
                                     margin="0 12px 0 0"
-                                    _onChange={salesIdCheck}
+                                    _onChange={idCheck}
                                 />
                                 <Button
                                     height="44px"
@@ -281,8 +308,22 @@ function SignUp() {
                                     </Message>
                                 </>
                             )}
-                            <Input label="비밀번호" height="44px" />
+                            <Input label="비밀번호" height="44px" _onChange={pwCheck} />
+                            {pw.length > 0 && (
+                                <>
+                                    <Message className={`${salesIsPw ? "success" : "error"}`}>
+                                        {salesPwMessage}
+                                    </Message>
+                                </>
+                            )}
                             <Input label="비밀번호 재확인" height="44px" />
+                            {pw2.length > 0 && (
+                                <>
+                                    <Message className={`${salesIsPw2 ? "success" : "error"}`}>
+                                        {salesPw2Message}
+                                    </Message>
+                                </>
+                            )}
                             <Input label="이름" height="44px" />
                             <Phone>
                                 <div className='dropdown'>
@@ -309,10 +350,17 @@ function SignUp() {
                                         </li>
                                     </ul> : null}
                                 </div>
-                                <Input height="44px" />
-                                <Input height="44px" />
+                                <Input height="44px" _onChange={(e) => setPhoneData2(e.target.value)} />
+                                <Input height="44px" _onChange={(e) => setPhoneData3(e.target.value)} />
                             </Phone>
                             <Input label="이메일" height="44px" />
+                            {email.length > 0 && (
+                                <>
+                                    <Message className={`${salesIsEmail ? "success" : "error"}`} >
+                                        {salesEmailMessage}
+                                    </Message>
+                                </>
+                            )}
                             <div className='id-container'>
                                 <Input
                                     width="246px"
