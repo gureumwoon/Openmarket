@@ -183,6 +183,21 @@ function SignUp() {
         }
     }
 
+    const nameCheck = (e) => {
+        setName(e.target.value)
+        if (tab === 0) {
+            if (e.target.value === "") {
+                setNameMessage("필수 정보입니다")
+                setIsName(false)
+            }
+        } else if (tab === 1) {
+            if (e.target.value === "") {
+                setSalesNameMessage("필수 정보입니다")
+                setSalesIsName(false)
+            }
+        }
+    }
+
     const nameBlankCheck = () => {
         if (tab === 0) {
             if (name === "") {
@@ -191,8 +206,8 @@ function SignUp() {
             }
         } else if (tab === 1) {
             if (name === "") {
-                setNameMessage("필수 정보입니다")
-                setIsName(false)
+                setSalesNameMessage("필수 정보입니다")
+                setSalesIsName(false)
             }
         }
     }
@@ -332,8 +347,8 @@ function SignUp() {
                                 </>
                             )}
 
-                            <Input label="이름" height="44px" _onChange={(e) => setName(e.target.value)} _onBlur={nameBlankCheck} />
-                            {name.length >= 0 && (
+                            <Input label="이름" height="44px" _onChange={nameCheck} _onBlur={nameBlankCheck} />
+                            {name.length === 0 && (
                                 <>
                                     <Message className={`${isName ? "success" : "error"}`}>
                                         {nameMessage}
@@ -454,7 +469,14 @@ function SignUp() {
                                     </Message>
                                 </>
                             )}
-                            <Input label="이름" height="44px" _onChange={(e) => setName(e.target.value)} />
+                            <Input label="이름" height="44px" _onChange={(e) => setName(e.target.value)} _onBlur={nameBlankCheck} />
+                            {name.length === 0 && (
+                                <>
+                                    <Message className={`${salesIsName ? "success" : "error"}`}>
+                                        {salesNameMessage}
+                                    </Message>
+                                </>
+                            )}
                             <Phone>
                                 <div className='dropdown'>
                                     <Input defaultValue={phoneData} label="휴대전화 번호" height="44px" />
