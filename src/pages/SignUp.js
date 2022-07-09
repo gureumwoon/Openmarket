@@ -25,24 +25,28 @@ function SignUp() {
     const [idMessage, setIdMessage] = useState("")
     const [pwMessage, setPwMessage] = useState("")
     const [pw2Message, setPw2Message] = useState("")
+    const [nameMessage, setNameMessage] = useState("")
     const [emailMessage, setEmailMessage] = useState("")
 
     // 판매자 계정 에러 메세지
     const [salesIdMessage, setSalesIdMessage] = useState("")
     const [salesPwMessage, setSalesPwMessage] = useState("")
     const [salesPw2Message, setSalesPw2Message] = useState("")
+    const [salesNameMessage, setSalesNameMessage] = useState("")
     const [salesEmailMessage, setSalesEmailMessage] = useState("")
 
     // 구매자 계정 유효성 검사
     const [isPw, setIsPw] = useState()
     const [isPw2, setIsPw2] = useState()
     const [isId, setIsId] = useState()
+    const [isName, setIsName] = useState()
     const [isEmail, setIsEmail] = useState()
 
     // 판매자 계정 유효성 검사
     const [salesIsId, setSalesIsId] = useState()
     const [salesIsPw, setSalesIsPw] = useState()
     const [salesIsPw2, setSalesIsPw2] = useState()
+    const [salesIsName, setSalesIsName] = useState()
     const [salesIsEmail, setSalesIsEmail] = useState()
 
     const hadnleArrow = () => {
@@ -62,6 +66,9 @@ function SignUp() {
             if (!regId.test(id)) {
                 setIdMessage("닉네임 형식에 맞게 입력해주세요")
                 setIsId(false)
+            } else if (e.target.value === "") {
+                setIdMessage("필수 정보입력")
+                setIsId(false)
             } else {
                 setIdMessage("멋진 아이디네요 :)")
                 setIsId(true)
@@ -70,9 +77,26 @@ function SignUp() {
             if (!regId.test(id)) {
                 setSalesIdMessage("닉네임 형식에 맞게 입력해주세요")
                 setSalesIsId(false)
+            } else if (e.target.value) {
+                setSalesIdMessage("필수 정보입니다")
+                setSalesIsId(false)
             } else {
                 setSalesIdMessage("멋진 아이디네요 :)")
                 setSalesIsId(true)
+            }
+        }
+    }
+
+    const idBlankCheck = () => {
+        if (tab === 0) {
+            if (id === "") {
+                setIdMessage("필수 정보입니다")
+                setIsId(false)
+            }
+        } else if (tab === 1) {
+            if (id === "") {
+                setSalesIdMessage("필수 정보입니다")
+                setSalesIsId(false)
             }
         }
     }
@@ -86,6 +110,9 @@ function SignUp() {
             if (!regPw.test(pw)) {
                 setPwMessage("8자 이상 영문, 숫자 조합으로 입력해주세요")
                 setIsPw(false)
+            } else if (e.target.value === "") {
+                setPwMessage("필수 정보입니다")
+                setIsPw(false)
             } else {
                 setPwMessage("올바른 비밀번호 입니다.")
                 setIsPw(true)
@@ -94,10 +121,25 @@ function SignUp() {
             if (!regPw.test(pw)) {
                 setSalesPwMessage("8자 이상 영문, 숫자 조합으로 입력해주세요")
                 setSalesIsPw(false)
+            } else if (e.target.value === "") {
+                setSalesPwMessage("필수 정보입니다")
+                setSalesIsPw(false)
             } else {
                 setSalesPwMessage("올바른 비밀번호 입니다.")
                 setSalesIsPw(true)
             }
+        }
+    }
+
+    const pwBlankCheck = () => {
+        if (tab === 0) {
+            if (pw === "") {
+                setPwMessage("필수 정보입니다")
+                setIsPw(false)
+            }
+        } else if (tab === 1) {
+            setSalesPwMessage("필수 정보입니다")
+            setSalesIsPw(false)
         }
     }
 
@@ -108,6 +150,9 @@ function SignUp() {
             if (pw === e.target.value) {
                 setPw2Message("비밀번호가 일치합니다.")
                 setIsPw2(true)
+            } else if (e.target.value === "") {
+                setPw2Message("필수 정보입니다")
+                setIsPw2(false)
             } else {
                 setPw2Message("비밀번호가 일치하지 않습니다")
                 setIsPw2(false)
@@ -116,9 +161,38 @@ function SignUp() {
             if (pw === e.target.value) {
                 setSalesPw2Message("비밀번호가 일치합니다.")
                 setSalesIsPw2(true)
+            } else if (e.target.value === "") {
+                setSalesPw2Message("필수 정보 입니다")
+                setSalesIsPw2(false)
             } else {
                 setSalesPw2Message("비밀번호가 일치하지 않습니다")
                 setSalesIsPw2(false)
+            }
+        }
+    }
+
+    const pw2BlankCheck = () => {
+        if (tab === 0) {
+            if (pw2 === "") {
+                setPw2Message("필수 정보입니다")
+                setIsPw2(false)
+            }
+        } else if (tab === 1) {
+            setSalesPw2Message("필수 정보입니다")
+            setSalesIsPw2(false)
+        }
+    }
+
+    const nameBlankCheck = () => {
+        if (tab === 0) {
+            if (name === "") {
+                setNameMessage("필수 정보입니다")
+                setIsName(false)
+            }
+        } else if (tab === 1) {
+            if (name === "") {
+                setNameMessage("필수 정보입니다")
+                setIsName(false)
             }
         }
     }
@@ -132,6 +206,9 @@ function SignUp() {
             if (!regEmail.test(email)) {
                 setEmailMessage("이메일 형식에 맞게 입력해주세요")
                 setIsEmail(false)
+            } else if (e.target.value === "") {
+                setEmailMessage("필수 정보입니다")
+                setIsEmail(false)
             } else {
                 setEmailMessage("올바른 이메일 형식 입니다")
                 setIsEmail(true)
@@ -140,9 +217,26 @@ function SignUp() {
             if (!regEmail.test(email)) {
                 setSalesEmailMessage("이메일 형식에 맞게 입력해주세요")
                 setSalesIsEmail(false)
+            } else if (e.target.value === "") {
+                setSalesEmailMessage("필수 정보입니다")
+                setSalesIsEmail(false)
             } else {
                 setSalesEmailMessage("올바른 이메일 형식 입니다")
                 setSalesIsEmail(true)
+            }
+        }
+    }
+
+    const emailBlankCheck = () => {
+        if (tab === 0) {
+            if (email === "") {
+                setEmailMessage("필수 정보입니다")
+                setIsEmail(false)
+            }
+        } else if (tab === 1) {
+            if (email === "") {
+                setSalesEmailMessage("필수 정보입니다")
+                setSalesIsEmail(false)
             }
         }
     }
@@ -179,6 +273,7 @@ function SignUp() {
                                     label="아이디"
                                     margin="0 12px 0 0"
                                     _onChange={idCheck}
+                                    _onBlur={idBlankCheck}
                                     borderColor={
                                         id.length > 0 && (
                                             isId ? "#21BF48" : "#EB5757"
@@ -191,7 +286,7 @@ function SignUp() {
                                     width="122px"
                                 >중복확인</Button>
                             </div>
-                            {id.length > 0 && (
+                            {id.length >= 0 && (
                                 <>
                                     <Message className={`${isId ? "success" : "error"}`}>
                                         {idMessage}
@@ -203,13 +298,14 @@ function SignUp() {
                                 label="비밀번호"
                                 height="44px"
                                 _onChange={pwCheck}
+                                _onBlur={pwBlankCheck}
                                 borderColor={
                                     pw.length > 0 && (
                                         isPw ? "#21BF48" : "#EB5757"
                                     )
                                 }
                             />
-                            {pw.length > 0 && (
+                            {pw.length >= 0 && (
                                 <>
                                     <Message className={`${isPw ? "success" : "error"}`}>
                                         {pwMessage}
@@ -221,13 +317,14 @@ function SignUp() {
                                 label="비밀번호 재확인"
                                 height="44px"
                                 _onChange={isSamePw}
+                                _onBlur={pw2BlankCheck}
                                 borderColor={
                                     pw2.length > 0 && (
                                         isPw2 ? "#21BF48" : "#EB5757"
                                     )
                                 }
                             />
-                            {pw2.length > 0 && (
+                            {pw2.length >= 0 && (
                                 <>
                                     <Message className={`${isPw2 ? "success" : "error"}`}>
                                         {pw2Message}
@@ -235,7 +332,14 @@ function SignUp() {
                                 </>
                             )}
 
-                            <Input label="이름" height="44px" />
+                            <Input label="이름" height="44px" _onChange={(e) => setName(e.target.value)} _onBlur={nameBlankCheck} />
+                            {name.length >= 0 && (
+                                <>
+                                    <Message className={`${isName ? "success" : "error"}`}>
+                                        {nameMessage}
+                                    </Message>
+                                </>
+                            )}
                             <Phone>
                                 <div className='dropdown'>
                                     <Input defaultValue={phoneData} label="휴대전화 번호" height="44px" />
@@ -268,8 +372,9 @@ function SignUp() {
                                 label="이메일"
                                 height="44px"
                                 _onChange={emailCheck}
+                                _onBlur={emailBlankCheck}
                                 borderColor={
-                                    email.length > 0 && (
+                                    email.length >= 0 && (
                                         isEmail ? "#21BF48" : "#EB5757"
                                     )
                                 }
@@ -294,6 +399,12 @@ function SignUp() {
                                     label="아이디"
                                     margin="0 12px 0 0"
                                     _onChange={idCheck}
+                                    _onBlur={idBlankCheck}
+                                    borderColor={
+                                        id.length > 0 && (
+                                            salesIsId ? "#21BF48" : "#EB5757"
+                                        )
+                                    }
                                 />
                                 <Button
                                     height="44px"
@@ -301,30 +412,49 @@ function SignUp() {
                                     width="122px"
                                 >중복확인</Button>
                             </div>
-                            {id.length > 0 && (
+                            {id.length >= 0 && (
                                 <>
                                     <Message className={`${salesIsId ? "success" : "error"}`}>
                                         {salesIdMessage}
                                     </Message>
                                 </>
                             )}
-                            <Input label="비밀번호" height="44px" _onChange={pwCheck} />
-                            {pw.length > 0 && (
+                            <Input
+                                label="비밀번호"
+                                height="44px"
+                                _onChange={pwCheck}
+                                _onBlur={pwBlankCheck}
+                                borderColor={
+                                    pw.length > 0 && (
+                                        salesIsPw ? "#21BF48" : "#EB5757"
+                                    )
+                                } />
+                            {pw.length >= 0 && (
                                 <>
                                     <Message className={`${salesIsPw ? "success" : "error"}`}>
                                         {salesPwMessage}
                                     </Message>
                                 </>
                             )}
-                            <Input label="비밀번호 재확인" height="44px" />
-                            {pw2.length > 0 && (
+                            <Input
+                                label="비밀번호 재확인"
+                                height="44px"
+                                _onChange={isSamePw}
+                                _onBlur={pw2BlankCheck}
+                                borderColor={
+                                    pw2.length > 0 && (
+                                        salesIsPw2 ? "#21BF48" : "#EB5757"
+                                    )
+                                }
+                            />
+                            {pw2.length >= 0 && (
                                 <>
                                     <Message className={`${salesIsPw2 ? "success" : "error"}`}>
                                         {salesPw2Message}
                                     </Message>
                                 </>
                             )}
-                            <Input label="이름" height="44px" />
+                            <Input label="이름" height="44px" _onChange={(e) => setName(e.target.value)} />
                             <Phone>
                                 <div className='dropdown'>
                                     <Input defaultValue={phoneData} label="휴대전화 번호" height="44px" />
@@ -353,8 +483,18 @@ function SignUp() {
                                 <Input height="44px" _onChange={(e) => setPhoneData2(e.target.value)} />
                                 <Input height="44px" _onChange={(e) => setPhoneData3(e.target.value)} />
                             </Phone>
-                            <Input label="이메일" height="44px" />
-                            {email.length > 0 && (
+                            <Input
+                                label="이메일"
+                                height="44px"
+                                _onChange={emailCheck}
+                                _onBlur={emailBlankCheck}
+                                borderColor={
+                                    email.length > 0 && (
+                                        salesIsEmail ? "#21BF48" : "#EB5757"
+                                    )
+                                }
+                            />
+                            {email.length >= 0 && (
                                 <>
                                     <Message className={`${salesIsEmail ? "success" : "error"}`} >
                                         {salesEmailMessage}
@@ -384,9 +524,9 @@ function SignUp() {
                 <p>호두샵의 이용약관 및 개인정보처리방침에 대한 내용을 확인하였고 동의합니다.</p>
             </label>
             {tab === 0 ?
-                <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={!isId || !isPw || !isPw2 || !isEmail ? true : false} >가입하기</Button>
+                <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={!isId || !isPw || !isPw2 || !isEmail || name === "" ? true : false} >가입하기</Button>
                 :
-                <Button _disabled={true} width="380px" height="50px" margin="0px 0px 100px" font_size="17px" >가입하기</Button>
+                <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={!salesIsId || !salesIsPw || !salesIsPw2 || !salesIsEmail || name === "" ? true : false}>가입하기</Button>
             }
         </SignUpSection>
     )

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from "styled-components";
 
 function Input(props) {
-    const { label, type, placeholder, defaultValue, _onChange, borderColor, margin, width, height, padding, is_flex } = props;
+    const { label, type, placeholder, defaultValue, _onChange, _onBlur, borderColor, margin, width, height, padding, is_flex } = props;
     const styles = { width, height, borderColor, margin, padding, is_flex }
     return (
         <label>
@@ -12,6 +12,7 @@ function Input(props) {
                 defaultValue={defaultValue}
                 placeholder={placeholder}
                 onChange={_onChange}
+                onBlur={_onBlur}
                 {...styles}
             />
         </label>
@@ -22,7 +23,8 @@ Input.defaultProps = {
     border: "1px solid #c4c4c4",
     type: "text",
     is_flex: false,
-    _onChange: () => { }
+    _onChange: () => { },
+    _onBlur: () => { }
 }
 
 const LabelText = styled.p`
@@ -46,7 +48,7 @@ const InputField = styled.input`
      ${(props) => props.is_flex ? `display: flex; flex-direction: row-reverse; justify-content: center; align-items: center;` : ""}
      &:focus {
         outline: none;
-        border: 1px solid ${(props) => props.borderColor || "#c4c4c4"};
+        border: 1px solid ${(props) => props.borderColor || "#21BF48"};
      }
 `
 
