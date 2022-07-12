@@ -321,6 +321,22 @@ function SignUp() {
         }
     }
 
+    const buttoncheck = () => {
+        if (tab === 0) {
+            if (!isId || !isPw || !isPw2 || !isEmail || name === "" || phoneData === "") {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (!isId || !isPw || !isPw2 || !isEmail || name === "" || phoneData === "" || bin === "" || storeName === "") {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     return (
         <SignUpSection>
             <h1>
@@ -653,9 +669,9 @@ function SignUp() {
                 <p>호두샵의 이용약관 및 개인정보처리방침에 대한 내용을 확인하였고 동의합니다.</p>
             </label>
             {tab === 0 ?
-                <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={!isId || !isPw || !isPw2 || !isEmail || name === "" ? true : false} >가입하기</Button>
+                <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={buttoncheck()} >가입하기</Button>
                 :
-                <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={!salesIsId || !salesIsPw || !salesIsPw2 || !salesIsEmail || name === "" ? true : false}>가입하기</Button>
+                <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={buttoncheck()}>가입하기</Button>
             }
         </SignUpSection>
     )

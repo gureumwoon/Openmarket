@@ -22,7 +22,7 @@ const Btn = styled.button`
     cursor: pointer;
     width: ${(props) => props.width};
     height: ${(props) => props.height};
-    background-color: ${(props) => props.disabled ? "#C4C4C4" : "#21BF48"};
+    background-color: ${(props) => props.disabled ? "#c4c4c4" : "#21BF48"};
     color:${(props) => props.color || "white"};
     border-radius: 5px;
     border: none;
