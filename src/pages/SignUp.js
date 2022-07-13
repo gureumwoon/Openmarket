@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import styled from "styled-components";
+
+// elements
 import Input from "../elements/Input";
 import Button from "../elements/Button";
+import Tab from "../elements/Tab";
 
 //assets
-import Hodu from "../assets/images/Logo-hodu2.png";
+import Hodu from "../assets/images/Logo-hodu15.png";
 import arrowUp from "../assets/images/icon-up-arrow.svg";
 
 function SignUp() {
@@ -342,22 +345,7 @@ function SignUp() {
             <h1>
                 <Logo src={Hodu} alt="Hodu Logo" />
             </h1>
-            <ul className='tab-wrap'>
-                <li onClick={() => setTab(0)}>
-                    <div className={tab === 0 ? "tab-on1" : "tab1"}>
-                        <span>
-                            구매회원가입
-                        </span>
-                    </div>
-                </li>
-                <li onClick={() => setTab(1)}>
-                    <div className={tab === 1 ? "tab-on2" : "tab2"}>
-                        <span>
-                            판매회원가입
-                        </span>
-                    </div>
-                </li>
-            </ul>
+            <Tab tab={tab} setTab={setTab} />
             <SignUpForm>
                 {tab === 0 &&
                     <ul className='normal-form_wrap'>
@@ -692,61 +680,6 @@ const SignUpSection = styled.div`
             margin-right: 10px;
         }
     }
-    .tab-wrap {
-    width: 440px;
-    display: table;
-    table-layout: fixed;
-    box-sizing: border-box;
-    border-collapse: collapse;
-    .tab-on1 {
-        background-color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 60px;
-        border: 1px solid #c4c4c4;
-        border-bottom: 1px solid transparent;
-        border-radius: 10px 10px 0 0;
-    }
-    .tab-on2 {
-        background-color: #fff;
-        display: block;
-        height: 60px;
-        padding-top: 17px;
-        box-sizing: border-box;
-        border: 1px solid #c4c4c4;
-        border-bottom: 1px solid transparent;
-        border-radius: 10px 10px 0 0;
-    }
-    .tab1 {
-       display: flex;
-       align-items: center;
-       justify-content: center;
-       height: 60px;
-       border: 1px solid #c4c4c4;
-       border-radius: 10px 10px 0 0;
-    }
-    .tab2 {
-        display: block;
-        height: 60px;
-        padding-top: 17px;
-        box-sizing: border-box;
-        border: 1px solid #c4c4c4;
-        border-radius: 10px 10px 0 0;
-    }
-    li {
-        display: table-cell;
-        text-align: center;
-        box-sizing: border-box;
-        background-color: #f8f9fa;
-        vertical-align: bottom;
-        cursor: pointer;
-        p{
-            height: 60px;
-            padding-top: 17px;
-        }
-    }
-  }
 `
 
 const SignUpForm = styled.div`
