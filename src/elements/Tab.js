@@ -2,17 +2,18 @@ import React, { useState } from 'react'
 import styled from "styled-components";
 
 function Tab(props) {
+    const { children, children2 } = props
     return (
         <div>
             <TabContainer>
                 <li onClick={() => props.setTab(0)} >
                     <p className={props.tab === 0 ? "tab-on1" : "tab1"}>
-                        구매회원가입
+                        {children}
                     </p>
                 </li>
                 <li onClick={() => props.setTab(1)}>
                     <p className={props.tab === 1 ? "tab-on2" : "tab2"}>
-                        판매회원가입
+                        {children2}
                     </p>
                 </li>
             </TabContainer>
@@ -33,6 +34,9 @@ const TabContainer = styled.ul`
         background-color: #f8f9fa;
         vertical-align: bottom;
         cursor: pointer;
+        p {
+            font-weight: bold;
+        }
         .tab-on1 {
         background-color: #fff;
         height: 60px;

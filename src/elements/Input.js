@@ -2,8 +2,8 @@ import React from 'react'
 import styled from "styled-components";
 
 function Input(props) {
-    const { label, type, placeholder, defaultValue, _onChange, _onBlur, borderColor, margin, width, height, padding, is_flex } = props;
-    const styles = { width, height, borderColor, margin, padding, is_flex }
+    const { label, type, placeholder, defaultValue, _onChange, _onBlur, border, radius, borderBottom, borderColor, borderBottomColor, margin, width, height, padding, is_flex } = props;
+    const styles = { width, height, border, radius, borderBottom, borderColor, borderBottomColor, margin, padding, is_flex }
     return (
         <label>
             <LabelText>{label}</LabelText>
@@ -40,15 +40,18 @@ const InputField = styled.input`
      width: ${(props) => props.width || "100%"};
      height: ${(props) => props.height || "54px"};
      border: 1px solid #c4c4c4;
+     border: ${(props) => props.border};
+     border-bottom: ${(props) => props.borderBottom};
      margin: ${(props) => props.margin};
-     padding: 17px;
+     padding: ${(props) => props.padding || "17px"};
      box-sizing: border-box;
-     border-radius: 5px;
+     border-radius: ${(props) => props.radius || "5px"};
      font-size: 16px;
      ${(props) => props.is_flex ? `display: flex; flex-direction: row-reverse; justify-content: center; align-items: center;` : ""}
      &:focus {
         outline: none;
         border: 1px solid ${(props) => props.borderColor || "#21BF48"};
+        border-bottom: 1px solid ${(props) => props.borderBottomColor || "#21BF48"};
      }
 `
 

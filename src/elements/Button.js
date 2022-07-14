@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 const Button = (props) => {
-    const { children, width, height, bg, margin, padding, font_size, _disabled, _onClick, align } = props;
-    const styles = { width, height, margin, padding, font_size, bg, align };
+    const { children, width, height, bg, margin, padding, font_size, font_weight, _disabled, _onClick, align } = props;
+    const styles = { width, height, margin, padding, font_size, font_weight, bg, align };
     return (
         <Btn {...styles} disabled={_disabled} onClick={_onClick}>{children}</Btn>
     )
@@ -27,6 +27,7 @@ const Btn = styled.button`
     border-radius: 5px;
     border: none;
     font-size: ${(props) => props.font_size};
+    font-weight: ${(props) => props.font_weight};
     ${(props) => props.margin ? `margin:${props.margin};` : ""}
     ${(props) => props.padding ? `padding:${props.margin};` : ""}
     align-self: ${(props) => props.align};

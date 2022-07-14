@@ -342,10 +342,10 @@ function SignUp() {
 
     return (
         <SignUpSection>
-            <h1>
+            <h1 style={{ margin: "70px 0 50px" }}>
                 <Logo src={Hodu} alt="Hodu Logo" />
             </h1>
-            <Tab tab={tab} setTab={setTab} />
+            <Tab tab={tab} setTab={setTab} children="판매회원가입" children2="구매회원가입" />
             <SignUpForm>
                 {tab === 0 &&
                     <ul className='normal-form_wrap'>
