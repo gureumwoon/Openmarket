@@ -1,8 +1,13 @@
 import React from 'react'
 
+// elements
+import Nav from "../elements/Nav"
+
 function SellerMain() {
     return (
-        <div>SellerMain</div>
+        <div>
+            <Nav />
+        </div>
     )
 }
 

@@ -1,9 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 
+// elements
+import ShoppingIcon from "../assets/images/icon-shopping-bag.svg";
+
 const Button = (props) => {
-    const { children, width, height, bg, margin, padding, font_size, font_weight, _disabled, _onClick, align } = props;
+    const { children, width, height, bg, margin, padding, font_size, font_weight, _disabled, _onClick, align, seller_nav_button } = props;
     const styles = { width, height, margin, padding, font_size, font_weight, bg, align };
+    if (seller_nav_button) {
+        return (
+            <Btn {...styles} onClick={_onClick}>
+                <img src={ShoppingIcon} alt="shopping-bag_icon" />
+                {children}
+            </Btn>
+        )
+    }
     return (
         <Btn {...styles} disabled={_disabled} onClick={_onClick}>{children}</Btn>
     )
