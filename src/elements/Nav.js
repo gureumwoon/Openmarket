@@ -7,6 +7,7 @@ import Login from '../pages/Login';
 
 // elements
 import Button from "./Button";
+import Input from "./Input";
 
 // assets
 import Hodu from "../assets/images/Nav-hodu.png";
@@ -18,6 +19,7 @@ function Nav() {
             <h1>
                 <img src={Hodu} alt="Logo" />
             </h1>
+            <Input nav_input />
             <Link to={Login}>
                 <img src={UserIcon} alt="mypage-button" />
                 <p>마이페이지</p>

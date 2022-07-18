@@ -1,9 +1,27 @@
 import React from 'react'
 import styled from "styled-components";
 
+// assets
+import Search from "../assets/images/search.svg";
+
 function Input(props) {
-    const { label, type, placeholder, defaultValue, _onChange, _onBlur, border, radius, borderBottom, borderColor, borderBottomColor, margin, width, height, padding, is_flex } = props;
+    const { label, type, placeholder, defaultValue, _onChange, _onBlur, border, radius, borderBottom, borderColor, borderBottomColor, margin, width, height, padding, is_flex, nav_input } = props;
     const styles = { width, height, border, radius, borderBottom, borderColor, borderBottomColor, margin, padding, is_flex }
+    if (nav_input) {
+        return (
+            <>
+                <NavInputField
+                    type={type}
+                    defaultValue={defaultValue}
+                    placeholder={placeholder}
+                    onChange={_onChange}
+                    onBlur={_onBlur}
+                    {...styles}
+                />
+                <img src={Search} alt="search-icon" />
+            </>
+        )
+    }
     return (
         <label>
             <LabelText>{label}</LabelText>
@@ -53,6 +71,16 @@ const InputField = styled.input`
         border: 1px solid ${(props) => props.borderColor || "#21BF48"};
         border-bottom: 1px solid ${(props) => props.borderBottomColor || "#21BF48"};
      }
+`
+
+const NavInputField = styled.input`
+    width: 400px;
+    height: 46px;
+    border: 2px solid #21BF48;
+    border-radius: 50px;
+    &:focus {
+        outline: none;
+    }
 `
 
 export default Input
