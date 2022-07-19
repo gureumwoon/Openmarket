@@ -6,7 +6,7 @@ import Nav from "../elements/Nav"
 function SellerMain() {
     return (
         <div>
-            <Nav />
+            <Nav user_nav />
         </div>
     )
 }

@@ -9,10 +9,10 @@ const Button = (props) => {
     const styles = { width, height, margin, padding, font_size, font_weight, bg, align };
     if (seller_nav_button) {
         return (
-            <Btn {...styles} onClick={_onClick}>
+            <SellerBtn {...styles} onClick={_onClick}>
                 <img src={ShoppingIcon} alt="shopping-bag_icon" />
                 {children}
-            </Btn>
+            </SellerBtn>
         )
     }
     return (
@@ -42,6 +42,18 @@ const Btn = styled.button`
     ${(props) => props.margin ? `margin:${props.margin};` : ""}
     ${(props) => props.padding ? `padding:${props.margin};` : ""}
     align-self: ${(props) => props.align};
+`
+
+const SellerBtn = styled.button`
+    width: 168px;
+    height: 54px;
+    border-radius: 5px;
+    background-color: #21BF48;
+    color: #ffff;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
 `
 
 export default Button;

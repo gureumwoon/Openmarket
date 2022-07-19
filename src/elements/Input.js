@@ -9,7 +9,7 @@ function Input(props) {
     const styles = { width, height, border, radius, borderBottom, borderColor, borderBottomColor, margin, padding, is_flex }
     if (nav_input) {
         return (
-            <>
+            <NavInputContainer>
                 <NavInputField
                     type={type}
                     defaultValue={defaultValue}
@@ -18,8 +18,8 @@ function Input(props) {
                     onBlur={_onBlur}
                     {...styles}
                 />
-                <img src={Search} alt="search-icon" />
-            </>
+                <img className="search" src={Search} alt="search-icon" />
+            </NavInputContainer>
         )
     }
     return (
@@ -73,11 +73,24 @@ const InputField = styled.input`
      }
 `
 
+const NavInputContainer = styled.div`
+    position: relative;
+    width: 400px;
+    .search {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+    }
+`
+
 const NavInputField = styled.input`
     width: 400px;
     height: 46px;
     border: 2px solid #21BF48;
     border-radius: 50px;
+    padding: 13px 22px;
+    font-size: 16px;
+    line-height: 20.03px;
     &:focus {
         outline: none;
     }
