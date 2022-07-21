@@ -2,11 +2,13 @@ import React from 'react'
 
 // elements
 import Nav from "../elements/Nav"
+import Banner from "../elements/Banner"
 
 function SellerMain() {
     return (
         <div>
-            <Nav user_nav />
+            <Nav />
+            <Banner />
         </div>
     )
 }
