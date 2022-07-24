@@ -43,7 +43,7 @@ function Banner() {
             <img src={Vector2} className="swiper2" alt="" onClick={handleSlideNext} />
             <ul className="dot-container" >
                 {bannerList.map((d, i) => {
-                    return <li className="dot" key={i} ></li>
+                    return <li key={i} className={`dot ${slide === i ? "on" : ""}`}></li>
                 })}
             </ul>
         </BannerContainer>
@@ -76,9 +76,12 @@ const BannerContainer = styled.div`
 .dot {
     width: 6px;
     height: 6px;
-    /* background-color: white; */
+    background-color: white;
     border-radius: 3px;
     margin-right: 6px;
+}
+.on{
+    background-color: black;
 }
 `
 
