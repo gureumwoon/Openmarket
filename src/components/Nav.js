@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 // elements
-import Button from "./Button";
-import Input from "./Input";
+import Button from "../elements/Button";
+import Input from "../elements/Input";
 
 // assets
 import Hodu from "../assets/images/Nav-hodu.png";

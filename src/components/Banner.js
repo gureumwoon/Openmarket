@@ -53,6 +53,8 @@ function Banner() {
 const BannerContainer = styled.div`
     width: 100%;
     position: relative;
+    overflow-x: hidden;
+    overflow-y: hidden;
    .swiper1 {
     z-index: 1;
     position: absolute;
