@@ -48,11 +48,17 @@ function MainGrid() {
 
 const Container = styled.div`
     width: 100%;
-    padding: 80px 320px 180px;
     display: grid;
-    grid-template-columns:repeat(auto-fit,380px);
-    justify-items: center;
-    gap: 60px;
+    grid-template-columns:repeat(3,380px);
+    justify-content: center;
+    gap: 70px;
+    padding: 80px 0 180px;
+    @media screen and (max-width:1300px) {
+    grid-template-columns:repeat(2,380px);
+}
+    @media screen and (max-width:932px) {
+        grid-template-columns:repeat(1,380px);
+    }
     img {
         margin-bottom: 16px;
     }
