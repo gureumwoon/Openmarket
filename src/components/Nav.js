@@ -10,6 +10,7 @@ import Input from "../elements/Input";
 import Hodu from "../assets/images/Nav-hodu.png";
 import UserIcon from "../assets/images/icon-user.svg";
 import Cart from "../assets/images/icon-shopping-cart.svg";
+import ShoppingIcon from "../assets/images/icon-shopping-bag.svg";
 
 function Nav(props) {
     const { seller_nav, user_nav } = props
@@ -58,7 +59,7 @@ function Nav(props) {
                     <img src={UserIcon} alt="mypage-button" />
                     <p>마이페이지</p>
                 </Link>
-                <Button seller_nav_button>판매자센터</Button>
+                <Button src={ShoppingIcon} seller_nav_button>판매자센터</Button>
             </div>
         </Navigation>
     )
