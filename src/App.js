@@ -6,6 +6,7 @@ import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import SellerMain from './pages/SellerMain';
 import ProductDetail from './pages/ProductDetail';
+import Upload from './pages/Upload';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/seller-main" element={<SellerMain />} />
         <Route path="/detail" element={<ProductDetail />} />
+        <Route path="/upload" element={<Upload />} />
       </Routes>
     </div>
   );

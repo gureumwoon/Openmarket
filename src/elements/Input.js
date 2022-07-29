@@ -5,8 +5,29 @@ import styled from "styled-components";
 import Search from "../assets/images/search.svg";
 
 function Input(props) {
-    const { label, type, placeholder, defaultValue, _onChange, _onBlur, border, radius, borderBottom, borderColor, borderBottomColor, margin, width, height, padding, is_flex, nav_input } = props;
-    const styles = { width, height, border, radius, borderBottom, borderColor, borderBottomColor, margin, padding, is_flex }
+    const { label,
+        type,
+        placeholder,
+        defaultValue,
+        _onChange,
+        _onBlur,
+        border,
+        radius,
+        borderBottom,
+        borderColor,
+        borderBottomColor,
+        margin,
+        width,
+        height,
+        padding,
+        is_flex,
+        nav_input,
+        upload_input,
+        children,
+        font_size,
+        text_align,
+        color } = props;
+    const styles = { width, height, border, radius, borderBottom, borderColor, borderBottomColor, margin, padding, is_flex, font_size, text_align, color }
     if (nav_input) {
         return (
             <NavInputContainer>
@@ -20,6 +41,26 @@ function Input(props) {
                 />
                 <img className="search" src={Search} alt="search-icon" />
             </NavInputContainer>
+        )
+    }
+    if (upload_input) {
+        return (
+            <UploadContainer>
+                <div className='input-container'>
+                    <LabelText>{label}</LabelText>
+                    <UploadInputField
+                        type={type}
+                        defaultValue={defaultValue}
+                        placeholder={placeholder}
+                        onChange={_onChange}
+                        onBlur={_onBlur}
+                        {...styles}
+                    />
+                </div>
+                <div className='children-container'>
+                    <span>{children}</span>
+                </div>
+            </UploadContainer>
         )
     }
     return (
@@ -64,13 +105,41 @@ const InputField = styled.input`
      padding: ${(props) => props.padding || "17px"};
      box-sizing: border-box;
      border-radius: ${(props) => props.radius || "5px"};
-     font-size: 16px;
+     font-size:  ${(props) => props.font_size || "16px"};
+     color:${(props) => props.color};
+     text-align: ${(props) => props.text_align};
      ${(props) => props.is_flex ? `display: flex; flex-direction: row-reverse; justify-content: center; align-items: center;` : ""}
      &:focus {
         outline: none;
         border: 1px solid ${(props) => props.borderColor || "#21BF48"};
         border-bottom: 1px solid ${(props) => props.borderBottomColor || "#21BF48"};
      }
+`
+
+const UploadContainer = styled.div`
+    display: flex;
+    align-items: flex-end;
+    .children-container {
+        width: 54px;
+        height: 54px;
+        text-align: center;
+        background-color: #c4c4c4;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        span {
+            color: #FFFF;
+            text-align: center;
+            line-height: 52px;
+        }
+    }
+`
+
+const UploadInputField = styled.input`
+    width: 166px;
+    height: 54px;
+    border: 1px solid #c4c4c4;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 `
 
 const NavInputContainer = styled.div`
