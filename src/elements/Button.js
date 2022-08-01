@@ -5,7 +5,7 @@ import styled from "styled-components";
 import PlusIcon from "../assets/images/icon-plus.svg";
 
 const Button = (props) => {
-    const { children, src, width, height, bg, margin, padding, font_size, font_weight, _disabled, _onClick, align, seller_nav_button, seller_tab_button, flex_grow, color, border, hover_color, hover_border } = props;
+    const { children, src, width, height, bg, margin, padding, font_size, font_weight, _disabled, _onClick, align, seller_nav_button, seller_tab_button, flex_grow, color, border, hover_color, hover_border, tab_active_button } = props;
     const styles = { width, height, margin, padding, font_size, font_weight, bg, align, flex_grow, color, border, hover_color, hover_border };
     if (seller_nav_button) {
         return (
@@ -21,6 +21,14 @@ const Button = (props) => {
                 {children}
                 <p>1</p>
             </SellerTabBtn>
+        )
+    }
+    if (tab_active_button) {
+        return (
+            <TabBtn {...styles} disabled={_disabled} onClick={_onClick}>
+                {children}
+                <div></div>
+            </TabBtn>
         )
     }
     return (
@@ -54,6 +62,17 @@ const Btn = styled.button`
     &:hover {
         border: ${(props) => props.hover_border};
         color: ${(props) => props.hover_color};
+    }
+`
+
+const TabBtn = styled.button`
+    width: 320px;
+    height: 60px;
+    div {
+        width: 100%;
+        height: 6px;
+        background-color: #21BF48;
+;
     }
 `
 
