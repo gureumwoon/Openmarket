@@ -8,6 +8,7 @@ import SellerMain from './pages/SellerMain';
 import SellerCenter from './pages/SellerCenter';
 import Upload from './pages/Upload';
 import ProductDetail from './pages/ProductDetail';
+import ShoppingCart from './pages/ShoppingCart';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/seller-center" element={<SellerCenter />} />
         <Route path="/upload" element={<Upload />} />
         <Route path="/detail" element={<ProductDetail />} />
+        <Route path="/cart" element={<ShoppingCart />} />
       </Routes>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -11,8 +11,10 @@ import Hodu from "../assets/images/Nav-hodu.png";
 import UserIcon from "../assets/images/icon-user.svg";
 import Cart from "../assets/images/icon-shopping-cart.svg";
 import ShoppingIcon from "../assets/images/icon-shopping-bag.svg";
+import UserModal from './UserModal';
 
 function Nav(props) {
+    const [modal, setModal] = useState(false);
     const { seller_nav, user_nav } = props
     if (seller_nav) {
         return (
@@ -38,17 +40,20 @@ function Nav(props) {
                         <img src={Cart} alt="mypage-button" />
                         <p>장바구니</p>
                     </Link>
-                    <Link to="/login">
+                    <div className="my-page" onClick={() => { setModal(!modal) }}>
                         <img src={UserIcon} alt="mypage-button" />
                         <p>마이페이지</p>
-                    </Link>
+                    </div>
                 </div>
+                {
+                    modal === true ? <UserModal /> : null
+                }
             </Navigation>
         )
     }
     return (
         <Navigation>
-            <div>
+            <div className='container-search'>
                 <h1>
                     <img src={Hodu} alt="Logo" />
                 </h1>
@@ -66,6 +71,7 @@ function Nav(props) {
 }
 
 const Navigation = styled.nav`
+  position: relative;
   width: 100%;
   height: 90px;
   display: flex;
@@ -73,7 +79,6 @@ const Navigation = styled.nav`
   justify-content: space-between;
   padding: 22px 320px;
   box-shadow: 0px 4px 5px 0px #0000001A;
-;
   div {
     display: flex;
     align-items: center;
@@ -81,11 +86,12 @@ const Navigation = styled.nav`
   h1 {
     margin-right: 30px;
   }
-  a {
+  a , .my-page{
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-right: 30px;
+    cursor: pointer;
     img {
         width: 32px;
     }

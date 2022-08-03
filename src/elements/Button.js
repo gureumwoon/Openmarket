@@ -1,9 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-// elements
-import PlusIcon from "../assets/images/icon-plus.svg";
-
 const Button = (props) => {
     const { children, src, width, height, bg, margin, padding, font_size, font_weight, _disabled, _onClick, align, seller_nav_button, seller_tab_button, flex_grow, color, border, hover_color, hover_border, tab_active_button } = props;
     const styles = { width, height, margin, padding, font_size, font_weight, bg, align, flex_grow, color, border, hover_color, hover_border };
@@ -68,11 +65,19 @@ const Btn = styled.button`
 const TabBtn = styled.button`
     width: 320px;
     height: 60px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: ${(props) => props.disabled ? "#767676" : "#21BF48"};
     div {
         width: 100%;
         height: 6px;
-        background-color: #21BF48;
-;
+        margin-top: 12px;
+        background-color: ${(props) => props.disabled ? "#E0E0E0;" : "#21BF48"};
     }
 `
 

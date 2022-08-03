@@ -43,21 +43,41 @@ function ProductDetail() {
             </SectionOne>
             <SectionTwo>
                 <Button tab_active_button>버튼</Button>
+                <Button tab_active_button _disabled="true" >리뷰</Button>
+                <Button tab_active_button _disabled="true">Q&A</Button>
+                <Button tab_active_button _disabled="true">반품/교환정보</Button>
             </SectionTwo>
         </div>
     )
 }
 
 const SectionOne = styled.div`
-    padding: 80px 320px;
+    width: 1250px;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 80px auto 140px;
+    @media screen and (max-width:1320px) {
+        width: 100%;
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
     img {
         margin-right: 50px;
+        @media screen and (max-width:1320px) {
+        margin-right: 0;
+    }
     }
     .container-right {
         width: 100%;
         display:flex;
         flex-direction: column;
+        @media screen and (max-width:1320px) {
+        width: 600px;
+        margin-top: 60px;
+    }
         .info {
             margin-bottom: 138px;
             p {
@@ -170,7 +190,13 @@ const SectionOne = styled.div`
 `
 
 const SectionTwo = styled.div`
-    padding: 0 320px;
+    width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    margin-bottom: 80px;
+    @media screen and (max-width:1320px) {
+        width: 600px;
+    }
 `
 
 export default ProductDetail
