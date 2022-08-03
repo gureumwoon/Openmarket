@@ -60,6 +60,7 @@ const ModalContent = styled.div`
             border: 1px solid #767676;
             border-radius: 5px;
             color: black;
+            transition: all 0.3s ease-in;
         }
     }
 `
