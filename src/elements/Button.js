@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Button = (props) => {
-    const { children, src, width, height, bg, margin, padding, font_size, font_weight, _disabled, _onClick, align, seller_nav_button, seller_tab_button, flex_grow, color, border, hover_color, hover_border, tab_active_button } = props;
+    const { children, src, width, height, bg, margin, padding, font_size, font_weight, _disabled, _onClick, align, seller_nav_button, seller_tab_button, flex_grow, color, border, hover_color, hover_border, tab_active_button, quantity_button } = props;
     const styles = { width, height, margin, padding, font_size, font_weight, bg, align, flex_grow, color, border, hover_color, hover_border };
     if (seller_nav_button) {
         return (
@@ -26,6 +26,15 @@ const Button = (props) => {
                 {children}
                 <div></div>
             </TabBtn>
+        )
+    }
+    if (quantity_button) {
+        return (
+            <QuantityBtn>
+                <button>-</button>
+                <div>1</div>
+                <button>+</button>
+            </QuantityBtn>
         )
     }
     return (
@@ -114,6 +123,26 @@ const SellerTabBtn = styled.button`
         color: #FFFF;
         line-height: 21px;
     }
+`
+
+const QuantityBtn = styled.div`
+                width: 150px;
+                height: 50px;
+                border: 1px solid #c4c4c4;
+                display: flex;
+                border-radius: 5px;
+                align-items: center;
+                div {
+                    width: 50px;
+                    height: 50px;
+                    border-left: 1px solid #c4c4c4;
+                    border-right:1px solid #c4c4c4;
+                    text-align: center;
+                    line-height: 50px;
+                }
+                button {
+                    width: 50px;
+                }
 `
 
 export default Button;

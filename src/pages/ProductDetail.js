@@ -21,11 +21,12 @@ function ProductDetail() {
                     </div>
                     <div className='info2'>
                         <p>택배배송/무료배송</p>
-                        <div className='quantity-container'>
+                        {/* <div className='quantity-container'>
                             <button>-</button>
                             <div>1</div>
                             <button>+</button>
-                        </div>
+                        </div> */}
+                        <Button quantity_button />
                     </div>
                     <div className='info3'>
                         <p>총 상품 금액</p>
