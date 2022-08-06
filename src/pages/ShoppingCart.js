@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from "styled-components";
 import CartGrid from '../components/CartGrid';
+import Footer from '../components/Footer';
 
 // components
 import Nav from '../components/Nav'
@@ -25,8 +26,9 @@ function ShoppingCart() {
                 </div> */}
                 <CartGrid />
                 <CartGrid cart_sum_grid />
-                <Button width="220px" height="68px" font_size="24px" font_weight="bold">주문하기</Button>
+                <Button width="220px" height="68px" font_size="24px" font_weight="bold" margin="0 0 160px 0">주문하기</Button>
             </Main>
+            <Footer />
         </div>
     )
 }
