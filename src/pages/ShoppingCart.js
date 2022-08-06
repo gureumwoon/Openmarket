@@ -23,6 +23,7 @@ function ShoppingCart() {
                     <p>원하는 상품을 장바구니에 담아보세요!</p>
                 </div> */}
                 <CartGrid />
+                <CartGrid cart_sum_grid />
             </Main>
         </div>
     )

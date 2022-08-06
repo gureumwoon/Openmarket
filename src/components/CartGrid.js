@@ -5,8 +5,41 @@ import RadioCheck from './RadioCheck';
 
 //assets
 import ProductImg from "../assets/images/product-img.png";
+import MinusIcon from "../assets/images/minus-icon_2.svg";
+import PlusIcon from "../assets/images/plus-icon_2.svg";
 
-function CartGrid() {
+function CartGrid(props) {
+    const { cart_sum_grid } = props
+    if (cart_sum_grid) {
+        return (
+            <SumGrid>
+                <div className='product-price'>
+                    <div>
+                        <p>총 상품금액</p>
+                        <span>46,500</span>
+                        <span>원</span>
+                    </div>
+                    <img src={MinusIcon} alt="" />
+                    <div>
+                        <p>상품 할인</p>
+                        <span>0</span>
+                        <span>원</span>
+                    </div>
+                    <img src={PlusIcon} alt="" />
+                    <div>
+                        <p>배송비</p>
+                        <span>0</span>
+                        <span>원</span>
+                    </div>
+                </div>
+                <div className='price-sum'>
+                    <p>결제 예정 금액</p>
+                    <span>46,500</span>
+                    <span>원</span>
+                </div>
+            </SumGrid>
+        )
+    }
     return (
         <Grid>
             <RadioCheck margin="0 40px 0 30px" />
@@ -78,6 +111,55 @@ const Grid = styled.div`
             font-weight: bold;
             color: #EB5757;
             margin-bottom: 26px;
+        }
+    }
+`
+
+const SumGrid = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 1280px;
+    height: 150px;
+    background-color: #F2F2F2;
+    border-radius: 10px;
+    margin-top: 70px;
+    text-align: center;
+    .product-price {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-left: 121px;
+        margin-right: 229px;
+        width: 100%;
+        div {
+            p {
+                margin-bottom: 12px;
+            }
+            span {
+                &:nth-child(2) {
+                    font-size: 24px;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+    .price-sum {
+        margin-right: 91px;
+        width: 238px;
+        p {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        span {
+            color: #EB5757;
+            &:nth-child(2) {
+                font-size: 36px;
+                font-weight: bold;
+            }
+            &:nth-child(3) {
+                font-size: 18px;
+            }
         }
     }
 `
