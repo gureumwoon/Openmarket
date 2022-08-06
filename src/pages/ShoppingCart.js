@@ -5,6 +5,7 @@ import CartGrid from '../components/CartGrid';
 // components
 import Nav from '../components/Nav'
 import RadioCheck from '../components/RadioCheck';
+import Button from '../elements/Button';
 
 function ShoppingCart() {
     return (
@@ -24,6 +25,7 @@ function ShoppingCart() {
                 </div> */}
                 <CartGrid />
                 <CartGrid cart_sum_grid />
+                <Button width="220px" height="68px" font_size="24px" font_weight="bold">주문하기</Button>
             </Main>
         </div>
     )

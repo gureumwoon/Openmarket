@@ -123,7 +123,7 @@ const SumGrid = styled.div`
     height: 150px;
     background-color: #F2F2F2;
     border-radius: 10px;
-    margin-top: 70px;
+    margin: 70px 0 40px;
     text-align: center;
     .product-price {
         display: flex;
