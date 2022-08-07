@@ -12,15 +12,16 @@ function UserModal(props) {
     if (modal_to_check) {
         return (
             <CheckModal>
-                <Text margin={margin}>
+                {/* <p>
                     {children}<br />
                     {children2}
-                </Text>
+                </p> */}
+                <Button quantity_button />
                 <img src={DeleteIcon} alt="" />
-                <div>
+                <BtnContainer margin={margin}>
                     <Button width="100px" height="40px" margin="0 10px 0 0" bg="#FFFF" color="#767676" border="1px solid #c4c4c4">{btn_children_1}</Button>
                     <Button width="100px" height="40px" >{btn_children_2}</Button>
-                </div>
+                </BtnContainer>
             </CheckModal>
         )
     }
@@ -55,12 +56,14 @@ const CheckModal = styled.div`
         align-items: center;
         justify-content: center;
     }
+    p {
+        text-align: center;
+        line-height: 20px;
+    }
 `
 
-const Text = styled.p`
-     margin: ${(props) => props.margin};
-     text-align: center;
-     line-height: 20px;
+const BtnContainer = styled.div`
+    margin: ${(props) => props.margin};
 `
 
 const Modal = styled.div`

@@ -33,7 +33,7 @@ function ShoppingCart() {
                     children2="로그인 하시겠습니까?"
                     btn_children_1="취소"
                     btn_children_2="확인"
-                    margin="0 0 30px 0"
+                    margin="26px 0 0 0"
                 />
             </Main>
             <Footer />
