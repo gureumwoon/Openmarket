@@ -72,6 +72,7 @@ const Grid = styled.div`
     .cart-info {
         display: flex;
         margin-right: 48px;
+        align-items: center;
         img {
         width: 160px;
         height: 160px;

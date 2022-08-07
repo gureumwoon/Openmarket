@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 // components
 import Nav from '../components/Nav'
 import RadioCheck from '../components/RadioCheck';
+import UserModal from '../components/UserModal';
 import Button from '../elements/Button';
 
 function ShoppingCart() {
@@ -27,6 +28,13 @@ function ShoppingCart() {
                 <CartGrid />
                 <CartGrid cart_sum_grid />
                 <Button width="220px" height="68px" font_size="24px" font_weight="bold" margin="0 0 160px 0">주문하기</Button>
+                <UserModal modal_to_check
+                    children="로그인이 필요한 서비스 입니다."
+                    children2="로그인 하시겠습니까?"
+                    btn_children_1="취소"
+                    btn_children_2="확인"
+                    margin="0 0 30px 0"
+                />
             </Main>
             <Footer />
         </div>

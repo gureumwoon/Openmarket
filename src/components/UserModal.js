@@ -1,7 +1,29 @@
 import React from 'react'
 import styled from "styled-components";
 
-function UserModal() {
+//elements
+import Button from '../elements/Button';
+
+//assets
+import DeleteIcon from '../assets/images/icon-delete.svg';
+
+function UserModal(props) {
+    const { modal_to_check, children, children2, btn_children_1, btn_children_2, margin } = props;
+    if (modal_to_check) {
+        return (
+            <CheckModal>
+                <Text margin={margin}>
+                    {children}<br />
+                    {children2}
+                </Text>
+                <img src={DeleteIcon} alt="" />
+                <div>
+                    <Button width="100px" height="40px" margin="0 10px 0 0" bg="#FFFF" color="#767676" border="1px solid #c4c4c4">{btn_children_1}</Button>
+                    <Button width="100px" height="40px" >{btn_children_2}</Button>
+                </div>
+            </CheckModal>
+        )
+    }
     return (
         <Modal>
             <div className='triangle'></div>
@@ -12,6 +34,34 @@ function UserModal() {
         </Modal>
     )
 }
+
+const CheckModal = styled.div`
+    width: 360px;
+    height: 200px;
+    border: 1px solid #C4C4C4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    img {
+        position: absolute;      
+        top: 18px;
+        right: 18px;
+        cursor: pointer;
+    }
+    div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+`
+
+const Text = styled.p`
+     margin: ${(props) => props.margin};
+     text-align: center;
+     line-height: 20px;
+`
 
 const Modal = styled.div`
     width: 130px;
