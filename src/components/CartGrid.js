@@ -7,9 +7,10 @@ import RadioCheck from './RadioCheck';
 import ProductImg from "../assets/images/product-img.png";
 import MinusIcon from "../assets/images/minus-icon_2.svg";
 import PlusIcon from "../assets/images/plus-icon_2.svg";
+import DeleteIcon from '../assets/images/icon-delete.svg';
 
 function CartGrid(props) {
-    const { cart_sum_grid } = props
+    const { cart_sum_grid, _onClick, _onClickMinus, _onClickPlus } = props
     if (cart_sum_grid) {
         return (
             <SumGrid>
@@ -52,11 +53,12 @@ function CartGrid(props) {
                     <p>택배배송/ 무료배송</p>
                 </div>
             </div>
-            <Button quantity_button margin="0 148px 0 0" />
+            <Button quantity_button margin="0 148px 0 0" _onClickPlus={_onClickPlus} _onClickMinus={_onClickMinus} />
             <div className='cart-price'>
                 <p>17,500원</p>
                 <Button width="130px" height="40px" font_weight="500">주문하기</Button>
             </div>
+            <img className="icon-delete" src={DeleteIcon} alt="" onClick={_onClick} />
         </Grid>
     )
 }
@@ -69,6 +71,7 @@ const Grid = styled.div`
     margin-bottom: 10px;
     display: flex;
     align-items: center;
+    position: relative;
     .cart-info {
         display: flex;
         margin-right: 48px;
@@ -113,6 +116,12 @@ const Grid = styled.div`
             color: #EB5757;
             margin-bottom: 26px;
         }
+    }
+    .icon-delete {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        cursor: pointer;
     }
 `
 

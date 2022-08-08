@@ -8,18 +8,18 @@ import Button from '../elements/Button';
 import DeleteIcon from '../assets/images/icon-delete.svg';
 
 function UserModal(props) {
-    const { modal_to_check, children, children2, btn_children_1, btn_children_2, margin } = props;
+    const { modal_to_check, children, children2, btn_children_1, btn_children_2, margin, _onClick, _disabled } = props;
     if (modal_to_check) {
         return (
             <CheckModal>
-                {/* <p>
+                <p>
                     {children}<br />
                     {children2}
-                </p> */}
-                <Button quantity_button />
-                <img src={DeleteIcon} alt="" />
+                </p>
+                <Button quantity_button _disabled={_disabled} />
+                <img src={DeleteIcon} alt="" onClick={_onClick} />
                 <BtnContainer margin={margin}>
-                    <Button width="100px" height="40px" margin="0 10px 0 0" bg="#FFFF" color="#767676" border="1px solid #c4c4c4">{btn_children_1}</Button>
+                    <Button width="100px" height="40px" margin="0 10px 0 0" bg="#FFFF" color="#767676" border="1px solid #c4c4c4" _onClick={_onClick}>{btn_children_1}</Button>
                     <Button width="100px" height="40px" >{btn_children_2}</Button>
                 </BtnContainer>
             </CheckModal>
@@ -44,7 +44,10 @@ const CheckModal = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: relative;
+    position: absolute;
+    background-color: #FFFF;
+    top: calc(50% - 200px);
+    /* display: ${(props) => props.on ? "null" : "none"}; */
     img {
         position: absolute;      
         top: 18px;

@@ -2,7 +2,31 @@ import React from "react";
 import styled from "styled-components";
 
 const Button = (props) => {
-    const { children, src, width, height, bg, margin, padding, font_size, font_weight, _disabled, _onClick, align, seller_nav_button, seller_tab_button, flex_grow, color, border, hover_color, hover_border, tab_active_button, quantity_button } = props;
+    const {
+        children,
+        src,
+        width,
+        height,
+        bg,
+        margin,
+        padding,
+        font_size,
+        font_weight,
+        _disabled,
+        _onClick,
+        _onClickMinus,
+        _onClickPlus,
+        align,
+        seller_nav_button,
+        seller_tab_button,
+        flex_grow,
+        color,
+        border,
+        hover_color,
+        hover_border,
+        tab_active_button,
+        quantity_button,
+    } = props;
     const styles = { width, height, margin, padding, font_size, font_weight, bg, align, flex_grow, color, border, hover_color, hover_border };
     if (seller_nav_button) {
         return (
@@ -30,10 +54,10 @@ const Button = (props) => {
     }
     if (quantity_button) {
         return (
-            <QuantityBtn>
-                <button>-</button>
+            <QuantityBtn disabled={_disabled}>
+                <button onClick={_onClickMinus}>-</button>
                 <div>1</div>
-                <button>+</button>
+                <button onClick={_onClickPlus}>+</button>
             </QuantityBtn>
         )
     }
@@ -49,6 +73,8 @@ Button.defaultProps = {
     padding: false,
     _disabled: false,
     _onClick: () => { },
+    _onClickMinus: () => { },
+    _onClickPlus: () => { },
 };
 
 const Btn = styled.button`
@@ -125,13 +151,14 @@ const SellerTabBtn = styled.button`
     }
 `
 
-const QuantityBtn = styled.div`
+const QuantityBtn = styled.button`
                 width: 150px;
                 height: 50px;
                 border: 1px solid #c4c4c4;
                 display: flex;
                 border-radius: 5px;
                 align-items: center;
+                display: ${(props) => props.disabled ? "none" : "flex"};
                 div {
                     width: 50px;
                     height: 50px;

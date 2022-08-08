@@ -9,7 +9,9 @@ import RadioCheck from '../components/RadioCheck';
 import UserModal from '../components/UserModal';
 import Button from '../elements/Button';
 
+
 function ShoppingCart() {
+    const [modal, setModal] = useState(0);
     return (
         <div>
             <Nav user_nav />
@@ -25,16 +27,26 @@ function ShoppingCart() {
                     <p>장바구니에 담긴 상품이 없습니다.</p>
                     <p>원하는 상품을 장바구니에 담아보세요!</p>
                 </div> */}
-                <CartGrid />
+                <CartGrid _onClickMinus={() => { setModal(1) }} _onClickPlus={() => { setModal(1) }} _onClick={() => setModal(2)} />
                 <CartGrid cart_sum_grid />
                 <Button width="220px" height="68px" font_size="24px" font_weight="bold" margin="0 0 160px 0">주문하기</Button>
-                <UserModal modal_to_check
-                    children="로그인이 필요한 서비스 입니다."
-                    children2="로그인 하시겠습니까?"
-                    btn_children_1="취소"
-                    btn_children_2="확인"
-                    margin="26px 0 0 0"
-                />
+                {modal === 1 ?
+                    <UserModal modal_to_check
+                        btn_children_1="취소"
+                        btn_children_2="수정"
+                        margin="26px 0 0 0"
+                        _onClick={() => { setModal(0) }}
+                    /> : null ||
+                        modal === 2 ?
+                        <UserModal modal_to_check
+                            _disabled="true"
+                            children="상품을 삭제하시겠습니까?"
+                            btn_children_1="취소"
+                            btn_children_2="확인"
+                            margin="40px 0 0 0"
+                            _onClick={() => { setModal(0) }}
+                        /> : null
+                }
             </Main>
             <Footer />
         </div>
@@ -46,6 +58,7 @@ const Main = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
+    position: relative;
     h1 {
         font-size: 36px;
         margin: 54px 0 52px;
