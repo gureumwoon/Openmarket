@@ -8,21 +8,24 @@ import Button from '../elements/Button';
 import DeleteIcon from '../assets/images/icon-delete.svg';
 
 function UserModal(props) {
-    const { modal_to_check, children, children2, btn_children_1, btn_children_2, margin, _onClick, _disabled } = props;
+    const { modal_to_check, children, children2, btn_children_1, btn_children_2, margin, _onClick, _onClickBg, _disabled } = props;
     if (modal_to_check) {
         return (
-            <CheckModal>
-                <p>
-                    {children}<br />
-                    {children2}
-                </p>
-                <Button quantity_button _disabled={_disabled} />
-                <img src={DeleteIcon} alt="" onClick={_onClick} />
-                <BtnContainer margin={margin}>
-                    <Button width="100px" height="40px" margin="0 10px 0 0" bg="#FFFF" color="#767676" border="1px solid #c4c4c4" _onClick={_onClick}>{btn_children_1}</Button>
-                    <Button width="100px" height="40px" >{btn_children_2}</Button>
-                </BtnContainer>
-            </CheckModal>
+            <>
+                <ModalBg onClick={_onClickBg}></ModalBg>
+                <CheckModal>
+                    <p>
+                        {children}<br />
+                        {children2}
+                    </p>
+                    <Button quantity_button _disabled={_disabled} />
+                    <img src={DeleteIcon} alt="" onClick={_onClick} />
+                    <BtnContainer margin={margin}>
+                        <Button width="100px" height="40px" margin="0 10px 0 0" bg="#FFFF" color="#767676" border="1px solid #c4c4c4" _onClick={_onClick}>{btn_children_1}</Button>
+                        <Button width="100px" height="40px" >{btn_children_2}</Button>
+                    </BtnContainer>
+                </CheckModal>
+            </>
         )
     }
     return (
@@ -36,6 +39,17 @@ function UserModal(props) {
     )
 }
 
+const ModalBg = styled.div`
+    width: 100%;
+    height: 100vh;
+    background-color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    opacity: 0.5;
+`
+
 const CheckModal = styled.div`
     width: 360px;
     height: 200px;
@@ -46,7 +60,9 @@ const CheckModal = styled.div`
     justify-content: center;
     position: absolute;
     background-color: #FFFF;
-    top: calc(50% - 200px);
+    top: calc(50% - 150px);
+    left: calc(50% - 200px);
+    z-index: 10;
     /* display: ${(props) => props.on ? "null" : "none"}; */
     img {
         position: absolute;      

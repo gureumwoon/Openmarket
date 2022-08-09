@@ -35,7 +35,8 @@ function ShoppingCart() {
                         btn_children_1="취소"
                         btn_children_2="수정"
                         margin="26px 0 0 0"
-                        _onClick={() => { setModal(0) }}
+                        _onClick={() => setModal(0)}
+                        _onClickBg={() => setModal(0)}
                     /> : null ||
                         modal === 2 ?
                         <UserModal modal_to_check
@@ -44,7 +45,8 @@ function ShoppingCart() {
                             btn_children_1="취소"
                             btn_children_2="확인"
                             margin="40px 0 0 0"
-                            _onClick={() => { setModal(0) }}
+                            _onClick={() => setModal(0)}
+                            _onClickBg={() => setModal(0)}
                         /> : null
                 }
             </Main>
