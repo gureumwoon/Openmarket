@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from "styled-components";
+import DeliveryInfo from '../components/DeliveryInfo';
 import Nav from '../components/Nav'
 import PaymentGrid from '../components/PaymentGrid';
 
@@ -19,6 +20,11 @@ function Payment() {
                 </PaymentNav>
                 <PaymentGrid />
                 <PaymentGrid />
+                <div className='price-sum'>
+                    <p>총 주문금액</p>
+                    <p>46,500원</p>
+                </div>
+                <DeliveryInfo />
             </Main>
         </div >
     )
@@ -31,6 +37,25 @@ const Main = styled.div`
   h1 {
     margin: 54px 0 52px;
     font-size: 36px;
+  }
+  .price-sum {
+    margin: 30px 0 96px;
+    display: flex;
+    align-items: center;
+    width: 1280px;
+    justify-content: flex-end;
+    p {
+        &:first-child {
+            font-size: 18px;
+            font-weight: 500;
+            margin-right: 10px;
+        }
+        &:nth-child(2) {
+            font-size: 24px;
+            font-weight: 700;
+            color: #EB5757;
+        }
+    }
   }
 `
 const PaymentNav = styled.nav`

@@ -62,7 +62,7 @@ const Grid = styled.div`
         p {
             width: calc(50%/3);
             font-size: 18px;
-            text-align: center
+            text-align: center;
                 }
     }
 `

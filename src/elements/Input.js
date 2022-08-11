@@ -26,8 +26,10 @@ function Input(props) {
         children,
         font_size,
         text_align,
-        color } = props;
-    const styles = { width, height, border, radius, borderBottom, borderColor, borderBottomColor, margin, padding, is_flex, font_size, text_align, color }
+        color,
+        margin_top,
+        margin_bottom } = props;
+    const styles = { width, height, border, radius, borderBottom, borderColor, borderBottomColor, margin, margin_top, margin_bottom, padding, is_flex, font_size, text_align, color }
     if (nav_input) {
         return (
             <NavInputContainer>
@@ -65,7 +67,7 @@ function Input(props) {
     }
     return (
         <label>
-            <LabelText>{label}</LabelText>
+            <LabelText margin_bottom={margin_bottom} margin_top={margin_top}>{label}</LabelText>
             <InputField
                 type={type}
                 defaultValue={defaultValue}
@@ -90,8 +92,8 @@ const LabelText = styled.p`
                 text-align: left;
                 font-size: 16px;
                 line-height: 20px;
-                margin-bottom: 10px;
-                margin-top: 16px;
+                margin-bottom: ${(props) => props.margin_bottom || "10px"};
+                margin-top: ${(props) => props.margin_top || "16px"};
                 color: #767676
                 `
 
