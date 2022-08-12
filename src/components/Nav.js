@@ -79,6 +79,9 @@ const Navigation = styled.nav`
   justify-content: space-between;
   padding: 22px 320px;
   box-shadow: 0px 4px 5px 0px #0000001A;
+  @media screen and (max-width:1500px) {
+    padding: 22px 30px;
+    }
   div {
     display: flex;
     align-items: center;

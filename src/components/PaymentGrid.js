@@ -31,6 +31,9 @@ const Grid = styled.div`
     margin-top: 16px;
     display: flex;
     align-items: center;
+    @media screen and (max-width:1300px) {
+        width: 100%;
+    }
     .product-info {
         width: 50%;
         display: flex;

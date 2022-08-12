@@ -34,6 +34,10 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width:1300px) {
+    width: 800px;
+    margin: 0 auto;
+    }
   h1 {
     margin: 54px 0 52px;
     font-size: 36px;
@@ -44,6 +48,9 @@ const Main = styled.div`
     align-items: center;
     width: 1280px;
     justify-content: flex-end;
+    @media screen and (max-width:1300px) {
+        width: 100%;
+    }
     p {
         &:first-child {
             font-size: 18px;
@@ -65,6 +72,9 @@ const PaymentNav = styled.nav`
     background-color: #F2F2F2;
     display: flex;
     align-items: center;
+    @media screen and (max-width:1300px) {
+        width: 100%;
+    }
     p {
         width: calc(50%/3);
         font-size: 18px;

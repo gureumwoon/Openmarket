@@ -113,8 +113,8 @@ const InputField = styled.input`
                 ${(props) => props.is_flex ? `display: flex; flex-direction: row-reverse; justify-content: center; align-items: center;` : ""}
                 &:focus {
                     outline: none;
-                border: 1px solid ${(props) => props.borderColor || "#21BF48"};
-                border-bottom: 1px solid ${(props) => props.borderBottomColor || "#21BF48"};
+                    border: 1px solid ${(props) => props.borderColor || "#21BF48"};
+                    border-bottom: 1px solid ${(props) => props.borderBottomColor || "#21BF48"};
      }
                 `
 
