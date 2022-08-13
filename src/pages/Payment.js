@@ -88,6 +88,9 @@ const PaymentNav = styled.nav`
         display: flex;
         width: 50%;
         justify-content: space-around;
+        @media screen and (max-width:1300px) {
+        width: 50%;
+    }
     }
 `
 
