@@ -79,6 +79,9 @@ const PaymentNav = styled.nav`
         width: calc(50%/3);
         font-size: 18px;
         text-align: center;
+        @media screen and (max-width:1300px) {
+        width: 100%;
+    }
     }
     .product-info {
         width: 50%;
@@ -88,9 +91,6 @@ const PaymentNav = styled.nav`
         display: flex;
         width: 50%;
         justify-content: space-around;
-        @media screen and (max-width:1300px) {
-        width: 50%;
-    }
     }
 `
 

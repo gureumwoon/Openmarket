@@ -53,13 +53,13 @@ function DeliveryInfo() {
                             <Input radius="none" width="170px" height="40px" margin_top="0" margin_bottom="0" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
                             <Button width="154px" height="40px" margin="0 0 0 10px">우편번호 조회</Button>
                         </div>
-                        <Input radius="none" width="800px" height="40px" margin_top="0" margin_bottom="0" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
-                        <Input radius="none" width="800px" height="40px" margin_top="0" margin_bottom="0" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
+                        <Input radius="none" width="800px" width_screen="100%" height="40px" margin_top="0" margin_bottom="0" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
+                        <Input radius="none" width="800px" width_screen="100%" height="40px" margin_top="0" margin_bottom="0" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
                     </div>
                 </div>
                 <div className='delivery-message'>
                     <p>배송 메시지</p>
-                    <Input radius="none" margin_top="0" margin_bottom="0" width="800px" height="40px" border="1px solid #C4C4C4" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
+                    <Input radius="none" margin_top="0" margin_bottom="0" width="800px" width_screen="100%" height="40px" border="1px solid #C4C4C4" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
                 </div>
             </DeliveryInput>
             <PaymentInfo>
@@ -175,9 +175,15 @@ const OrderingPersonInfo = styled.div`
         padding: 8px 0;
         p {
             flex: 1;
+            @media screen and (max-width:1300px) {
+                flex: 2;
         }
+    }
         label {
             flex: 9;
+            @media screen and (max-width:1300px) {
+                flex: 8;
+        }
         }
     }
     .order-phone {
@@ -188,11 +194,17 @@ const OrderingPersonInfo = styled.div`
         padding: 8px 0;
         .cellphone {
             flex: 1;
+            @media screen and (max-width:1300px) {
+                flex: 2;
+        }
         }
         .phone-input {
             display: flex;
             align-items: center;
             flex: 9;
+            @media screen and (max-width:1300px) {
+                flex: 8;
+        }
             p {
                 margin: 0 10px;
             }
@@ -207,9 +219,15 @@ const OrderingPersonInfo = styled.div`
         margin-bottom: 40px;
         p {
             flex: 1;
+            @media screen and (max-width:1300px) {
+                flex: 2;
+        }
         }
         label {
             flex: 9;
+            @media screen and (max-width:1300px) {
+                flex: 8;
+        }
         }
     }
 `
@@ -235,9 +253,15 @@ const DeliveryInput = styled.div`
         padding: 8px 0;
         p {
             flex: 1;
+            @media screen and (max-width:1300px) {
+                flex: 2;
+        }
         }
         label {
             flex: 9;
+            @media screen and (max-width:1300px) {
+                flex: 8;
+        }
         }
     }
     .order-phone {
@@ -248,11 +272,17 @@ const DeliveryInput = styled.div`
         padding: 8px 0;
         .cellphone {
             flex: 1;
+            @media screen and (max-width:1300px) {
+                flex: 2;
+        }
         }
         .phone-input {
             display: flex;
             align-items: center;
             flex: 9;
+            @media screen and (max-width:1300px) {
+                flex: 8;
+        }
             p {
                 margin: 0 10px;
             }
@@ -266,11 +296,17 @@ const DeliveryInput = styled.div`
         padding: 8px 0;
         p {
             flex: 1;
+            @media screen and (max-width:1300px) {
+                flex: 2;
+        }
         }
         .location-input {
             display: flex;
             flex-direction: column;
             flex: 9;
+               @media screen and (max-width:1300px) {
+                flex: 8;
+        }
             label {
                 &:nth-child(2) {
                     margin: 8px 0;
@@ -290,9 +326,15 @@ const DeliveryInput = styled.div`
         margin-bottom: 70px;
         p {
             flex: 1;
+            @media screen and (max-width:1300px) {
+                flex: 2;
+        }
         }
         label {
             flex: 9;
+            @media screen and (max-width:1300px) {
+                flex: 8;
+        }
         }
     }
 `
@@ -303,9 +345,16 @@ const PaymentInfo = styled.div`
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 100px;
+    @media screen and (max-width:1300px) {
+            display: flex;
+            flex-direction: column;
+    }
     .payment-option {
         width: 760px;
         margin-right: 40px;
+        @media screen and (max-width:1300px) {
+            margin-bottom: 70px;
+        }
         .container-title {
         margin-bottom: -22px;
     }
@@ -323,10 +372,15 @@ const PaymentInfo = styled.div`
     }   
 }
 .final-payment {
+    width: 100%;
     .final-payment_txt {
         font-size: 24px;
         font-weight: 500;
         margin-bottom: 18px;
+        @media screen and (max-width:1300px) {
+            text-align: left;
+            margin-bottom: 50px;
+        }
     }
     .final-payment_info {
         width: 480px;
@@ -334,6 +388,9 @@ const PaymentInfo = styled.div`
         border: 2px solid #21bf48;
         border-radius: 10px;
         overflow: hidden;
+        @media screen and (max-width:1300px) {
+            margin: 0 auto;
+        }
         .payment-container_top {
             width: 100%;
             height: 218px;

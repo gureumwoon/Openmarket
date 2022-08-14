@@ -28,8 +28,9 @@ function Input(props) {
         text_align,
         color,
         margin_top,
-        margin_bottom } = props;
-    const styles = { width, height, border, radius, borderBottom, borderColor, borderBottomColor, margin, margin_top, margin_bottom, padding, is_flex, font_size, text_align, color }
+        margin_bottom,
+        width_screen } = props;
+    const styles = { width, width_screen, height, border, radius, borderBottom, borderColor, borderBottomColor, margin, margin_top, margin_bottom, padding, is_flex, font_size, text_align, color }
     if (nav_input) {
         return (
             <NavInputContainer>
@@ -111,6 +112,9 @@ const InputField = styled.input`
                 color:${(props) => props.color};
                 text-align: ${(props) => props.text_align};
                 ${(props) => props.is_flex ? `display: flex; flex-direction: row-reverse; justify-content: center; align-items: center;` : ""}
+                @media screen and (max-width:1300px) {
+                    width:  ${(props) => props.width_screen}
+                }
                 &:focus {
                     outline: none;
                     border: 1px solid ${(props) => props.borderColor || "#21BF48"};

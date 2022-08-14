@@ -66,6 +66,9 @@ const Grid = styled.div`
             width: calc(50%/3);
             font-size: 18px;
             text-align: center;
+            @media screen and (max-width:1300px) {
+                width: 100%;
+    }
                 }
     }
 `
