@@ -11,7 +11,7 @@ function Banner() {
     const [bannerList, setBannerList] = useState([Bg1, Bg2, Bg3])
     const [slide, setSlide] = useState(0)
 
-    const imgSlideRef = useRef()
+    // const imgSlideRef = useRef()
 
     const handleSlidePrev = () => {
         if (slide !== 0) {
@@ -33,7 +33,7 @@ function Banner() {
     return (
         <BannerContainer>
             <img src={Vector1} className="swiper1" alt="" onClick={handleSlidePrev} />
-            <Slide ref={imgSlideRef} style={{ transform: `translateX(-${1920 * slide}px)` }}>
+            <Slide style={{ transform: `translateX(-${1920 * slide}px)` }}>
                 {bannerList.map((b, i) => {
                     return <li key={i}>
                         <img src={b} alt="" />

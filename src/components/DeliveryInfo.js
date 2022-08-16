@@ -67,23 +67,23 @@ function DeliveryInfo() {
                     <p className='container-title'>결제수단</p>
                     <div className='option'>
                         <label>
-                            <input type="radio" />
+                            <input type="radio" name="payment-option" />
                             신용/체크카드
                         </label>
                         <label>
-                            <input type="radio" />
+                            <input type="radio" name="payment-option" />
                             무통장 입금
                         </label>
                         <label>
-                            <input type="radio" />
+                            <input type="radio" name="payment-option" />
                             휴대폰 결제
                         </label>
                         <label>
-                            <input type="radio" />
+                            <input type="radio" name="payment-option" />
                             네이버페이
                         </label>
                         <label>
-                            <input type="radio" />
+                            <input type="radio" name="payment-option" />
                             카카오페이
                         </label>
                     </div>

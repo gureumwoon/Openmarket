@@ -2,11 +2,11 @@ import React from 'react'
 import styled from "styled-components";
 
 function RadioCheck(props) {
-    const { width, margin } = props
+    const { width, margin, name } = props
     const styles = { width, margin }
     return (
         <Radio {...styles}>
-            <input type="radio" />
+            <input type="radio" name={name} />
         </Radio>
     )
 }
