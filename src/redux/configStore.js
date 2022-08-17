@@ -1,4 +1,15 @@
 import { legacy_createStore as createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import { createBrowserHistory } from "history"
-import { connectRouter } from "connected-react-router";
+
+import user from './modules/user';
+
+const rootReducer = combineReducers({ user });
+
+const middlewares = [thunk];
+
+const enhancer = applyMiddleware(...middlewares);
+
+const store = createStore(rootReducer, enhancer);
+
+export default store;
+
