@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from "styled-components";
+import { useDispatch } from 'react-redux';
 
 // elements
 import Input from "../elements/Input";
@@ -9,8 +10,11 @@ import Tab from "../elements/Tab";
 //assets
 import Hodu from "../assets/images/Logo-hodu15.png";
 import arrowUp from "../assets/images/icon-up-arrow.svg";
+import { signUpDB } from '../redux/modules/user';
 
 function SignUp() {
+    const dispatch = useDispatch();
+
     const [tab, setTab] = useState(0)
     const [dropdown, setDropDown] = useState(false)
     const [phoneData1, setPhoneData] = useState("")
@@ -340,6 +344,22 @@ function SignUp() {
         }
     }
 
+    // 회원가입
+    const handleSignUp = () => {
+        if (id === "" || pw === "" || pw2 === "" || name === "" || email === "" || phoneData === "") {
+            return window.alert("필수 입력사항들은 모두 입력해주세요")
+        }
+        const signupData = {
+            username: id,
+            password: pw,
+            password2: pw2,
+            phone_number: phoneData,
+            name: name,
+        };
+        dispatch(signUpDB(signupData))
+    }
+
+
     return (
         <SignUpSection>
             <h1 style={{ margin: "70px 0 50px" }}>
@@ -659,7 +679,7 @@ function SignUp() {
             {tab === 0 ?
                 <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={buttoncheck()} >가입하기</Button>
                 :
-                <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={buttoncheck()}>가입하기</Button>
+                <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={buttoncheck()} onClick={handleSignUp}>가입하기</Button>
             }
         </SignUpSection>
     )
