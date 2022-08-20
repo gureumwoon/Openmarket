@@ -16,6 +16,7 @@ function SignUp() {
     const dispatch = useDispatch();
 
     const [tab, setTab] = useState(0)
+    const [checkBox, setCheckBox] = useState(false)
     const [dropdown, setDropDown] = useState(false)
     const [phoneData1, setPhoneData] = useState("")
     const [phoneData2, setPhoneData2] = useState("")
@@ -344,11 +345,12 @@ function SignUp() {
         }
     }
 
+    const handleCheck = () => {
+        setCheckBox(!checkBox);
+    }
+
     // 회원가입
     const handleSignUp = () => {
-        if (id === "" || pw === "" || pw2 === "" || name === "" || email === "" || phoneData === "") {
-            return window.alert("필수 입력사항들은 모두 입력해주세요")
-        }
         const signupData = {
             username: id,
             password: pw,
@@ -362,10 +364,10 @@ function SignUp() {
 
     return (
         <SignUpSection>
-            <h1 style={{ margin: "70px 0 50px" }}>
+            <h1 style={{ margin: "70px 0 50px" }} >
                 <Logo src={Hodu} alt="Hodu Logo" />
             </h1>
-            <Tab tab={tab} setTab={setTab} children="판매회원가입" children2="구매회원가입" />
+            <Tab tab={tab} setTab={setTab} children="구매회원가입" children2="판매회원가입" />
             <SignUpForm>
                 {tab === 0 &&
                     <ul className='normal-form_wrap'>
@@ -379,6 +381,11 @@ function SignUp() {
                                     _onChange={idCheck}
                                     _onBlur={idBlankCheck}
                                     borderColor={
+                                        id.length > 0 && (
+                                            isId ? "#21BF48" : "#EB5757"
+                                        )
+                                    }
+                                    borderBottomColor={
                                         id.length > 0 && (
                                             isId ? "#21BF48" : "#EB5757"
                                         )
@@ -408,6 +415,11 @@ function SignUp() {
                                         isPw ? "#21BF48" : "#EB5757"
                                     )
                                 }
+                                borderBottomColor={
+                                    pw.length > 0 && (
+                                        isPw ? "#21BF48" : "#EB5757"
+                                    )
+                                }
                             />
                             {pw.length >= 0 && (
                                 <>
@@ -423,6 +435,11 @@ function SignUp() {
                                 _onChange={isSamePw}
                                 _onBlur={pw2BlankCheck}
                                 borderColor={
+                                    pw2.length > 0 && (
+                                        isPw2 ? "#21BF48" : "#EB5757"
+                                    )
+                                }
+                                borderBottomColor={
                                     pw2.length > 0 && (
                                         isPw2 ? "#21BF48" : "#EB5757"
                                     )
@@ -470,7 +487,7 @@ function SignUp() {
                                     </ul> : null}
                                 </div>
                                 <Input height="44px" _onChange={(e) => setPhoneData2(e.target.value)} _onBlur={phoneBlankCheck} />
-                                <Input height="44px" _onChange={(e) => setPhoneData2(e.target.value)} _onBlur={phoneBlankCheck} />
+                                <Input height="44px" _onChange={(e) => setPhoneData3(e.target.value)} _onBlur={phoneBlankCheck} />
                             </Phone>
                             {phoneData.length === 0 && (
                                 <>
@@ -485,6 +502,11 @@ function SignUp() {
                                 _onChange={emailCheck}
                                 _onBlur={emailBlankCheck}
                                 borderColor={
+                                    email.length > 0 && (
+                                        isEmail ? "#21BF48" : "#EB5757"
+                                    )
+                                }
+                                borderBottomColor={
                                     email.length > 0 && (
                                         isEmail ? "#21BF48" : "#EB5757"
                                     )
@@ -516,6 +538,11 @@ function SignUp() {
                                             salesIsId ? "#21BF48" : "#EB5757"
                                         )
                                     }
+                                    borderBottomColor={
+                                        id.length > 0 && (
+                                            salesIsId ? "#21BF48" : "#EB5757"
+                                        )
+                                    }
                                 />
                                 <Button
                                     height="44px"
@@ -540,7 +567,13 @@ function SignUp() {
                                     pw.length > 0 && (
                                         salesIsPw ? "#21BF48" : "#EB5757"
                                     )
-                                } />
+                                }
+                                borderBottomColor={
+                                    pw.length > 0 && (
+                                        salesIsPw ? "#21BF48" : "#EB5757"
+                                    )
+                                }
+                            />
                             {pw.length >= 0 && (
                                 <>
                                     <Message className={`${salesIsPw ? "success" : "error"}`}>
@@ -555,6 +588,11 @@ function SignUp() {
                                 _onChange={isSamePw}
                                 _onBlur={pw2BlankCheck}
                                 borderColor={
+                                    pw2.length > 0 && (
+                                        salesIsPw2 ? "#21BF48" : "#EB5757"
+                                    )
+                                }
+                                borderBottomColor={
                                     pw2.length > 0 && (
                                         salesIsPw2 ? "#21BF48" : "#EB5757"
                                     )
@@ -620,6 +658,11 @@ function SignUp() {
                                         salesIsEmail ? "#21BF48" : "#EB5757"
                                     )
                                 }
+                                borderBottomColor={
+                                    email.length > 0 && (
+                                        salesIsEmail ? "#21BF48" : "#EB5757"
+                                    )
+                                }
                             />
                             {email.length >= 0 && (
                                 <>
@@ -637,6 +680,11 @@ function SignUp() {
                                     _onChange={binCheck}
                                     _onBlur={binBlankCheck}
                                     borderColor={
+                                        bin.length > 0 && (
+                                            salesIsBin ? "#21BF48" : "#EB5757"
+                                        )
+                                    }
+                                    borderBottomColor={
                                         bin.length > 0 && (
                                             salesIsBin ? "#21BF48" : "#EB5757"
                                         )
@@ -673,13 +721,13 @@ function SignUp() {
                 }
             </SignUpForm>
             <label className='checkbox-label'>
-                <input type="checkbox" />
+                <input type="checkbox" onClick={handleCheck} />
                 <p>호두샵의 이용약관 및 개인정보처리방침에 대한 내용을 확인하였고 동의합니다.</p>
             </label>
             {tab === 0 ?
-                <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={buttoncheck()} >가입하기</Button>
+                <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={buttoncheck()} _onClick={handleSignUp}>가입하기</Button>
                 :
-                <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={buttoncheck()} onClick={handleSignUp}>가입하기</Button>
+                <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={buttoncheck()} >가입하기</Button>
             }
         </SignUpSection>
     )

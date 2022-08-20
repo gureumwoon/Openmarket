@@ -21,6 +21,8 @@ export const signUpDB = (data) => {
                 window.alert(res.data.message)
             })
             .catch((error) => {
+                console.log(error)
+                window.alert(error)
                 window.alert(error.response.data.errorMessage)
             })
     }
