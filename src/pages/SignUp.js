@@ -29,8 +29,13 @@ function SignUp() {
     const [pw2, setPw2] = useState("")
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
+    const [email2, setEmail2] = useState("")
+    const emailData = email + "@" + email2
     const [bin, setBin] = useState("")
     const [storeName, setStoreName] = useState("")
+
+    //중복확인 체크
+    const [isCheck, setIsCheck] = useState(false)
 
     // 구매자 계정 에러 메세지
     const [idMessage, setIdMessage] = useState("")
@@ -104,6 +109,15 @@ function SignUp() {
                 setSalesIsId(true)
             }
         }
+    }
+
+    //중복검사 체크
+    const dupCheck = () => {
+        const signUpData = {
+            username: id,
+        }
+        dispatch(signUpDB(signUpData))
+        setIsCheck(true)
     }
 
     const idBlankCheck = () => {
@@ -244,7 +258,36 @@ function SignUp() {
             if (e.target.value === "") {
                 setEmailMessage("필수 정보입니다")
                 setIsEmail(false)
+            } else if (!regEmail.test(emailData)) {
+                setEmailMessage("이메일 형식에 맞게 입력해주세요")
+                setIsEmail(false)
+            } else {
+                setEmailMessage("올바른 이메일 형식 입니다")
+                setIsEmail(true)
+            }
+        } else if (tab === 1) {
+            if (e.target.value === "") {
+                setSalesEmailMessage("필수 정보입니다")
+                setSalesIsEmail(false)
             } else if (!regEmail.test(email)) {
+                setSalesEmailMessage("이메일 형식에 맞게 입력해주세요")
+                setSalesIsEmail(false)
+            } else {
+                setSalesEmailMessage("올바른 이메일 형식 입니다")
+                setSalesIsEmail(true)
+            }
+        }
+    }
+
+    const email2Check = (e) => {
+        setEmail2(e.target.value)
+        const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+
+        if (tab === 0) {
+            if (e.target.value === "") {
+                setEmailMessage("필수 정보입니다")
+                setIsEmail(false)
+            } else if (!regEmail.test(emailData)) {
                 setEmailMessage("이메일 형식에 맞게 입력해주세요")
                 setIsEmail(false)
             } else {
@@ -351,6 +394,9 @@ function SignUp() {
 
     // 회원가입
     const handleSignUp = () => {
+        if (isCheck === false) {
+            window.alert("아이디 중복확인을 해주세요.")
+        }
         const signupData = {
             username: id,
             password: pw,
@@ -395,6 +441,7 @@ function SignUp() {
                                     height="44px"
                                     align="end"
                                     width="122px"
+                                    _onClick={dupCheck}
                                 >중복확인</Button>
                             </div>
                             {id.length >= 0 && (
@@ -496,23 +543,43 @@ function SignUp() {
                                     </Message>
                                 </>
                             )}
-                            <Input
-                                label="이메일"
-                                height="44px"
-                                _onChange={emailCheck}
-                                _onBlur={emailBlankCheck}
-                                borderColor={
-                                    email.length > 0 && (
-                                        isEmail ? "#21BF48" : "#EB5757"
-                                    )
-                                }
-                                borderBottomColor={
-                                    email.length > 0 && (
-                                        isEmail ? "#21BF48" : "#EB5757"
-                                    )
-                                }
-                            />
-                            {email.length >= 0 && (
+                            <Email>
+                                <Input
+                                    label="이메일"
+                                    width="120px"
+                                    height="44px"
+                                    _onChange={emailCheck}
+                                    _onBlur={emailBlankCheck}
+                                    borderColor={
+                                        email.length > 0 && (
+                                            isEmail ? "#21BF48" : "#EB5757"
+                                        )
+                                    }
+                                    borderBottomColor={
+                                        email.length > 0 && (
+                                            isEmail ? "#21BF48" : "#EB5757"
+                                        )
+                                    }
+                                />
+                                <p className='at'>@</p>
+                                <Input
+                                    width="120px"
+                                    height="44px"
+                                    _onChange={email2Check}
+                                    _onBlur={emailBlankCheck}
+                                    borderColor={
+                                        email.length > 0 && (
+                                            isEmail ? "#21BF48" : "#EB5757"
+                                        )
+                                    }
+                                    borderBottomColor={
+                                        email.length > 0 && (
+                                            isEmail ? "#21BF48" : "#EB5757"
+                                        )
+                                    }
+                                />
+                            </Email>
+                            {emailData.length >= 0 && (
                                 <>
                                     <Message className={`${isEmail ? "success" : "error"}`} style={{ marginBottom: "15px" }}>
                                         {emailMessage}
@@ -648,22 +715,40 @@ function SignUp() {
                                     </Message>
                                 </>
                             )}
-                            <Input
-                                label="이메일"
-                                height="44px"
-                                _onChange={emailCheck}
-                                _onBlur={emailBlankCheck}
-                                borderColor={
-                                    email.length > 0 && (
-                                        salesIsEmail ? "#21BF48" : "#EB5757"
-                                    )
-                                }
-                                borderBottomColor={
-                                    email.length > 0 && (
-                                        salesIsEmail ? "#21BF48" : "#EB5757"
-                                    )
-                                }
-                            />
+                            <Email>
+                                <Input
+                                    label="이메일"
+                                    height="44px"
+                                    _onChange={emailCheck}
+                                    _onBlur={emailBlankCheck}
+                                    borderColor={
+                                        email.length > 0 && (
+                                            salesIsEmail ? "#21BF48" : "#EB5757"
+                                        )
+                                    }
+                                    borderBottomColor={
+                                        email.length > 0 && (
+                                            salesIsEmail ? "#21BF48" : "#EB5757"
+                                        )
+                                    }
+                                />
+                                <p className='at'>@</p>
+                                <Input
+                                    height="44px"
+                                    _onChange={emailCheck}
+                                    _onBlur={emailBlankCheck}
+                                    borderColor={
+                                        email.length > 0 && (
+                                            salesIsEmail ? "#21BF48" : "#EB5757"
+                                        )
+                                    }
+                                    borderBottomColor={
+                                        email.length > 0 && (
+                                            salesIsEmail ? "#21BF48" : "#EB5757"
+                                        )
+                                    }
+                                />
+                            </Email>
                             {email.length >= 0 && (
                                 <>
                                     <Message className={`${salesIsEmail ? "success" : "error"}`} >
@@ -789,7 +874,7 @@ const SignUpForm = styled.div`
 `
 
 const Phone = styled.div`
-   display: flex;
+            display: flex;
             align-items: end;
             justify-content: center;
             label:first-child {
@@ -836,6 +921,19 @@ const Phone = styled.div`
             }
          }
             }
+`
+
+const Email = styled.div`
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    input {
+        width: 100%;
+    }
+    .at {
+        width: 18px;
+        margin: 0 11px 13px 11px;
+    }
 `
 
 const Message = styled.p`
