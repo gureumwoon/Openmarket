@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import styled from "styled-components";
 import { useDispatch } from 'react-redux';
+import { signUpDB } from '../redux/modules/user';
+import { apis } from '../shared/api';
 
 // elements
 import Input from "../elements/Input";
@@ -10,7 +12,8 @@ import Tab from "../elements/Tab";
 //assets
 import Hodu from "../assets/images/Logo-hodu15.png";
 import arrowUp from "../assets/images/icon-up-arrow.svg";
-import { signUpDB } from '../redux/modules/user';
+import pwCheckOn from "../assets/images/icon-check-on.svg";
+import pwCheckOff from "../assets/images/icon-check-off.svg";
 
 function SignUp() {
     const dispatch = useDispatch();
@@ -88,7 +91,7 @@ function SignUp() {
         const regId = /^[a-zA-Z][0-9a-zA-Z]{0,19}$/
         if (tab === 0) {
             if (!regId.test(id)) {
-                setIdMessage("닉네임 형식에 맞게 입력해주세요")
+                setIdMessage("20자 이내의 영문 소문자,대문자,숫자만 사용 가능합니다.")
                 setIsId(false)
             } else if (e.target.value === "") {
                 setIdMessage("필수 정보입니다")
@@ -116,7 +119,24 @@ function SignUp() {
         const signUpData = {
             username: id,
         }
-        dispatch(signUpDB(signUpData))
+        apis.signUp(signUpData)
+            .then((res) => {
+
+            })
+            .catch((error) => {
+                console.log(error)
+                if (error.response.data.username == "해당 사용자 아이디는 이미 존재합니다.") {
+                    setIdMessage("이미 사용 중인 아디입니다.")
+                    setIsId(false)
+                }
+                else if (error.response.data.username == "이 필드는 blank일 수 없습니다.") {
+                    setIdMessage("필수 정보입니다")
+                    setIsId(false)
+                }
+                else {
+                    setIdMessage("멋진 아이디네요:)")
+                }
+            })
         setIsCheck(true)
     }
 
@@ -137,17 +157,17 @@ function SignUp() {
     // 비밀번호 유효성 검사
     const pwCheck = (e) => {
         setPw(e.target.value)
-        const regPw = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/
+        const regPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/
 
         if (tab === 0) {
-            if (e.target.value === "") {
+            if (!regPw.test(e.target.value)) {
+                setPwMessage("8자 이상, 영문 대 소문자,숫자,특수문자를 사용하세요.")
+                setIsPw(false)
+            } else if (e.target.value === "") {
                 setPwMessage("필수 정보입니다")
                 setIsPw(false)
-            } else if (!regPw.test(pw)) {
-                setPwMessage("8자 이상 영문, 숫자 조합으로 입력해주세요")
-                setIsPw(false)
             } else {
-                setPwMessage("올바른 비밀번호 입니다.")
+                setPwMessage("")
                 setIsPw(true)
             }
         } else if (tab === 1) {
@@ -259,7 +279,7 @@ function SignUp() {
                 setEmailMessage("필수 정보입니다")
                 setIsEmail(false)
             } else if (!regEmail.test(emailData)) {
-                setEmailMessage("이메일 형식에 맞게 입력해주세요")
+                setEmailMessage("잘못된 이메일 형식입니다.")
                 setIsEmail(false)
             } else {
                 setEmailMessage("올바른 이메일 형식 입니다")
@@ -270,7 +290,7 @@ function SignUp() {
                 setSalesEmailMessage("필수 정보입니다")
                 setSalesIsEmail(false)
             } else if (!regEmail.test(email)) {
-                setSalesEmailMessage("이메일 형식에 맞게 입력해주세요")
+                setSalesEmailMessage("잘못된 이메일 형식입니다.")
                 setSalesIsEmail(false)
             } else {
                 setSalesEmailMessage("올바른 이메일 형식 입니다")
@@ -468,6 +488,14 @@ function SignUp() {
                                     )
                                 }
                             />
+                            <div className='pw-check'>
+                                {
+                                    !isPw ?
+                                        <img src={pwCheckOff} alt="" />
+                                        :
+                                        <img src={pwCheckOn} alt="" />
+                                }
+                            </div>
                             {pw.length >= 0 && (
                                 <>
                                     <Message className={`${isPw ? "success" : "error"}`}>
@@ -851,6 +879,15 @@ const SignUpForm = styled.div`
         li {
             .id-container {
               display: flex;
+          }
+          .pw-check {
+            width: 28px;
+            position: relative;
+            img {
+                position: absolute;
+                bottom: 8px;
+                left: 338px;
+            }
           }
         }
     }
