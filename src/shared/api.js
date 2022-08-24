@@ -18,6 +18,7 @@ api.interceptors.request.use((config) => {
 });
 
 export const apis = {
-    signUp: (data) => api.post("accounts/signup/", data)
+    signUp: (data) => api.post("accounts/signup/", data),
+    signIn: (data) => api.post("accounts/login/", data)
 }
 

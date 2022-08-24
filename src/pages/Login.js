@@ -6,8 +6,12 @@ import Tab from "../elements/Tab";
 
 // assets
 import Hodu from "../assets/images/Logo-hodu15.png";
+import { useDispatch } from 'react-redux';
+import { signInDB } from '../redux/modules/user';
 
 function Login() {
+    const dispatch = useDispatch();
+
     const [tab, setTab] = useState(0)
     const [id, setId] = useState("")
     const [pw, setPw] = useState("")
@@ -18,6 +22,11 @@ function Login() {
     const [salesPwMessage, setSalesPwMessage] = useState("")
 
     const handleLogin = () => {
+        const loginData = {
+            username: id,
+            password: pw,
+            login_type: tab === 0 ? "BUYER" : "SELLER"
+        }
         if (tab === 0) {
             if (id === "") {
                 setIdMessage("아이디를 입력해주세요")
@@ -25,6 +34,7 @@ function Login() {
             if (pw === "") {
                 setPwMessage("비밀번호를 입력해주세요")
             }
+            dispatch(signInDB(loginData))
         } else if (tab === 1) {
             if (id === "") {
                 setSalesIdMessage("아이디를 입력해주세요")
@@ -51,7 +61,7 @@ function Login() {
                                 </Message>
                             </>
                         )}
-                        <Input placeholder="비밀번호" height="44px" padding="none" border="none" radius="none" borderBottom="1px solid #c4c4c4" borderColor="transparent" _onChange={(e) => setPw(e.target.value)} />
+                        <Input type="password" placeholder="비밀번호" height="44px" padding="none" border="none" radius="none" borderBottom="1px solid #c4c4c4" borderColor="transparent" _onChange={(e) => setPw(e.target.value)} />
                         {pw.length >= 0 && (
                             <>
                                 <Message >

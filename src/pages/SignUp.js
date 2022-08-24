@@ -76,6 +76,7 @@ function SignUp() {
     const [salesIsBin, setSalesIsBin] = useState()
     const [salesIsStoreName, setSalesIsStoreName] = useState()
 
+    // 전화번호 입력 dropdown
     const hadnleArrow = () => {
         setDropDown(!dropdown)
     }
@@ -97,7 +98,7 @@ function SignUp() {
                 setIdMessage("필수 정보입니다")
                 setIsId(false)
             } else {
-                setIdMessage("멋진 아이디네요 :)")
+                setIdMessage("")
                 setIsId(true)
             }
         } else if (tab === 1) {
@@ -114,7 +115,7 @@ function SignUp() {
         }
     }
 
-    //중복검사 체크
+    //ID중복검사 체크
     const dupCheck = () => {
         const signUpData = {
             username: id,
@@ -128,18 +129,17 @@ function SignUp() {
                 if (error.response.data.username == "해당 사용자 아이디는 이미 존재합니다.") {
                     setIdMessage("이미 사용 중인 아디입니다.")
                     setIsId(false)
-                }
-                else if (error.response.data.username == "이 필드는 blank일 수 없습니다.") {
+                } else if (error.response.data.username == "이 필드는 blank일 수 없습니다.") {
                     setIdMessage("필수 정보입니다")
                     setIsId(false)
-                }
-                else {
+                } else {
                     setIdMessage("멋진 아이디네요:)")
                 }
             })
         setIsCheck(true)
     }
 
+    // ID Input focus out 했을시 빈칸일때
     const idBlankCheck = () => {
         if (tab === 0) {
             if (id === "") {
@@ -157,14 +157,14 @@ function SignUp() {
     // 비밀번호 유효성 검사
     const pwCheck = (e) => {
         setPw(e.target.value)
-        const regPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/
+        const regPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&^])[A-Za-z\d@$!%*#?&^]{8,}$/
 
         if (tab === 0) {
-            if (!regPw.test(e.target.value)) {
-                setPwMessage("8자 이상, 영문 대 소문자,숫자,특수문자를 사용하세요.")
-                setIsPw(false)
-            } else if (e.target.value === "") {
+            if (e.target.value === "") {
                 setPwMessage("필수 정보입니다")
+                setIsPw(false)
+            } else if (!regPw.test(e.target.value)) {
+                setPwMessage("8자 이상, 영문 대 소문자,숫자,특수문자를 사용하세요.")
                 setIsPw(false)
             } else {
                 setPwMessage("")
@@ -184,6 +184,7 @@ function SignUp() {
         }
     }
 
+    // Pw Input focus out 했을시 빈칸일때
     const pwBlankCheck = () => {
         if (tab === 0) {
             if (pw === "") {
@@ -226,6 +227,7 @@ function SignUp() {
         }
     }
 
+    // Pw2 Input focus out 했을시 빈칸일때
     const pw2BlankCheck = () => {
         if (tab === 0) {
             if (pw2 === "") {
@@ -255,6 +257,7 @@ function SignUp() {
         }
     }
 
+    // Name Input focus out 했을시 빈칸일때
     const nameBlankCheck = () => {
         if (tab === 0) {
             if (name === "") {
@@ -314,6 +317,7 @@ function SignUp() {
                 setEmailMessage("올바른 이메일 형식 입니다")
                 setIsEmail(true)
             }
+
         } else if (tab === 1) {
             if (e.target.value === "") {
                 setSalesEmailMessage("필수 정보입니다")
@@ -328,6 +332,7 @@ function SignUp() {
         }
     }
 
+    // Email Input focus out 했을시 빈칸일때
     const emailBlankCheck = () => {
         if (tab === 0) {
             if (email === "") {
@@ -342,6 +347,31 @@ function SignUp() {
         }
     }
 
+    // Phone Number 중복검사
+    const phoneCheck = (e) => {
+        setPhoneData3(e.target.value)
+        if (tab === 0) {
+            const signUpData = {
+                phone_number: phoneData1 + phoneData2 + e.target.value,
+            }
+            apis.signUp(signUpData)
+                .then((res) => {
+
+                })
+                .catch((error) => {
+                    if (error.response.data.phone_number == "해당 사용자 전화번호는 이미 존재합니다.") {
+                        setPhoneMessage("해당 사용자 전화번호는 이미 존재합니다.")
+                        setIsPhone(false)
+                    } else {
+                        setPhoneMessage("")
+                    }
+                })
+        } else if (tab === 1) {
+
+        }
+    }
+
+    // Phone Input focus out 했을시 빈칸일때
     const phoneBlankCheck = () => {
         if (tab === 0) {
             if (phoneData === "") {
@@ -361,6 +391,7 @@ function SignUp() {
         setStoreName(e.target.value)
     }
 
+    // StreName Input focus out 했을시 빈칸일때
     const storeNameBlankCheck = () => {
         if (storeName === "") {
             setSalesStoreNameMessage("필수 정보입니다")
@@ -385,6 +416,7 @@ function SignUp() {
         }
     }
 
+    // Bin Input focus out 했을시 빈칸일때
     const binBlankCheck = () => {
         if (bin === "") {
             setSalesBinMessage("필수 정보입니다")
@@ -392,9 +424,10 @@ function SignUp() {
         }
     }
 
+    // 회원가입 버튼 활성화 검사
     const buttoncheck = () => {
         if (tab === 0) {
-            if (!isId || !isPw || !isPw2 || !isEmail || name === "" || phoneData === "") {
+            if (!isId || !isPw || !isPw2 || !isEmail || name === "" || phoneData === "" || !checkBox) {
                 return true;
             } else {
                 return false;
@@ -408,6 +441,7 @@ function SignUp() {
         }
     }
 
+    // 동의 checkbox click 여부
     const handleCheck = () => {
         setCheckBox(!checkBox);
     }
@@ -447,12 +481,12 @@ function SignUp() {
                                     _onChange={idCheck}
                                     _onBlur={idBlankCheck}
                                     borderColor={
-                                        id.length > 0 && (
+                                        id.length >= 0 && (
                                             isId ? "#21BF48" : "#EB5757"
                                         )
                                     }
                                     borderBottomColor={
-                                        id.length > 0 && (
+                                        id.length >= 0 && (
                                             isId ? "#21BF48" : "#EB5757"
                                         )
                                     }
@@ -478,12 +512,12 @@ function SignUp() {
                                 _onChange={pwCheck}
                                 _onBlur={pwBlankCheck}
                                 borderColor={
-                                    pw.length > 0 && (
+                                    pw.length >= 0 && (
                                         isPw ? "#21BF48" : "#EB5757"
                                     )
                                 }
                                 borderBottomColor={
-                                    pw.length > 0 && (
+                                    pw.length >= 0 && (
                                         isPw ? "#21BF48" : "#EB5757"
                                     )
                                 }
@@ -510,16 +544,24 @@ function SignUp() {
                                 _onChange={isSamePw}
                                 _onBlur={pw2BlankCheck}
                                 borderColor={
-                                    pw2.length > 0 && (
+                                    pw2.length >= 0 && (
                                         isPw2 ? "#21BF48" : "#EB5757"
                                     )
                                 }
                                 borderBottomColor={
-                                    pw2.length > 0 && (
+                                    pw2.length >= 0 && (
                                         isPw2 ? "#21BF48" : "#EB5757"
                                     )
                                 }
                             />
+                            <div className='pw-check'>
+                                {
+                                    !isPw2 ?
+                                        <img src={pwCheckOff} alt="" />
+                                        :
+                                        <img src={pwCheckOn} alt="" />
+                                }
+                            </div>
                             {pw2.length >= 0 && (
                                 <>
                                     <Message className={`${isPw2 ? "success" : "error"}`}>
@@ -562,9 +604,9 @@ function SignUp() {
                                     </ul> : null}
                                 </div>
                                 <Input height="44px" _onChange={(e) => setPhoneData2(e.target.value)} _onBlur={phoneBlankCheck} />
-                                <Input height="44px" _onChange={(e) => setPhoneData3(e.target.value)} _onBlur={phoneBlankCheck} />
+                                <Input height="44px" _onBlur={phoneBlankCheck} _onChange={phoneCheck} />
                             </Phone>
-                            {phoneData.length === 0 && (
+                            {phoneData.length >= 0 && (
                                 <>
                                     <Message className={`${isPhone ? "success" : "error"}`} >
                                         {phoneMessage}
@@ -579,12 +621,12 @@ function SignUp() {
                                     _onChange={emailCheck}
                                     _onBlur={emailBlankCheck}
                                     borderColor={
-                                        email.length > 0 && (
+                                        email.length >= 0 && (
                                             isEmail ? "#21BF48" : "#EB5757"
                                         )
                                     }
                                     borderBottomColor={
-                                        email.length > 0 && (
+                                        email.length >= 0 && (
                                             isEmail ? "#21BF48" : "#EB5757"
                                         )
                                     }
@@ -596,12 +638,12 @@ function SignUp() {
                                     _onChange={email2Check}
                                     _onBlur={emailBlankCheck}
                                     borderColor={
-                                        email.length > 0 && (
+                                        email.length >= 0 && (
                                             isEmail ? "#21BF48" : "#EB5757"
                                         )
                                     }
                                     borderBottomColor={
-                                        email.length > 0 && (
+                                        email.length >= 0 && (
                                             isEmail ? "#21BF48" : "#EB5757"
                                         )
                                     }
