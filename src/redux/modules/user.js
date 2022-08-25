@@ -3,25 +3,33 @@ import { createAction, handleActions } from "redux-actions";
 import produce from "immer";
 
 // Actions
-const SIGNUP = "user/SIGNUP";
 const SIGNIN = "user/SIGNIN";
 
 const initialState = {
-    user: null,
-    is_login: false
+    user: {
+        username: "",
+        password: "",
+        password2: "",
+        phone_number: "",
+        name: "",
+        company_registration_number: "",
+        store_name: "",
+        login_type: "",
+    },
+    is_login: false,
 }
 
 // Action Creators
-const signUpUser = createAction(SIGNUP, (user) => ({ user }))
 const signInUser = createAction(SIGNIN, (user) => ({ user }))
+
 
 export const signUpDB = (data) => {
     console.log(data)
     return async function (dispatch, { history }) {
-        apis.signUp(data)
+        await apis.signUp(data)
             .then((res) => {
                 console.log(res)
-                window.alert("환영합니다")
+                window.location.assign("/login")
             })
             .catch((error) => {
                 console.log(error)
@@ -32,11 +40,14 @@ export const signUpDB = (data) => {
 }
 
 export const signInDB = (data) => {
-    return async function (dispatch, { history }) {
-        apis.signIn(data)
+    console.log(data)
+    return async function (dispatch) {
+        await apis.signIn(data)
             .then((res) => {
                 console.log("로그인정보", res)
                 localStorage.setItem("token", res.data.token)
+                localStorage.setItem("type", res.data.user_type)
+                localStorage.setItem("id", res.data.id)
                 dispatch(signInUser({ data }))
                 window.location.assign("/")
             })

@@ -15,7 +15,7 @@ import UserModal from './UserModal';
 
 function Nav(props) {
     const [modal, setModal] = useState(false);
-    const { seller_nav, user_nav } = props
+    const { seller_nav, user_nav, children } = props
     if (seller_nav) {
         return (
             <SellerNavigation>
@@ -42,7 +42,7 @@ function Nav(props) {
                     </Link>
                     <div className="my-page" onClick={() => { setModal(!modal) }}>
                         <img src={UserIcon} alt="mypage-button" />
-                        <p>마이페이지</p>
+                        <p>{children}</p>
                     </div>
                 </div>
                 {
