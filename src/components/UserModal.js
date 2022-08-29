@@ -33,7 +33,7 @@ function UserModal(props) {
             <div className='triangle'></div>
             <ModalContent>
                 <p>마이페이지</p>
-                <p>로그아웃</p>
+                <p onClick={_onClick}>로그아웃</p>
             </ModalContent>
         </Modal>
     )

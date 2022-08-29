@@ -6,21 +6,12 @@ import produce from "immer";
 const SIGNIN = "user/SIGNIN";
 
 const initialState = {
-    user: {
-        username: "",
-        password: "",
-        password2: "",
-        phone_number: "",
-        name: "",
-        company_registration_number: "",
-        store_name: "",
-        login_type: "",
-    },
+    user: null,
     is_login: false,
 }
 
 // Action Creators
-const signInUser = createAction(SIGNIN, (user) => ({ user }))
+const signInUser = createAction(SIGNIN, (user) => ({ user }));
 
 
 export const signUpDB = (data) => {
@@ -56,6 +47,7 @@ export const signInDB = (data) => {
             })
     }
 }
+
 
 export default handleActions(
     {
