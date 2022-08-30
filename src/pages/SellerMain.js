@@ -6,12 +6,16 @@ import Banner from "../components/Banner"
 import Footer from '../components/Footer'
 import MainGrid from '../components/MainGrid'
 import { useDispatch, useSelector } from 'react-redux'
-import { signInDB, userInfoDB } from '../redux/modules/user'
+import { getProductDB } from '../redux/modules/product'
 
 function SellerMain() {
     const userType = localStorage.getItem("type")
     const isLogin = localStorage.getItem("token")
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getProductDB())
+    }, [dispatch])
 
     return (
         <div>

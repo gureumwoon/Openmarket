@@ -18,8 +18,11 @@ api.interceptors.request.use((config) => {
 });
 
 export const apis = {
+    // user
     signUp: (data) => api.post("accounts/signup/", data),
     signIn: (data) => api.post("accounts/login/", data),
     signOut: (data) => api.post("accounts/logout/", data),
+    // product
+    getProduct: (data) => api.get("products/", data),
 }
 
