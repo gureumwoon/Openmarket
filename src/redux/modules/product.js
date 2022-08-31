@@ -10,13 +10,14 @@ const initialState = {
 }
 
 //Action Creators
-const getProduct = createAction(GETPRODUCT, (product) => ({ product }))
+const getProduct = createAction(GETPRODUCT, (productList) => ({ productList }))
 
 export const getProductDB = () => {
     return async function (dispatch) {
         await apis.getProduct()
             .then((res) => {
-                console.log("상품", res.data)
+                console.log("상품", res.data.results)
+                dispatch(getProduct(res.data.results))
             })
             .catch((error) => {
                 console.log("상품에러", error)
@@ -26,7 +27,10 @@ export const getProductDB = () => {
 
 export default handleActions(
     {
-
+        [GETPRODUCT]: (state, action) =>
+            produce(state, (draft) => {
+                draft.products = action.payload.productList
+            }),
     },
     initialState
 )

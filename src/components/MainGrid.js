@@ -1,47 +1,27 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 
-//assets
-import Pouch from "../assets/images/pouch.png"
-
 function MainGrid() {
+    const navigate = useNavigate()
+    const product = useSelector((state) => state.product.products)
+    console.log(product)
     return (
         <Container>
-            <div>
-                <img src={Pouch} alt="" />
-                <p className='product-name'>우당탕탕 라이캣의 실험실</p>
-                <p className='product'>Hack Your Life 개발자 노트북 파우치</p>
-                <span className='product-price'>29,000</span>
-                <span>원</span>
-            </div>
-            <div>
-                <img src={Pouch} alt="" />
-                <p className='product-name'>우당탕탕 라이캣의 실험실</p>
-                <p className='product'>Hack Your Life 개발자 노트북 파우치</p>
-                <span className='product-price'>29,000</span>
-                <span>원</span>
-            </div>
-            <div>
-                <img src={Pouch} alt="" />
-                <p className='product-name'>우당탕탕 라이캣의 실험실</p>
-                <p className='product'>Hack Your Life 개발자 노트북 파우치</p>
-                <span className='product-price'>29,000</span>
-                <span>원</span>
-            </div>
-            <div>
-                <img src={Pouch} alt="" />
-                <p className='product-name'>우당탕탕 라이캣의 실험실</p>
-                <p className='product'>Hack Your Life 개발자 노트북 파우치</p>
-                <span className='product-price'>29,000</span>
-                <span>원</span>
-            </div>
-            <div>
-                <img src={Pouch} alt="" />
-                <p className='product-name'>우당탕탕 라이캣의 실험실</p>
-                <p className='product'>Hack Your Life 개발자 노트북 파우치</p>
-                <span className='product-price'>29,000</span>
-                <span>원</span>
-            </div>
+            {
+                product.map((p, i) => {
+                    return (
+                        <div key={i}>
+                            <img src={p.image} alt="" onClick={() => navigate(`/detail/${p.product_id}`)} />
+                            <p className='product-name'>{p.seller_store}</p>
+                            <p className='product'>{p.product_name}</p>
+                            <span className='product-price'>{p.shipping_fee}</span>
+                            <span>원</span>
+                        </div>
+                    )
+                })
+            }
         </Container>
     )
 }
@@ -59,8 +39,15 @@ const Container = styled.div`
     @media screen and (max-width:932px) {
         grid-template-columns:repeat(1,380px);
     }
+    div {
+        cursor: pointer;
+    }
     img {
         margin-bottom: 16px;
+        width: 380px;
+        height: 380px;
+        border: 1px solid #C4C4C4;
+        border-radius: 10px;
     }
     .product-name {
         font-size: 16px;
