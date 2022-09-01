@@ -23,6 +23,7 @@ export const apis = {
     signIn: (data) => api.post("accounts/login/", data),
     signOut: (data) => api.post("accounts/logout/", data),
     // product
-    getProduct: (data) => api.get("products/", data),
+    getProduct: () => api.get("products/"),
+    getOneProduct: (id) => api.get(`products/${id}`),
 }
 

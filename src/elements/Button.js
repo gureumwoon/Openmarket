@@ -56,7 +56,7 @@ const Button = (props) => {
         return (
             <QuantityBtn disabled={_disabled}>
                 <button onClick={_onClickMinus}>-</button>
-                <div>1</div>
+                <div>{children}</div>
                 <button onClick={_onClickPlus}>+</button>
             </QuantityBtn>
         )
@@ -81,7 +81,7 @@ const Btn = styled.button`
     cursor: pointer;
     width: ${(props) => props.width};
     height: ${(props) => props.height};
-    background-color: ${(props) => props.bg ? "white" : props.disabled ? "#c4c4c4" : "#21BF48"};
+    background-color: ${(props) => props.bg ? props.bg : props.disabled ? "#c4c4c4" : "#21BF48"};
     color:${(props) => props.color || "white"};
     border-radius: 5px;
     border: ${(props) => props.border || "none"};

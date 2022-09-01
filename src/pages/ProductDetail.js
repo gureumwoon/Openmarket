@@ -1,22 +1,51 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Nav from '../components/Nav'
+import { useDispatch, useSelector } from 'react-redux';
 
 //assets
 import ProductImg from "../assets/images/product-img.png";
 import Button from '../elements/Button';
+import { getOneProductDB } from '../redux/modules/product';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function ProductDetail() {
+    const { id } = useParams()
+    console.log(id)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const product = useSelector((state) => state.product.productOne)
+    const product_stock = product.stock
+    // console.log(product)
+
+    const [quantity, setQuantity] = useState(1)
+
+    useEffect(() => {
+        dispatch(getOneProductDB(id))
+    }, [dispatch, id])
+
+    const handleMinus = () => {
+        if (1 < quantity) {
+            setQuantity(quantity - 1)
+        }
+    }
+
+    const handlePlus = () => {
+        if (quantity <= product_stock) {
+            setQuantity(quantity + 1)
+        }
+    }
+
     return (
         <div>
             <Nav />
             <SectionOne>
-                <img src={ProductImg} alt="" />
+                <img src={product.image} alt="" />
                 <div className='container-right'>
                     <div className='info'>
-                        <p>백엔드글로벌</p>
-                        <p>딥러닝 개발자 무릎담요</p>
-                        <span className='info-price'>17,500</span>
+                        <p>{product.seller_store}</p>
+                        <p>{product.product_name}</p>
+                        <span className='info-price'>{product.price}</span>
                         <span>원</span>
                     </div>
                     <div className='info2'>
@@ -26,19 +55,24 @@ function ProductDetail() {
                             <div>1</div>
                             <button>+</button>
                         </div> */}
-                        <Button quantity_button />
+                        <Button
+                            quantity_button
+                            children={quantity}
+                            _onClickMinus={handleMinus}
+                            _onClickPlus={handlePlus}
+                        />
                     </div>
                     <div className='info3'>
                         <p>총 상품 금액</p>
                         <div>
-                            <p>총 수량 1개</p>
-                            <span>17,500</span>
+                            <p>총 수량 {quantity}개</p>
+                            <span>{product.price * quantity}</span>
                             <span>원</span>
                         </div>
                     </div>
                     <div className='btn-container'>
-                        <Button width="416px" height="60px" _disabled="true" margin="0 14px 0 0">바로구매</Button>
-                        <Button width="200px" height="60px" _disabled="true">장바구니</Button>
+                        <Button width="416px" height="60px" margin="0 14px 0 0">바로구매</Button>
+                        <Button width="200px" height="60px" bg="#767676" _onClick={() => navigate()}>장바구니</Button>
                     </div>
                 </div>
             </SectionOne>
@@ -66,6 +100,8 @@ const SectionOne = styled.div`
         justify-content: center;
     }
     img {
+        width: 600px;
+        height: 600px;
         margin-right: 50px;
         @media screen and (max-width:1320px) {
         margin-right: 0;
