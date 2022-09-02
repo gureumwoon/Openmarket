@@ -72,10 +72,16 @@ const Grid = styled.div`
     display: flex;
     align-items: center;
     position: relative;
+    @media screen and (max-width:1320px) {
+        width: 900px;
+    }
     .cart-info {
         display: flex;
         margin-right: 48px;
         align-items: center;
+        @media screen and (max-width:1320px) {
+            margin-right: 35px;
+    }
         img {
         width: 160px;
         height: 160px;
@@ -94,6 +100,9 @@ const Grid = styled.div`
                 width: 418px;
                 font-size: 18px;
                 margin-bottom: 10px;
+                @media screen and (max-width:1320px) {
+                    width: 194.8px;
+                }
             }
             &:nth-child(3) {
                 font-size: 16px;
@@ -110,6 +119,9 @@ const Grid = styled.div`
     .cart-price {
         margin-left: 138px;
         text-align: center;
+        @media screen and (max-width:1320px) {
+        margin-left: 35px;
+    }
         p {
             font-size: 18px;
             font-weight: bold;
@@ -135,6 +147,9 @@ const SumGrid = styled.div`
     border-radius: 10px;
     margin: 70px 0 40px;
     text-align: center;
+    @media screen and (max-width:1320px) {
+        width: 900px;
+    }
     .product-price {
         display: flex;
         align-items: center;
@@ -142,6 +157,9 @@ const SumGrid = styled.div`
         margin-left: 121px;
         margin-right: 229px;
         width: 100%;
+        @media screen and (max-width:1320px) {
+            margin: 0 90px;
+        }
         div {
             p {
                 margin-bottom: 12px;

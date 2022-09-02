@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import Nav from '../components/Nav'
 import { useDispatch, useSelector } from 'react-redux';
+
+//components
+import Nav from '../components/Nav'
+import Footer from '../components/Footer'
 
 //assets
 import ProductImg from "../assets/images/product-img.png";
@@ -17,6 +20,8 @@ function ProductDetail() {
     const product = useSelector((state) => state.product.productOne)
     const product_stock = product.stock
     // console.log(product)
+    const isLogin = localStorage.getItem("token")
+    const userId = localStorage.getItem("id")
 
     const [quantity, setQuantity] = useState(1)
 
@@ -38,7 +43,7 @@ function ProductDetail() {
 
     return (
         <div>
-            <Nav />
+            <Nav user_nav children={isLogin ? "마이페이지" : "로그인"} />
             <SectionOne>
                 <img src={product.image} alt="" />
                 <div className='container-right'>
@@ -72,7 +77,7 @@ function ProductDetail() {
                     </div>
                     <div className='btn-container'>
                         <Button width="416px" height="60px" margin="0 14px 0 0">바로구매</Button>
-                        <Button width="200px" height="60px" bg="#767676" _onClick={() => navigate()}>장바구니</Button>
+                        <Button width="200px" height="60px" bg="#767676" _onClick={() => navigate(`/cart/${userId}`)}>장바구니</Button>
                     </div>
                 </div>
             </SectionOne>
@@ -82,6 +87,7 @@ function ProductDetail() {
                 <Button tab_active_button _disabled="true">Q&A</Button>
                 <Button tab_active_button _disabled="true">반품/교환정보</Button>
             </SectionTwo>
+            <Footer />
         </div>
     )
 }

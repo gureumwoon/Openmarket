@@ -11,10 +11,11 @@ import Button from '../elements/Button';
 
 
 function ShoppingCart() {
+    const isLogin = localStorage.getItem("token")
     const [modal, setModal] = useState(0);
     return (
         <div>
-            <Nav user_nav />
+            <Nav user_nav children={isLogin ? "마이페이지" : "로그인"} />
             <Main>
                 <h1>장바구니</h1>
                 <div className='cart-nav'>
@@ -74,6 +75,9 @@ const Main = styled.div`
         align-items: center;
         justify-content: space-between;
         margin-bottom: 35px;
+        @media screen and (max-width:1320px) {
+                width: 900px;
+        }
         p {
             font-size: 18px;
             &:nth-child(2) {

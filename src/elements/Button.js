@@ -54,7 +54,7 @@ const Button = (props) => {
     }
     if (quantity_button) {
         return (
-            <QuantityBtn disabled={_disabled}>
+            <QuantityBtn >
                 <button onClick={_onClickMinus}>-</button>
                 <div>{children}</div>
                 <button onClick={_onClickPlus}>+</button>
@@ -151,7 +151,7 @@ const SellerTabBtn = styled.button`
     }
 `
 
-const QuantityBtn = styled.button`
+const QuantityBtn = styled.div`
                 width: 150px;
                 height: 50px;
                 border: 1px solid #c4c4c4;
