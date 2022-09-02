@@ -41,6 +41,9 @@ const FooterContainer = styled.footer`
     height: 298px;
     background-color: #F2F2F2;
     padding: 60px 320px 63px;
+    @media screen and (max-width:1320px) {
+        padding: 50px 90px 43px;
+    }
 `
 const TopContainer = styled.div`
     border-bottom: 1px solid #C4C4C4;
