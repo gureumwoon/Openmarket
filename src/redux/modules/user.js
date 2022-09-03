@@ -16,7 +16,7 @@ const signInUser = createAction(SIGNIN, (user) => ({ user }));
 
 export const signUpDB = (data) => {
     console.log(data)
-    return async function (dispatch, { history }) {
+    return async function (dispatch) {
         await apis.signUp(data)
             .then((res) => {
                 console.log(res)

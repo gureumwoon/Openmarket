@@ -25,5 +25,7 @@ export const apis = {
     // product
     getProduct: () => api.get("products/"),
     getOneProduct: (id) => api.get(`products/${id}`),
+    //cart
+    addCart: (data) => api.post("cart/", data),
 }
 

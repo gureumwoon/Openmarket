@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getOneProductDB } from '../redux/modules/product';
+import { addCartDB } from '../redux/modules/cart';
+
+//elements
+import Button from '../elements/Button';
 
 //components
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 
-//assets
-import ProductImg from "../assets/images/product-img.png";
-import Button from '../elements/Button';
-import { getOneProductDB } from '../redux/modules/product';
-import { useNavigate, useParams } from 'react-router-dom';
 
 function ProductDetail() {
     const { id } = useParams()
@@ -39,6 +40,14 @@ function ProductDetail() {
         if (quantity <= product_stock) {
             setQuantity(quantity + 1)
         }
+    }
+
+    const handleCart = () => {
+        const itemData = {
+
+        }
+        dispatch(addCartDB());
+        navigate(`/cart/${userId}`);
     }
 
     return (
@@ -77,7 +86,7 @@ function ProductDetail() {
                     </div>
                     <div className='btn-container'>
                         <Button width="416px" height="60px" margin="0 14px 0 0">바로구매</Button>
-                        <Button width="200px" height="60px" bg="#767676" _onClick={() => navigate(`/cart/${userId}`)}>장바구니</Button>
+                        <Button width="200px" height="60px" bg="#767676" _onClick={handleCart}>장바구니</Button>
                     </div>
                 </div>
             </SectionOne>
