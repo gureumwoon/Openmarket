@@ -5,6 +5,7 @@ const Button = (props) => {
     const {
         children,
         src,
+        display,
         width,
         height,
         bg,
@@ -27,7 +28,7 @@ const Button = (props) => {
         tab_active_button,
         quantity_button,
     } = props;
-    const styles = { width, height, margin, padding, font_size, font_weight, bg, align, flex_grow, color, border, hover_color, hover_border };
+    const styles = { display, width, height, margin, padding, font_size, font_weight, bg, align, flex_grow, color, border, hover_color, hover_border };
     if (seller_nav_button) {
         return (
             <SellerBtn {...styles} onClick={_onClick}>
@@ -54,7 +55,7 @@ const Button = (props) => {
     }
     if (quantity_button) {
         return (
-            <QuantityBtn >
+            <QuantityBtn {...styles}>
                 <button onClick={_onClickMinus}>-</button>
                 <div>{children}</div>
                 <button onClick={_onClickPlus}>+</button>
@@ -155,10 +156,9 @@ const QuantityBtn = styled.div`
                 width: 150px;
                 height: 50px;
                 border: 1px solid #c4c4c4;
-                display: flex;
+                display: ${(props) => props.display || "flex"};
                 border-radius: 5px;
                 align-items: center;
-                display: ${(props) => props.disabled ? "none" : "flex"};
                 div {
                     width: 50px;
                     height: 50px;

@@ -11,6 +11,7 @@ import Button from '../elements/Button';
 //components
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
+import UserModal from '../components/UserModal';
 
 
 function ProductDetail() {
@@ -25,6 +26,7 @@ function ProductDetail() {
     const userId = localStorage.getItem("id")
 
     const [quantity, setQuantity] = useState(1)
+    const [modal, setModal] = useState(0);
 
     useEffect(() => {
         dispatch(getOneProductDB(id))
@@ -43,11 +45,12 @@ function ProductDetail() {
     }
 
     const handleCart = () => {
-        const itemData = {
+        setModal(1)
+        // const itemData = {
 
-        }
-        dispatch(addCartDB());
-        navigate(`/cart/${userId}`);
+        // }
+        // dispatch(addCartDB());
+        // navigate(`/cart/${userId}`);
     }
 
     return (
@@ -97,6 +100,19 @@ function ProductDetail() {
                 <Button tab_active_button _disabled="true">반품/교환정보</Button>
             </SectionTwo>
             <Footer />
+            {
+                modal === 1 ?
+                    <UserModal modal_to_check
+                        display="none"
+                        children="이미 장바구니에 있는 상품입니다."
+                        children2="장바구니로 이동하시겠습니까?"
+                        btn_children_1="아니오"
+                        btn_children_2="예"
+                        margin="40px 0 0 0"
+                        _onClick={() => setModal(0)}
+                        _onClickBg={() => setModal(0)}
+                    /> : null
+            }
         </div>
     )
 }

@@ -8,7 +8,7 @@ import Button from '../elements/Button';
 import DeleteIcon from '../assets/images/icon-delete.svg';
 
 function UserModal(props) {
-    const { modal_to_check, children, children2, btn_children_1, btn_children_2, margin, _onClick, _onClickBg, _disabled } = props;
+    const { display, modal_to_check, children, children2, btn_children_1, btn_children_2, margin, _onClick, _onClickBg, _disabled } = props;
     if (modal_to_check) {
         return (
             <>
@@ -18,7 +18,7 @@ function UserModal(props) {
                         {children}<br />
                         {children2}
                     </p>
-                    <Button quantity_button _disabled={_disabled} />
+                    <Button quantity_button display={display} />
                     <img src={DeleteIcon} alt="" onClick={_onClick} />
                     <BtnContainer margin={margin}>
                         <Button width="100px" height="40px" margin="0 10px 0 0" bg="#FFFF" color="#767676" border="1px solid #c4c4c4" _onClick={_onClick}>{btn_children_1}</Button>
@@ -48,6 +48,15 @@ const ModalBg = styled.div`
     left: 0;
     z-index: 9;
     opacity: 0.5;
+    @media screen and (max-width:1320px) {
+        width: 100%;
+        background-color: black;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 9;
+        opacity: 0.5;
+    }
 `
 
 const CheckModal = styled.div`
@@ -63,18 +72,17 @@ const CheckModal = styled.div`
     top: calc(50% - 150px);
     left: calc(50% - 200px);
     z-index: 10;
-    /* display: ${(props) => props.on ? "null" : "none"}; */
     img {
         position: absolute;      
         top: 18px;
         right: 18px;
         cursor: pointer;
     }
-    div {
+    /* div {
         display: flex;
         align-items: center;
         justify-content: center;
-    }
+    } */
     p {
         text-align: center;
         line-height: 20px;
