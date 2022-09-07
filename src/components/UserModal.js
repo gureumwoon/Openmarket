@@ -8,7 +8,7 @@ import Button from '../elements/Button';
 import DeleteIcon from '../assets/images/icon-delete.svg';
 
 function UserModal(props) {
-    const { display, modal_to_check, children, children2, btn_children_1, btn_children_2, margin, _onClick, _onClickBg, _disabled } = props;
+    const { display, modal_to_check, children, children2, btn_children_1, btn_children_2, margin, _onClick, _onClickBg, _onClick2 } = props;
     if (modal_to_check) {
         return (
             <>
@@ -22,7 +22,7 @@ function UserModal(props) {
                     <img src={DeleteIcon} alt="" onClick={_onClick} />
                     <BtnContainer margin={margin}>
                         <Button width="100px" height="40px" margin="0 10px 0 0" bg="#FFFF" color="#767676" border="1px solid #c4c4c4" _onClick={_onClick}>{btn_children_1}</Button>
-                        <Button width="100px" height="40px" >{btn_children_2}</Button>
+                        <Button width="100px" height="40px" onClick={_onClick2}>{btn_children_2}</Button>
                     </BtnContainer>
                 </CheckModal>
             </>
@@ -50,6 +50,7 @@ const ModalBg = styled.div`
     opacity: 0.5;
     @media screen and (max-width:1320px) {
         width: 100%;
+        height: auto;
         background-color: black;
         position: absolute;
         top: 0;

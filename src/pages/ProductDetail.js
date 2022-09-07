@@ -21,7 +21,7 @@ function ProductDetail() {
     const navigate = useNavigate()
     const product = useSelector((state) => state.product.productOne)
     const product_stock = product.stock
-    // console.log(product)
+    console.log(product)
     const isLogin = localStorage.getItem("token")
     const userId = localStorage.getItem("id")
 
@@ -44,13 +44,23 @@ function ProductDetail() {
         }
     }
 
-    const handleCart = () => {
-        setModal(1)
-        // const itemData = {
+    // const handleCart = () => {
 
-        // }
-        // dispatch(addCartDB());
-        // navigate(`/cart/${userId}`);
+    //     // const itemData = {
+
+    //     // }
+    //     // dispatch(addCartDB());
+    //     // navigate(`/cart/${userId}`);
+    // }
+
+    const handleAddCart = () => {
+        const itemData = {
+            product_id: product.product_id,
+            quantity: quantity,
+            check: true
+        }
+        dispatch(addCartDB(itemData));
+        navigate("/cart");
     }
 
     return (
@@ -89,7 +99,7 @@ function ProductDetail() {
                     </div>
                     <div className='btn-container'>
                         <Button width="416px" height="60px" margin="0 14px 0 0">바로구매</Button>
-                        <Button width="200px" height="60px" bg="#767676" _onClick={handleCart}>장바구니</Button>
+                        <Button width="200px" height="60px" bg="#767676" _onClick={handleAddCart}>장바구니</Button>
                     </div>
                 </div>
             </SectionOne>
@@ -110,6 +120,7 @@ function ProductDetail() {
                         btn_children_2="예"
                         margin="40px 0 0 0"
                         _onClick={() => setModal(0)}
+                        // _onClick2={handleAddCart}
                         _onClickBg={() => setModal(0)}
                     /> : null
             }

@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
 import styled from "styled-components";
 import CartGrid from '../components/CartGrid';
 import Footer from '../components/Footer';
@@ -8,11 +9,18 @@ import Nav from '../components/Nav'
 import RadioCheck from '../components/RadioCheck';
 import UserModal from '../components/UserModal';
 import Button from '../elements/Button';
+import { getCartDB } from '../redux/modules/cart';
 
 
 function ShoppingCart() {
+    const dispatch = useDispatch()
     const isLogin = localStorage.getItem("token")
     const [modal, setModal] = useState(0);
+
+    useEffect(() => {
+        dispatch(getCartDB())
+    }, [dispatch])
+
     return (
         <div>
             <Nav user_nav children={isLogin ? "마이페이지" : "로그인"} />

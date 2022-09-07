@@ -10,12 +10,11 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
     const jwtToken = localStorage.getItem("token");
-    if (jwtToken !== undefined) {
-        config.headers.common["Authorization"] = `Bearer ${jwtToken}`;
-    }
+    config.headers.common["Authorization"] = `Bearer ${jwtToken}`;
     // config.headers.common["Authorization"] = `Bearer ${token}`;
     return config;
 });
+
 
 export const apis = {
     // user
@@ -27,5 +26,7 @@ export const apis = {
     getOneProduct: (id) => api.get(`products/${id}`),
     //cart
     addCart: (data) => api.post("cart/", data),
+    getItemCart: () => api.get("cart/"),
+    getCart: (id) => api.get(`cart/${id}`)
 }
 
