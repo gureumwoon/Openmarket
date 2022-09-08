@@ -30,6 +30,19 @@ export const signUpDB = (data) => {
     }
 }
 
+//중복체크
+export const dupCheckDB = (data) => {
+    return async function (dispatch) {
+        apis.dupcheck(data)
+            .then((res) => {
+                console.log("중복확인", res)
+            })
+            .catch((error) => {
+                console.log("중복확인에러", error)
+            })
+    }
+}
+
 export const signInDB = (data) => {
     console.log(data)
     return async function (dispatch) {

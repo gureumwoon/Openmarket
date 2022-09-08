@@ -120,21 +120,23 @@ function SignUp() {
         const signUpData = {
             username: id,
         }
-        apis.signUp(signUpData)
+        apis.dupcheck(signUpData)
             .then((res) => {
-
+                console.log("중복확인", res)
+                setIdMessage(res.data.Success)
+                // setIdMessage("멋진 아이디네요:)")
             })
             .catch((error) => {
-                console.log(error)
-                if (error.response.data.username == "해당 사용자 아이디는 이미 존재합니다.") {
-                    setIdMessage("이미 사용 중인 아디입니다.")
-                    setIsId(false)
-                } else if (error.response.data.username == "이 필드는 blank일 수 없습니다.") {
-                    setIdMessage("필수 정보입니다")
-                    setIsId(false)
-                } else {
-                    setIdMessage("멋진 아이디네요:)")
-                }
+                console.log("중복확인에러", error)
+                setIdMessage(error.response.data.FAIL_Message)
+                setIsId(false)
+                // if (error.response.data.username == "해당 사용자 아이디는 이미 존재합니다.") {
+                //     setIdMessage("이미 사용 중인 아디입니다.")
+                //     setIsId(false)
+                // } else if (error.response.data.username == "이 필드는 blank일 수 없습니다.") {
+                //     setIdMessage("필수 정보입니다")
+                //     setIsId(false)
+                // }
             })
         setIsCheck(true)
     }
