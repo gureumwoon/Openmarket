@@ -28,24 +28,37 @@ export const addCartDB = (data) => {
     }
 }
 
-export const getItemCartDB = () => {
-    return async function (dispatch) {
-        await apis.getItemCart()
-            .then((res) => {
-                console.log("아이템", res)
-            })
-            .catch((error) => {
-                console.log("아이템에러", error)
-            })
-    }
-}
+// export const getItemCartDB = () => {
+//     return async function (dispatch) {
+//         await apis.getItemCart()
+//             .then((res) => {
+//                 console.log("아이템", res)
+//             })
+//             .catch((error) => {
+//                 console.log("아이템에러", error)
+//             })
+//     }
+// }
 
 export const getCartDB = () => {
     return async function (dispatch) {
         await apis.getCart()
             .then((res) => {
                 console.log("장바구니아이템", res.data)
-                dispatch()
+                dispatch(getCart(res.data.results))
+            })
+            .catch((error) => {
+                console.log("장바구니아이템에러", error)
+            })
+    }
+}
+
+export const getItemtCartDB = () => {
+    return async function (dispatch) {
+        await apis.getItemCart()
+            .then((res) => {
+                console.log("장바구니아이템", res.data)
+                dispatch(getCart(res.data.results))
             })
             .catch((error) => {
                 console.log("장바구니아이템에러", error)
@@ -56,11 +69,13 @@ export const getCartDB = () => {
 
 
 
+
+
 export default handleActions(
     {
         [GETCART]: (state, action) =>
             produce(state, (draft) => {
-                draft.cartList = action.payload.cartList
+                draft.cartList = action.payload.cartItem
             }),
         [ADDCART]: (state, action) =>
             produce(state, (draft) => {

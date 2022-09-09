@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from "styled-components";
+import { useSelector } from 'react-redux';
 import Button from '../elements/Button';
 import RadioCheck from './RadioCheck';
 
@@ -11,6 +12,7 @@ import DeleteIcon from '../assets/images/icon-delete.svg';
 
 function CartGrid(props) {
     const { cart_sum_grid, _onClick, _onClickMinus, _onClickPlus } = props
+    const cartList = useSelector((state) => state.cart.cartList)
     if (cart_sum_grid) {
         return (
             <SumGrid>
@@ -42,24 +44,30 @@ function CartGrid(props) {
         )
     }
     return (
-        <Grid>
-            <RadioCheck margin="0 40px 0 30px" />
-            <div className='cart-info'>
-                <img src={ProductImg} alt="" />
-                <div className='info-text'>
-                    <p>백엔드글로벌</p>
-                    <p>딥러닝 개발자 무릎 담요</p>
-                    <p>17,500원</p>
-                    <p>택배배송/ 무료배송</p>
-                </div>
-            </div>
-            <Button quantity_button margin="0 148px 0 0" _onClickPlus={_onClickPlus} _onClickMinus={_onClickMinus} />
-            <div className='cart-price'>
-                <p>17,500원</p>
-                <Button width="130px" height="40px" font_weight="500">주문하기</Button>
-            </div>
-            <img className="icon-delete" src={DeleteIcon} alt="" onClick={_onClick} />
-        </Grid>
+        <>
+            {
+                cartList.map((c, i) => {
+                    return <Grid key={i}>
+                        <RadioCheck margin="0 40px 0 30px" />
+                        <div className='cart-info'>
+                            <img src={ProductImg} alt="" />
+                            <div className='info-text'>
+                                <p>백엔드글로벌</p>
+                                <p>딥러닝 개발자 무릎 담요</p>
+                                <p>17,500원</p>
+                                <p>택배배송/ 무료배송</p>
+                            </div>
+                        </div>
+                        <Button quantity_button margin="0 148px 0 0" children={c.quantity} _onClickPlus={_onClickPlus} _onClickMinus={_onClickMinus} />
+                        <div className='cart-price'>
+                            <p>17,500원</p>
+                            <Button width="130px" height="40px" font_weight="500">주문하기</Button>
+                        </div>
+                        <img className="icon-delete" src={DeleteIcon} alt="" onClick={_onClick} />
+                    </Grid>
+                })
+            }
+        </>
     )
 }
 

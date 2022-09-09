@@ -84,10 +84,9 @@ function ProductDetail() {
                         </div> */}
                         <Button
                             quantity_button
-                            children={quantity}
                             _onClickMinus={handleMinus}
                             _onClickPlus={handlePlus}
-                        />
+                        >{quantity}</Button>
                     </div>
                     <div className='info3'>
                         <p>총 상품 금액</p>
@@ -105,9 +104,9 @@ function ProductDetail() {
             </SectionOne>
             <SectionTwo>
                 <Button tab_active_button>버튼</Button>
-                <Button tab_active_button _disabled="true" >리뷰</Button>
-                <Button tab_active_button _disabled="true">Q&A</Button>
-                <Button tab_active_button _disabled="true">반품/교환정보</Button>
+                <Button tab_active_button _disabled={true} >리뷰</Button>
+                <Button tab_active_button _disabled={true}>Q&A</Button>
+                <Button tab_active_button _disabled={true}>반품/교환정보</Button>
             </SectionTwo>
             <Footer />
             {
