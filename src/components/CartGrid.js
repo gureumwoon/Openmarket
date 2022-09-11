@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from "styled-components";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '../elements/Button';
 import RadioCheck from './RadioCheck';
 
@@ -9,10 +9,22 @@ import ProductImg from "../assets/images/product-img.png";
 import MinusIcon from "../assets/images/minus-icon_2.svg";
 import PlusIcon from "../assets/images/plus-icon_2.svg";
 import DeleteIcon from '../assets/images/icon-delete.svg';
+import { getOneProductDB } from '../redux/modules/product';
 
 function CartGrid(props) {
     const { cart_sum_grid, _onClick, _onClickMinus, _onClickPlus } = props
+    const dispatch = useDispatch();
     const cartList = useSelector((state) => state.cart.cartList)
+    console.log(cartList)
+    const productList = useSelector((state) => state.product.products)
+    console.log(productList)
+    const id = cartList.find((c, i) => c.product_id)
+
+    useEffect(() => {
+        dispatch(getOneProductDB(id))
+    })
+
+
     if (cart_sum_grid) {
         return (
             <SumGrid>
