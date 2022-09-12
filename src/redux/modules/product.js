@@ -12,7 +12,7 @@ const initialState = {
 }
 
 //Action Creators
-const getProduct = createAction(GETPRODUCT, (productList) => ({ productList }))
+const getProduct = createAction(GETPRODUCT, (products) => ({ products }))
 const getOneProduct = createAction(GETONEPRODUCT, (productOne) => ({ productOne }))
 
 export const getProductDB = () => {
@@ -46,7 +46,7 @@ export default handleActions(
     {
         [GETPRODUCT]: (state, action) =>
             produce(state, (draft) => {
-                draft.products = action.payload.productList
+                draft.products = action.payload.products
             }),
         [GETONEPRODUCT]: (state, action) =>
             produce(state, (draft) => {

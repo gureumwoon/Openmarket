@@ -16,8 +16,6 @@ function ShoppingCart() {
     const dispatch = useDispatch()
     const isLogin = localStorage.getItem("token")
     const cartList = useSelector((state) => state.cart.cartList)
-    const cartListLength = cartList.length
-    console.log(cartListLength)
     const [modal, setModal] = useState(0);
 
     useEffect(() => {
@@ -36,7 +34,7 @@ function ShoppingCart() {
                     <p>상품금액</p>
                 </div>
                 {
-                    cartListLength === 0 ?
+                    cartList.length === 0 ?
                         <div className='empty-cart'>
                             <p>장바구니에 담긴 상품이 없습니다.</p>
                             <p>원하는 상품을 장바구니에 담아보세요!</p>

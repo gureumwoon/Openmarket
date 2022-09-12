@@ -9,20 +9,20 @@ import ProductImg from "../assets/images/product-img.png";
 import MinusIcon from "../assets/images/minus-icon_2.svg";
 import PlusIcon from "../assets/images/plus-icon_2.svg";
 import DeleteIcon from '../assets/images/icon-delete.svg';
-import { getOneProductDB } from '../redux/modules/product';
+import { getOneProductDB, getProductDB } from '../redux/modules/product';
 
 function CartGrid(props) {
     const { cart_sum_grid, _onClick, _onClickMinus, _onClickPlus } = props
     const dispatch = useDispatch();
     const cartList = useSelector((state) => state.cart.cartList)
-    console.log(cartList)
-    const productList = useSelector((state) => state.product.products)
-    console.log(productList)
-    const id = cartList.find((c, i) => c.product_id)
+    const product = useSelector((state) => state.product.products)
+    const id = cartList.find((c, i) => c.product_id === product.product_id)
+    console.log(id)
+
 
     useEffect(() => {
-        dispatch(getOneProductDB(id))
-    })
+        dispatch(getProductDB())
+    }, [dispatch])
 
 
     if (cart_sum_grid) {

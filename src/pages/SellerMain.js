@@ -13,7 +13,7 @@ function SellerMain() {
     const userType = localStorage.getItem("type")
     const isLogin = localStorage.getItem("token")
     const dispatch = useDispatch();
-    const mainItem = useSelector((state) => state.product.productList)
+    const mainItem = useSelector((state) => state.product.products)
     console.log("메인", mainItem)
 
     useEffect(() => {
