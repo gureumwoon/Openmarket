@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from "styled-components";
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../elements/Button';
@@ -10,15 +10,22 @@ import MinusIcon from "../assets/images/minus-icon_2.svg";
 import PlusIcon from "../assets/images/plus-icon_2.svg";
 import DeleteIcon from '../assets/images/icon-delete.svg';
 import { getOneProductDB, getProductDB } from '../redux/modules/product';
+import { getItemtCartDB } from '../redux/modules/cart';
 
 function CartGrid(props) {
     const { cart_sum_grid, _onClick, _onClickMinus, _onClickPlus } = props
     const dispatch = useDispatch();
-    const cartList = useSelector((state) => state.cart.cartList)
+    const cart = useSelector((state) => state.cart.cartList)
     const product = useSelector((state) => state.product.products)
-    const id = cartList.find((c, i) => c.product_id === product.product_id)
-    console.log(id)
-
+    const cartId = cart.map((c, i) => c.product_id)
+    const productId = product.map((p, i) => p.product_id)
+    const item = product.filter((i) => cartId.includes(i.product_id))
+    console.log(item)
+    const cartList = cart.filter((c) => productId.includes(c.product_id))
+    console.log(cartList)
+    const cartQuantity = cart.map((c, i) => c.quantity[i])
+    const productPrice = item.map((p, i) => p.price)
+    console.log(cartQuantity)
 
     useEffect(() => {
         dispatch(getProductDB())
@@ -58,21 +65,25 @@ function CartGrid(props) {
     return (
         <>
             {
-                cartList.map((c, i) => {
+                item.map((p, i) => {
                     return <Grid key={i}>
                         <RadioCheck margin="0 40px 0 30px" />
                         <div className='cart-info'>
-                            <img src={ProductImg} alt="" />
+                            <img src={p.image} alt="" />
                             <div className='info-text'>
-                                <p>백엔드글로벌</p>
-                                <p>딥러닝 개발자 무릎 담요</p>
-                                <p>17,500원</p>
+                                <p>{p.seller_store}</p>
+                                <p>{p.product_name}</p>
+                                <p>{p.price}</p>
                                 <p>택배배송/ 무료배송</p>
                             </div>
                         </div>
-                        <Button quantity_button margin="0 148px 0 0" children={c.quantity} _onClickPlus={_onClickPlus} _onClickMinus={_onClickMinus} />
+                        <Button quantity_button margin="0 148px 0 0" _onClickPlus={_onClickPlus} _onClickMinus={_onClickMinus} >
+                            {
+                                cart[i].quantity
+                            }
+                        </Button>
                         <div className='cart-price'>
-                            <p>17,500원</p>
+                            <p>{p.price * (cart[i].quantity)}원</p>
                             <Button width="130px" height="40px" font_weight="500">주문하기</Button>
                         </div>
                         <img className="icon-delete" src={DeleteIcon} alt="" onClick={_onClick} />

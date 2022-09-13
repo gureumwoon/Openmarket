@@ -19,7 +19,7 @@ export const getProductDB = () => {
     return async function (dispatch) {
         await apis.getProduct()
             .then((res) => {
-                console.log("상품", res.data.results)
+                console.log("상품", res.data)
                 dispatch(getProduct(res.data.results))
             })
             .catch((error) => {

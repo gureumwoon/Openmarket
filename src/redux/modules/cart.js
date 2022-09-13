@@ -5,6 +5,7 @@ import produce from "immer";
 // Actions
 const ADDCART = "cart/ADDCART";
 const GETCART = "cart/GETCART";
+const GETCARTITEM = "cart/GETCARTITEM";
 
 const initialState = {
     cartList: [],
@@ -12,7 +13,8 @@ const initialState = {
 
 // Action Creators
 const addCart = createAction(ADDCART, (cartItem) => ({ cartItem }));
-const getCart = createAction(GETCART, (cartItem) => ({ cartItem }))
+const getCart = createAction(GETCART, (cartItem) => ({ cartItem }));
+const getCartItem = createAction(GETCARTITEM, (cartItem) => ({ cartItem }));
 
 export const addCartDB = (data) => {
     console.log(data)
@@ -20,7 +22,7 @@ export const addCartDB = (data) => {
         await apis.addCart(data)
             .then((res) => {
                 console.log("장바구니데이터", res)
-                dispatch(addCart(data))
+                dispatch(addCart(res.data))
             })
             .catch((error) => {
                 console.log("장바구니에러", error)
@@ -58,7 +60,7 @@ export const getItemtCartDB = () => {
         await apis.getItemCart()
             .then((res) => {
                 console.log("장바구니아이템", res.data)
-                dispatch(getCart(res.data.results))
+                dispatch(getCartItem(res.data.results))
             })
             .catch((error) => {
                 console.log("장바구니아이템에러", error)
@@ -74,6 +76,10 @@ export const getItemtCartDB = () => {
 export default handleActions(
     {
         [GETCART]: (state, action) =>
+            produce(state, (draft) => {
+                draft.cartList = action.payload.cartItem
+            }),
+        [GETCARTITEM]: (state, action) =>
             produce(state, (draft) => {
                 draft.cartList = action.payload.cartItem
             }),
