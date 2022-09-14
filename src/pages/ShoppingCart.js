@@ -15,7 +15,7 @@ import { getCartDB } from '../redux/modules/cart';
 function ShoppingCart() {
     const dispatch = useDispatch()
     const isLogin = localStorage.getItem("token")
-    const cartList = useSelector((state) => state.cart.cartList.length)
+    const cartList = useSelector((state) => state.cart.cartList)
     const [modal, setModal] = useState(0);
 
     useEffect(() => {
@@ -34,7 +34,7 @@ function ShoppingCart() {
                     <p>상품금액</p>
                 </div>
                 {
-                    cartList === 0 ?
+                    cartList && cartList.length === 0 ?
                         <div className='empty-cart'>
                             <p>장바구니에 담긴 상품이 없습니다.</p>
                             <p>원하는 상품을 장바구니에 담아보세요!</p>

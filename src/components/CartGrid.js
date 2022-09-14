@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styled from "styled-components";
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../elements/Button';
 import RadioCheck from './RadioCheck';
+import { getProductDB } from '../redux/modules/product';
 
 //assets
-import ProductImg from "../assets/images/product-img.png";
 import MinusIcon from "../assets/images/minus-icon_2.svg";
 import PlusIcon from "../assets/images/plus-icon_2.svg";
 import DeleteIcon from '../assets/images/icon-delete.svg';
-import { getOneProductDB, getProductDB } from '../redux/modules/product';
-import { getItemtCartDB } from '../redux/modules/cart';
 
 function CartGrid(props) {
     const { cart_sum_grid, _onClick, _onClickMinus, _onClickPlus } = props
@@ -18,14 +16,30 @@ function CartGrid(props) {
     const cart = useSelector((state) => state.cart.cartList)
     const product = useSelector((state) => state.product.products)
     const cartId = cart.map((c, i) => c.product_id)
-    const productId = product.map((p, i) => p.product_id)
     const item = product.filter((i) => cartId.includes(i.product_id))
-    console.log(item)
-    const cartList = cart.filter((c) => productId.includes(c.product_id))
-    console.log(cartList)
-    const cartQuantity = cart.map((c, i) => c.quantity[i])
-    const productPrice = item.map((p, i) => p.price)
-    console.log(cartQuantity)
+
+    const amount = [];
+    const price = [];
+    const price2 = []
+
+
+    cart && cart.map((c, i) =>
+        amount.push(c.quantity)
+    )
+
+    item && item.map((p, i) =>
+        price.push(p.price)
+    )
+
+    // 제품의 가격을 cart리스트의 quantity(수량)만큼 곱해서 배열에 넣기
+    for (let i = 0; i < amount.length; i++) {
+        price2.push(amount[i] * price[i])
+    }
+
+    // 장바구니에 들어있는 제품들 가격의 합계 구하기.
+    const sum = price2.reduce((acc, cur) =>
+        acc + cur
+    )
 
     useEffect(() => {
         dispatch(getProductDB())
@@ -38,7 +52,7 @@ function CartGrid(props) {
                 <div className='product-price'>
                     <div>
                         <p>총 상품금액</p>
-                        <span>46,500</span>
+                        <span>{sum}</span>
                         <span>원</span>
                     </div>
                     <img src={MinusIcon} alt="" />
@@ -56,8 +70,10 @@ function CartGrid(props) {
                 </div>
                 <div className='price-sum'>
                     <p>결제 예정 금액</p>
-                    <span>46,500</span>
-                    <span>원</span>
+                    <div>
+                        <span>{sum}</span>
+                        <span>원</span>
+                    </div>
                 </div>
             </SumGrid>
         )
@@ -206,6 +222,13 @@ const SumGrid = styled.div`
     .price-sum {
         margin-right: 91px;
         width: 238px;
+        div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 36px;
+            font-weight: bold;
+        }
         p {
             font-weight: bold;
             margin-bottom: 5px;
