@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from "styled-components";
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../elements/Button';
@@ -19,6 +19,7 @@ function CartGrid(props) {
     const item = product.filter((i) => cartId.includes(i.product_id))
 
     const amount = [];
+    // const [amount, setAmount] = useState([])
     const price = [];
     const price2 = []
 

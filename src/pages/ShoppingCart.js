@@ -16,6 +16,9 @@ function ShoppingCart() {
     const dispatch = useDispatch()
     const isLogin = localStorage.getItem("token")
     const cartList = useSelector((state) => state.cart.cartList)
+    const quantity = cartList.map((c, i) => c.quantity)
+    const [amount, setAmount] = useState(quantity)
+    console.log(amount)
     const [modal, setModal] = useState(0);
 
     useEffect(() => {
@@ -48,6 +51,7 @@ function ShoppingCart() {
                 {
                     modal === 1 ?
                         <UserModal modal_to_check
+                            amount={amount}
                             btn_children_1="취소"
                             btn_children_2="수정"
                             margin="26px 0 0 0"

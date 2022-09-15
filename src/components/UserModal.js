@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from "styled-components";
 
 //elements
@@ -6,9 +6,29 @@ import Button from '../elements/Button';
 
 //assets
 import DeleteIcon from '../assets/images/icon-delete.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { modifyCartDB } from '../redux/modules/cart';
 
 function UserModal(props) {
+    const dispatch = useDispatch();
+    const cartItemId = useSelector((state) => state.cart.cartList.cart_item_id)
+    const [count, setCount] = useState();
+    const quantityList = props.amount;
+    const [quantity, setQuantity] = useState()
+
+
     const { display, modal_to_check, children, children2, btn_children_1, btn_children_2, margin, _onClick, _onClickBg, _onClick2 } = props;
+
+    const handleMinus = () => {
+        setCount(count - 1)
+        dispatch(modifyCartDB(count, cartItemId))
+    }
+
+    const handlePlus = () => {
+        setCount(count + 1)
+        dispatch(modifyCartDB(count, cartItemId))
+    }
+
     if (modal_to_check) {
         return (
             <>
@@ -18,7 +38,7 @@ function UserModal(props) {
                         {children}<br />
                         {children2}
                     </p>
-                    <Button quantity_button display={display} />
+                    <Button quantity_button children={quantity} display={display} _onClickMinus={handleMinus} _onClickPlus={handlePlus} />
                     <img src={DeleteIcon} alt="" onClick={_onClick} />
                     <BtnContainer margin={margin}>
                         <Button width="100px" height="40px" margin="0 10px 0 0" bg="#FFFF" color="#767676" border="1px solid #c4c4c4" _onClick={_onClick}>{btn_children_1}</Button>

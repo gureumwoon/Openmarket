@@ -6,6 +6,7 @@ import produce from "immer";
 const ADDCART = "cart/ADDCART";
 const GETCART = "cart/GETCART";
 const GETCARTITEM = "cart/GETCARTITEM";
+const MODIFYCARTITEM = "cart/MODIFYCARTITEM";
 
 const initialState = {
     cartList: [],
@@ -15,6 +16,7 @@ const initialState = {
 const addCart = createAction(ADDCART, (cartItem) => ({ cartItem }));
 const getCart = createAction(GETCART, (cartItem) => ({ cartItem }));
 const getCartItem = createAction(GETCARTITEM, (cartItem) => ({ cartItem }));
+const modifyCart = createAction(MODIFYCARTITEM, (cartItemId, quantity) => ({ cartItemId, quantity }))
 
 export const addCartDB = (data) => {
     console.log(data)
@@ -68,6 +70,21 @@ export const getItemtCartDB = () => {
     }
 }
 
+// 수량 변경
+export const modifyCartDB = (cartItemId, quantity) => {
+    console.log("수량아이디:", cartItemId, "수량:", quantity)
+    return async function (dispatch) {
+        await apis.modifyQuantity(cartItemId)
+            .then((res) => {
+                console.log("수량변경", res.data)
+                dispatch(modifyCart(res.data))
+            })
+            .catch((error) => {
+                console.log("수량변경에러", error)
+            })
+    }
+}
+
 
 
 
@@ -86,6 +103,11 @@ export default handleActions(
         [ADDCART]: (state, action) =>
             produce(state, (draft) => {
                 draft.cartList = action.payload.cartList
+            }),
+        [MODIFYCARTITEM]: (state, action) =>
+            produce(state, (draft) => {
+                console.log("장바구니수정state", state)
+                draft.cartList = action.payload.cartItemId
             })
     },
     initialState
