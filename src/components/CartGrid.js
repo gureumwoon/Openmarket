@@ -9,6 +9,8 @@ import { getProductDB } from '../redux/modules/product';
 import MinusIcon from "../assets/images/minus-icon_2.svg";
 import PlusIcon from "../assets/images/plus-icon_2.svg";
 import DeleteIcon from '../assets/images/icon-delete.svg';
+import UserModal from './UserModal';
+import { modifyCartDB } from '../redux/modules/cart';
 
 function CartGrid(props) {
     const { cart_sum_grid, _onClick, _onClickMinus, _onClickPlus } = props
@@ -17,12 +19,17 @@ function CartGrid(props) {
     const product = useSelector((state) => state.product.products)
     const cartId = cart.map((c, i) => c.product_id)
     const item = product.filter((i) => cartId.includes(i.product_id))
+    console.log(item)
+    console.log(cart)
+
+    const [modal, setModal] = useState(0);
+    const [itemId, setItemId] = useState();
 
     const amount = [];
-    // const [amount, setAmount] = useState([])
     const price = [];
-    const price2 = []
+    const price2 = [];
 
+    const [count, setCount] = useState(amount)
 
     cart && cart.map((c, i) =>
         amount.push(c.quantity)
@@ -31,6 +38,7 @@ function CartGrid(props) {
     item && item.map((p, i) =>
         price.push(p.price)
     )
+
 
     // 제품의 가격을 cart리스트의 quantity(수량)만큼 곱해서 배열에 넣기
     for (let i = 0; i < amount.length; i++) {
@@ -41,6 +49,7 @@ function CartGrid(props) {
     const sum = price2.reduce((acc, cur) =>
         acc + cur
     )
+
 
     useEffect(() => {
         dispatch(getProductDB())
@@ -94,7 +103,16 @@ function CartGrid(props) {
                                 <p>택배배송/ 무료배송</p>
                             </div>
                         </div>
-                        <Button quantity_button margin="0 148px 0 0" _onClickPlus={_onClickPlus} _onClickMinus={_onClickMinus} >
+                        <Button quantity_button margin="0 148px 0 0"
+                            _onClickMinus={() => {
+                                setModal(1)
+                                setItemId(p.product_id)
+                            }}
+                            _onClickPlus={() => {
+                                setModal(1)
+                                setItemId(p.product_id)
+                            }}
+                        >
                             {
                                 cart[i].quantity
                             }
@@ -103,7 +121,41 @@ function CartGrid(props) {
                             <p>{p.price * (cart[i].quantity)}원</p>
                             <Button width="130px" height="40px" font_weight="500">주문하기</Button>
                         </div>
-                        <img className="icon-delete" src={DeleteIcon} alt="" onClick={_onClick} />
+                        <img className="icon-delete" src={DeleteIcon} alt="" onClick={() => setModal(2)} />
+                        {
+                            itemId === cart[i].product_id ?
+                                modal === 1 ? <UserModal modal_to_check
+                                    children={count[i]}
+                                    _onClickMinus={() => {
+                                        let countCopy = [...count]
+                                        countCopy[i] -= 1
+                                        setCount(countCopy)
+                                    }}
+                                    _onClickPlus={() => {
+                                        let countCopy = [...count]
+                                        countCopy[i] += 1
+                                        setCount(countCopy)
+                                    }}
+                                    btn_children_1="취소"
+                                    btn_children_2="수정"
+                                    margin="26px 0 0 0"
+                                    _onClick={() => setModal(0)}
+                                    _onClickBg={() => setModal(0)}
+                                /> : null
+                                    ||
+                                    modal === 2 ?
+                                    <UserModal modal_to_check
+                                        _disabled={true}
+                                        children2="상품을 삭제하시겠습니까?"
+                                        btn_children_1="취소"
+                                        btn_children_2="확인"
+                                        margin="40px 0 0 0"
+                                        _onClick={() => setModal(0)}
+                                        _onClickBg={() => setModal(0)}
+                                    /> : null
+                                :
+                                null
+                        }
                     </Grid>
                 })
             }

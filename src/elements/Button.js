@@ -55,7 +55,7 @@ const Button = (props) => {
     }
     if (quantity_button) {
         return (
-            <QuantityBtn {...styles}>
+            <QuantityBtn {...styles} disabled={_disabled}>
                 <button onClick={_onClickMinus}>-</button>
                 <div>{children}</div>
                 <button onClick={_onClickPlus}>+</button>

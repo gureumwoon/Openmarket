@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import styled from "styled-components";
 import CartGrid from '../components/CartGrid';
+import UserModal from '../components/UserModal';
 import Footer from '../components/Footer';
 
 // components
 import Nav from '../components/Nav'
 import RadioCheck from '../components/RadioCheck';
-import UserModal from '../components/UserModal';
 import Button from '../elements/Button';
 import { getCartDB } from '../redux/modules/cart';
 
@@ -15,11 +15,15 @@ import { getCartDB } from '../redux/modules/cart';
 function ShoppingCart() {
     const dispatch = useDispatch()
     const isLogin = localStorage.getItem("token")
-    const cartList = useSelector((state) => state.cart.cartList)
-    const quantity = cartList.map((c, i) => c.quantity)
-    const [amount, setAmount] = useState(quantity)
-    console.log(amount)
+    const cart = useSelector((state) => state.cart.cartList)
+    const quantityList = cart.map((c, i) => c.quantity)
+    const product = useSelector((state) => state.product.products)
+    const cartId = cart.map((c, i) => c.product_id)
+    const item = product.filter((i) => cartId.includes(i.product_id))
+    console.log(quantityList)
+
     const [modal, setModal] = useState(0);
+    const [itemId, setItemId] = useState();
 
     useEffect(() => {
         dispatch(getCartDB())
@@ -37,37 +41,16 @@ function ShoppingCart() {
                     <p>상품금액</p>
                 </div>
                 {
-                    cartList && cartList.length === 0 ?
+                    cart && cart.length === 0 ?
                         <div className='empty-cart'>
                             <p>장바구니에 담긴 상품이 없습니다.</p>
                             <p>원하는 상품을 장바구니에 담아보세요!</p>
                         </div> :
                         <>
-                            <CartGrid _onClickMinus={() => { setModal(1) }} _onClickPlus={() => { setModal(1) }} _onClick={() => setModal(2)} />
+                            <CartGrid _onClickPlus={() => setModal(1)} _onClickMinus={() => setModal(1)} _onClick={() => setModal(2)} />
                             <CartGrid cart_sum_grid />
                             <Button width="220px" height="68px" font_size="24px" font_weight="bold" margin="0 0 160px 0">주문하기</Button>
                         </>
-                }
-                {
-                    modal === 1 ?
-                        <UserModal modal_to_check
-                            amount={amount}
-                            btn_children_1="취소"
-                            btn_children_2="수정"
-                            margin="26px 0 0 0"
-                            _onClick={() => setModal(0)}
-                            _onClickBg={() => setModal(0)}
-                        /> : null ||
-                            modal === 2 ?
-                            <UserModal modal_to_check
-                                _disabled="true"
-                                children="상품을 삭제하시겠습니까?"
-                                btn_children_1="취소"
-                                btn_children_2="확인"
-                                margin="40px 0 0 0"
-                                _onClick={() => setModal(0)}
-                                _onClickBg={() => setModal(0)}
-                            /> : null
                 }
             </Main>
             <Footer />
