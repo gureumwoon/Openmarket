@@ -1,20 +1,20 @@
 import React from 'react'
 import styled from "styled-components";
 
-function RadioCheck(props) {
-    const { width, margin, name } = props
+function CartCheckBox(props) {
+    const { width, margin, name, checked, onClick } = props
     const styles = { width, margin }
     return (
-        <Radio {...styles}>
-            <input type="radio" name={name} />
-        </Radio>
+        <Check {...styles}>
+            <input type="checkbox" name={name} checked={checked} onClick={onClick} />
+        </Check>
     )
 }
 
-const Radio = styled.div`
+const Check = styled.div`
     width: ${(props) => props.width};
     margin: ${(props) => props.margin};
-    input[type='radio'] {
+    input[type='checkbox'] {
     appearance: none;
     width: 20px;
     height: 20px;
@@ -36,4 +36,4 @@ const Radio = styled.div`
 `
 
 
-export default RadioCheck
+export default CartCheckBox

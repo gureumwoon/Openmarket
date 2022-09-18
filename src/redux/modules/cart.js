@@ -74,7 +74,7 @@ export const getItemtCartDB = () => {
 export const modifyCartDB = (cartItemId, quantity) => {
     console.log("수량아이디:", cartItemId, "수량:", quantity)
     return async function (dispatch) {
-        await apis.modifyQuantity(cartItemId)
+        await apis.modifyQuantity(cartItemId, quantity)
             .then((res) => {
                 console.log("수량변경", res.data)
                 dispatch(modifyCart(res.data))

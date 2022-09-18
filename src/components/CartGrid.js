@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from "styled-components";
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../elements/Button';
-import RadioCheck from './RadioCheck';
+import CartCheckBox from './CartCheckBox';
 import { getProductDB } from '../redux/modules/product';
 
 //assets
@@ -13,7 +13,7 @@ import UserModal from './UserModal';
 import { modifyCartDB } from '../redux/modules/cart';
 
 function CartGrid(props) {
-    const { cart_sum_grid, _onClick, _onClickMinus, _onClickPlus } = props
+    const { cart_sum_grid } = props
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.cartList)
     const product = useSelector((state) => state.product.products)
@@ -24,6 +24,7 @@ function CartGrid(props) {
 
     const [modal, setModal] = useState(0);
     const [itemId, setItemId] = useState();
+    const [radioCheck, setRadioCheck] = useState(false);
 
     const amount = [];
     const price = [];
@@ -93,7 +94,7 @@ function CartGrid(props) {
             {
                 item.map((p, i) => {
                     return <Grid key={i}>
-                        <RadioCheck margin="0 40px 0 30px" />
+                        <CartCheckBox margin="0 40px 0 30px" />
                         <div className='cart-info'>
                             <img src={p.image} alt="" />
                             <div className='info-text'>
@@ -140,6 +141,14 @@ function CartGrid(props) {
                                     btn_children_2="수정"
                                     margin="26px 0 0 0"
                                     _onClick={() => setModal(0)}
+                                    _onClick2={() => {
+                                        const itemData = {
+                                            product_id: cart[i].product_id,
+                                            quantity: count[i],
+                                            is_active: radioCheck,
+                                        }
+                                        dispatch(modifyCartDB(cart[i].cart_item_id, itemData))
+                                    }}
                                     _onClickBg={() => setModal(0)}
                                 /> : null
                                     ||

@@ -7,7 +7,7 @@ import Footer from '../components/Footer';
 
 // components
 import Nav from '../components/Nav'
-import RadioCheck from '../components/RadioCheck';
+import CartCheckBox from '../components/CartCheckBox';
 import Button from '../elements/Button';
 import { getCartDB } from '../redux/modules/cart';
 
@@ -23,7 +23,7 @@ function ShoppingCart() {
     console.log(quantityList)
 
     const [modal, setModal] = useState(0);
-    const [itemId, setItemId] = useState();
+    const [checkList, setCheckList] = useState([])
 
     useEffect(() => {
         dispatch(getCartDB())
@@ -35,7 +35,7 @@ function ShoppingCart() {
             <Main>
                 <h1>장바구니</h1>
                 <div className='cart-nav'>
-                    <RadioCheck margin="0 0 0 30px" width="30%" />
+                    <CartCheckBox margin="0 0 0 30px" width="30%" />
                     <p>상품정보</p>
                     <p>수량</p>
                     <p>상품금액</p>

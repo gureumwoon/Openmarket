@@ -36,7 +36,7 @@ function UserModal(props) {
                     <img src={DeleteIcon} alt="" onClick={_onClick} />
                     <BtnContainer margin={margin}>
                         <Button width="100px" height="40px" margin="0 10px 0 0" bg="#FFFF" color="#767676" border="1px solid #c4c4c4" _onClick={_onClick}>{btn_children_1}</Button>
-                        <Button width="100px" height="40px" onClick={_onClick2}>{btn_children_2}</Button>
+                        <Button width="100px" height="40px" _onClick={_onClick2}>{btn_children_2}</Button>
                     </BtnContainer>
                 </CheckModal>
             </>
