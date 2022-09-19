@@ -25,6 +25,25 @@ function ShoppingCart() {
     const [modal, setModal] = useState(0);
     const [checkList, setCheckList] = useState([])
 
+    const checkAllBox = (checked) => {
+        if (checked) {
+            const allCheck = []
+            cart.forEach((cartItem) => allCheck.push(cartItem.product_id))
+            setCheckList(allCheck)
+            console.log(allCheck)
+        } else {
+            setCheckList([])
+        }
+    }
+
+    const checkSingleBox = (checked, id) => {
+        if (checked) {
+            setCheckList([...checkList, id])
+        } else {
+            setCheckList(checkList.filter((c) => c !== id))
+        }
+    }
+
     useEffect(() => {
         dispatch(getCartDB())
     }, [dispatch])
@@ -35,7 +54,12 @@ function ShoppingCart() {
             <Main>
                 <h1>장바구니</h1>
                 <div className='cart-nav'>
-                    <CartCheckBox margin="0 0 0 30px" width="30%" />
+                    <CartCheckBox
+                        margin="0 0 0 30px"
+                        width="30%"
+                        onChange={(e) => checkAllBox(e.target.checked)}
+                        checked={checkList.length === cart.length ? true : false}
+                    />
                     <p>상품정보</p>
                     <p>수량</p>
                     <p>상품금액</p>
@@ -47,7 +71,13 @@ function ShoppingCart() {
                             <p>원하는 상품을 장바구니에 담아보세요!</p>
                         </div> :
                         <>
-                            <CartGrid _onClickPlus={() => setModal(1)} _onClickMinus={() => setModal(1)} _onClick={() => setModal(2)} />
+                            <CartGrid
+                                _onClickPlus={() => setModal(1)}
+                                _onClickMinus={() => setModal(1)}
+                                _onClick={() => setModal(2)}
+                                checkSingleBox={checkSingleBox}
+                                checkList={checkList}
+                            />
                             <CartGrid cart_sum_grid />
                             <Button width="220px" height="68px" font_size="24px" font_weight="bold" margin="0 0 160px 0">주문하기</Button>
                         </>

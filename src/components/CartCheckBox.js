@@ -2,11 +2,11 @@ import React from 'react'
 import styled from "styled-components";
 
 function CartCheckBox(props) {
-    const { width, margin, name, checked, onClick } = props
+    const { width, margin, name, checked, onClick, onChange } = props
     const styles = { width, margin }
     return (
         <Check {...styles}>
-            <input type="checkbox" name={name} checked={checked} onClick={onClick} />
+            <input type="checkbox" name={name} checked={checked} onClick={onClick} onChange={onChange} />
         </Check>
     )
 }

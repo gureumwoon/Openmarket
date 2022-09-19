@@ -13,7 +13,7 @@ import UserModal from './UserModal';
 import { modifyCartDB } from '../redux/modules/cart';
 
 function CartGrid(props) {
-    const { cart_sum_grid } = props
+    const { cart_sum_grid, checkSingleBox, checkList } = props
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.cartList)
     const product = useSelector((state) => state.product.products)
@@ -94,7 +94,11 @@ function CartGrid(props) {
             {
                 item.map((p, i) => {
                     return <Grid key={i}>
-                        <CartCheckBox margin="0 40px 0 30px" />
+                        <CartCheckBox
+                            margin="0 40px 0 30px"
+                            onChange={(e) => checkSingleBox(e.target.checked, cart[i].product_id)}
+                            checked={checkList.includes(cart[i].product_id) ? true : false}
+                        />
                         <div className='cart-info'>
                             <img src={p.image} alt="" />
                             <div className='info-text'>
@@ -145,7 +149,7 @@ function CartGrid(props) {
                                         const itemData = {
                                             product_id: cart[i].product_id,
                                             quantity: count[i],
-                                            is_active: radioCheck,
+                                            is_active: item[i].product_id === cart[i].product_id,
                                         }
                                         dispatch(modifyCartDB(cart[i].cart_item_id, itemData))
                                     }}
