@@ -16,11 +16,7 @@ function ShoppingCart() {
     const dispatch = useDispatch()
     const isLogin = localStorage.getItem("token")
     const cart = useSelector((state) => state.cart.cartList)
-    const quantityList = cart.map((c, i) => c.quantity)
     const product = useSelector((state) => state.product.products)
-    const cartId = cart.map((c, i) => c.product_id)
-    const item = product.filter((i) => cartId.includes(i.product_id))
-    console.log(quantityList)
 
     const [modal, setModal] = useState(0);
     const [checkList, setCheckList] = useState([])

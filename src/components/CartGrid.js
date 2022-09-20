@@ -15,16 +15,16 @@ import { modifyCartDB } from '../redux/modules/cart';
 function CartGrid(props) {
     const { cart_sum_grid, checkSingleBox, checkList } = props
     const dispatch = useDispatch();
-    const cart = useSelector((state) => state.cart.cartList)
+    const cartList = useSelector((state) => state.cart.cartList)
     const product = useSelector((state) => state.product.products)
-    const cartId = cart.map((c, i) => c.product_id)
+    const cartId = cartList.map((c, i) => c.product_id)
     const item = product.filter((i) => cartId.includes(i.product_id))
-    console.log(item)
-    console.log(cart)
+    console.log("아이템", item)
+    console.log("카트리스트", cartList)
+
 
     const [modal, setModal] = useState(0);
     const [itemId, setItemId] = useState();
-    const [radioCheck, setRadioCheck] = useState(false);
 
     const amount = [];
     const price = [];
@@ -32,7 +32,7 @@ function CartGrid(props) {
 
     const [count, setCount] = useState(amount)
 
-    cart && cart.map((c, i) =>
+    cartList && cartList.map((c, i) =>
         amount.push(c.quantity)
     )
 
@@ -42,7 +42,7 @@ function CartGrid(props) {
 
 
     // 제품의 가격을 cart리스트의 quantity(수량)만큼 곱해서 배열에 넣기
-    for (let i = 0; i < amount.length; i++) {
+    for (let i = 0; i < cartList.length; i++) {
         price2.push(amount[i] * price[i])
     }
 
@@ -96,8 +96,8 @@ function CartGrid(props) {
                     return <Grid key={i}>
                         <CartCheckBox
                             margin="0 40px 0 30px"
-                            onChange={(e) => checkSingleBox(e.target.checked, cart[i].product_id)}
-                            checked={checkList.includes(cart[i].product_id) ? true : false}
+                            onChange={(e) => checkSingleBox(e.target.checked, cartList[i].product_id)}
+                            checked={checkList.includes(cartList[i].product_id) ? true : false}
                         />
                         <div className='cart-info'>
                             <img src={p.image} alt="" />
@@ -119,26 +119,30 @@ function CartGrid(props) {
                             }}
                         >
                             {
-                                cart[i].quantity
+                                cartList[i].quantity
                             }
                         </Button>
                         <div className='cart-price'>
-                            <p>{p.price * (cart[i].quantity)}원</p>
+                            <p>{p.price * (cartList[i].quantity)}원</p>
                             <Button width="130px" height="40px" font_weight="500">주문하기</Button>
                         </div>
                         <img className="icon-delete" src={DeleteIcon} alt="" onClick={() => setModal(2)} />
                         {
-                            itemId === cart[i].product_id ?
+                            itemId === cartList[i].product_id ?
                                 modal === 1 ? <UserModal modal_to_check
                                     children={count[i]}
                                     _onClickMinus={() => {
                                         let countCopy = [...count]
-                                        countCopy[i] -= 1
+                                        if (1 < count[i]) {
+                                            countCopy[i] -= 1
+                                        }
                                         setCount(countCopy)
                                     }}
                                     _onClickPlus={() => {
                                         let countCopy = [...count]
-                                        countCopy[i] += 1
+                                        if (count[i] < item[i].stock) {
+                                            countCopy[i] += 1
+                                        }
                                         setCount(countCopy)
                                     }}
                                     btn_children_1="취소"
@@ -147,11 +151,12 @@ function CartGrid(props) {
                                     _onClick={() => setModal(0)}
                                     _onClick2={() => {
                                         const itemData = {
-                                            product_id: cart[i].product_id,
+                                            product_id: cartList[i].product_id,
                                             quantity: count[i],
-                                            is_active: item[i].product_id === cart[i].product_id,
+                                            is_active: item[i].product_id === cartList[i].product_id,
                                         }
-                                        dispatch(modifyCartDB(cart[i].cart_item_id, itemData))
+                                        dispatch(modifyCartDB(cartList[i].cart_item_id, itemData))
+                                        setModal(0)
                                     }}
                                     _onClickBg={() => setModal(0)}
                                 /> : null

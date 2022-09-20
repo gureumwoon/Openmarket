@@ -16,7 +16,7 @@ const initialState = {
 const addCart = createAction(ADDCART, (cartItem) => ({ cartItem }));
 const getCart = createAction(GETCART, (cartItem) => ({ cartItem }));
 const getCartItem = createAction(GETCARTITEM, (cartItem) => ({ cartItem }));
-const modifyCart = createAction(MODIFYCARTITEM, (cartItemId, quantity) => ({ cartItemId, quantity }))
+const modifyCart = createAction(MODIFYCARTITEM, (cartItem) => ({ cartItem }))
 
 export const addCartDB = (data) => {
     console.log(data)
@@ -62,7 +62,7 @@ export const getItemtCartDB = () => {
         await apis.getItemCart()
             .then((res) => {
                 console.log("장바구니아이템", res.data)
-                dispatch(getCartItem(res.data.results))
+                dispatch(getCartItem(res.data))
             })
             .catch((error) => {
                 console.log("장바구니아이템에러", error)
@@ -71,12 +71,12 @@ export const getItemtCartDB = () => {
 }
 
 // 수량 변경
-export const modifyCartDB = (cartItemId, quantity) => {
-    console.log("수량아이디:", cartItemId, "수량:", quantity)
+export const modifyCartDB = (cartItemId, cartItem) => {
+    console.log("수량아이디:", cartItemId, "수량:", cartItem)
     return async function (dispatch) {
-        await apis.modifyQuantity(cartItemId, quantity)
+        await apis.modifyQuantity(cartItemId, cartItem)
             .then((res) => {
-                console.log("수량변경", res.data)
+                console.log("수량변경", res)
                 dispatch(modifyCart(res.data))
             })
             .catch((error) => {
@@ -94,6 +94,7 @@ export default handleActions(
     {
         [GETCART]: (state, action) =>
             produce(state, (draft) => {
+                console.log("장바구니", state)
                 draft.cartList = action.payload.cartItem
             }),
         [GETCARTITEM]: (state, action) =>
@@ -106,8 +107,8 @@ export default handleActions(
             }),
         [MODIFYCARTITEM]: (state, action) =>
             produce(state, (draft) => {
-                console.log("장바구니수정state", state)
-                draft.cartList = action.payload.cartItemId
+                const idx = state.cartList.findIndex((c) => c.product_id === action.payload.cartItem.product_id)
+                draft.cartList[idx] = action.payload.cartItem
             })
     },
     initialState
