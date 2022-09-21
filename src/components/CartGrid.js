@@ -10,10 +10,10 @@ import MinusIcon from "../assets/images/minus-icon_2.svg";
 import PlusIcon from "../assets/images/plus-icon_2.svg";
 import DeleteIcon from '../assets/images/icon-delete.svg';
 import UserModal from './UserModal';
-import { modifyCartDB } from '../redux/modules/cart';
+import { deleteCartItemDB, modifyCartDB } from '../redux/modules/cart';
 
 function CartGrid(props) {
-    const { cart_sum_grid, checkSingleBox, checkList } = props
+    const { cart_sum_grid, checkList, setCheckList, isCheck, setIsCheck } = props
     const dispatch = useDispatch();
     const cartList = useSelector((state) => state.cart.cartList)
     const product = useSelector((state) => state.product.products)
@@ -50,6 +50,16 @@ function CartGrid(props) {
     const sum = price2.reduce((acc, cur) =>
         acc + cur
     )
+
+    const checkSingleBox = (checked, id) => {
+        if (checked) {
+            setCheckList([...checkList, id])
+            setIsCheck(true)
+        } else {
+            setCheckList(checkList.filter((c) => c !== id))
+            setIsCheck(false)
+        }
+    }
 
 
     useEffect(() => {
@@ -128,8 +138,9 @@ function CartGrid(props) {
                         </div>
                         <img className="icon-delete" src={DeleteIcon} alt="" onClick={() => setModal(2)} />
                         {
-                            itemId === cartList[i].product_id ?
-                                modal === 1 ? <UserModal modal_to_check
+                            itemId === cartList[i].product_id &&
+                                modal === 1 ?
+                                <UserModal modal_to_check
                                     children={count[i]}
                                     _onClickMinus={() => {
                                         let countCopy = [...count]
@@ -153,26 +164,30 @@ function CartGrid(props) {
                                         const itemData = {
                                             product_id: cartList[i].product_id,
                                             quantity: count[i],
-                                            is_active: item[i].product_id === cartList[i].product_id,
+                                            is_active: isCheck,
+                                            // item[i].product_id === cartList[i].product_id
                                         }
-                                        dispatch(modifyCartDB(cartList[i].cart_item_id, itemData))
+                                        const cartItemId = cartList[i].cart_item_id
+                                        dispatch(modifyCartDB(cartItemId, itemData))
+                                        console.log("아이디", cartItemId)
                                         setModal(0)
                                     }}
                                     _onClickBg={() => setModal(0)}
-                                /> : null
-                                    ||
-                                    modal === 2 ?
-                                    <UserModal modal_to_check
-                                        _disabled={true}
-                                        children2="상품을 삭제하시겠습니까?"
-                                        btn_children_1="취소"
-                                        btn_children_2="확인"
-                                        margin="40px 0 0 0"
-                                        _onClick={() => setModal(0)}
-                                        _onClickBg={() => setModal(0)}
-                                    /> : null
-                                :
-                                null
+                                /> :
+                                modal === 2 &&
+                                <UserModal modal_to_check
+                                    _disabled={true}
+                                    children2="상품을 삭제하시겠습니까?"
+                                    btn_children_1="취소"
+                                    btn_children_2="확인"
+                                    margin="40px 0 0 0"
+                                    _onClick={() => setModal(0)}
+                                    _onClick2={() => {
+                                        dispatch(deleteCartItemDB(cartList[i].cart_item_id))
+                                        setModal(0)
+                                    }}
+                                    _onClickBg={() => setModal(0)}
+                                />
                         }
                     </Grid>
                 })

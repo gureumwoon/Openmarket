@@ -7,6 +7,7 @@ const ADDCART = "cart/ADDCART";
 const GETCART = "cart/GETCART";
 const GETCARTITEM = "cart/GETCARTITEM";
 const MODIFYCARTITEM = "cart/MODIFYCARTITEM";
+const DELETEITEM = "cart/DELETEITEM";
 
 const initialState = {
     cartList: [],
@@ -16,7 +17,8 @@ const initialState = {
 const addCart = createAction(ADDCART, (cartItem) => ({ cartItem }));
 const getCart = createAction(GETCART, (cartItem) => ({ cartItem }));
 const getCartItem = createAction(GETCARTITEM, (cartItem) => ({ cartItem }));
-const modifyCart = createAction(MODIFYCARTITEM, (cartItem) => ({ cartItem }))
+const modifyCart = createAction(MODIFYCARTITEM, (cartItem) => ({ cartItem }));
+const deleteItem = createAction(DELETEITEM, (cartItemId) => ({ cartItemId }));
 
 export const addCartDB = (data) => {
     console.log(data)
@@ -85,6 +87,20 @@ export const modifyCartDB = (cartItemId, cartItem) => {
     }
 }
 
+// 장바구니 아이템 개별 삭제
+export const deleteCartItemDB = (cartItemId) => {
+    return async function (dispatch) {
+        await apis.deleteItem(cartItemId)
+            .then((res) => {
+                console.log("개별삭제", res)
+                dispatch(deleteItem(cartItemId))
+            })
+            .catch((error) => {
+                console.log("개별삭제 에러", error)
+            })
+    }
+}
+
 
 
 
@@ -108,7 +124,14 @@ export default handleActions(
         [MODIFYCARTITEM]: (state, action) =>
             produce(state, (draft) => {
                 const idx = state.cartList.findIndex((c) => c.product_id === action.payload.cartItem.product_id)
-                draft.cartList[idx] = action.payload.cartItem
+                draft.cartList[idx].quantity = action.payload.cartItem.quantity
+                draft.cartList[idx].is_active = action.payload.cartItem.is_active
+            }),
+        [DELETEITEM]: (state, action) =>
+            produce(state, (draft) => {
+                draft.cartList = draft.cartList.filter((item) =>
+                    item.cartItemId !== action.payload.cartItemId
+                )
             })
     },
     initialState

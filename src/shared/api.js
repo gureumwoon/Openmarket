@@ -32,5 +32,6 @@ export const apis = {
     getCart: () => api.get("cart/"),
     getItemCart: (id) => api.get(`cart/${id}`),
     modifyQuantity: (id, data) => api.put(`cart/${id}/`, data),
+    deleteItem: (id) => api.delete(`cart/${id}/`),
 }
 

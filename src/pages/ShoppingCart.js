@@ -20,6 +20,7 @@ function ShoppingCart() {
 
     const [modal, setModal] = useState(0);
     const [checkList, setCheckList] = useState([])
+    const [isCheck, setIsCheck] = useState(false)
 
     const checkAllBox = (checked) => {
         if (checked) {
@@ -27,16 +28,10 @@ function ShoppingCart() {
             cart.forEach((cartItem) => allCheck.push(cartItem.product_id))
             setCheckList(allCheck)
             console.log(allCheck)
+            setIsCheck(true)
         } else {
             setCheckList([])
-        }
-    }
-
-    const checkSingleBox = (checked, id) => {
-        if (checked) {
-            setCheckList([...checkList, id])
-        } else {
-            setCheckList(checkList.filter((c) => c !== id))
+            setIsCheck(false)
         }
     }
 
@@ -71,8 +66,10 @@ function ShoppingCart() {
                                 _onClickPlus={() => setModal(1)}
                                 _onClickMinus={() => setModal(1)}
                                 _onClick={() => setModal(2)}
-                                checkSingleBox={checkSingleBox}
                                 checkList={checkList}
+                                setCheckList={setCheckList}
+                                setIsCheck={setIsCheck}
+                                isCheck={isCheck}
                             />
                             <CartGrid cart_sum_grid />
                             <Button width="220px" height="68px" font_size="24px" font_weight="bold" margin="0 0 160px 0">주문하기</Button>
