@@ -13,7 +13,7 @@ import UserModal from './UserModal';
 import { deleteCartItemDB, modifyCartDB } from '../redux/modules/cart';
 
 function CartGrid(props) {
-    const { cart_sum_grid, checkList, setCheckList, isCheck, setIsCheck } = props
+    const { cart_sum_grid, checkList, setCheckList, isCheck, setIsCheck } = props;
     const dispatch = useDispatch();
     const cartList = useSelector((state) => state.cart.cartList)
     const product = useSelector((state) => state.product.products)
@@ -24,32 +24,41 @@ function CartGrid(props) {
 
 
     const [modal, setModal] = useState(0);
+    console.log(checkList)
     const [itemId, setItemId] = useState();
-
     const amount = [];
     const price = [];
     const price2 = [];
+    const checkedQuantity = cartList.filter((c, i) => checkList[i] !== c.product_id[i])
+    console.log(checkedQuantity)
+    const checkedPrice = item.filter((c, i) => checkList[i] !== c.product_id[i])
 
     const [count, setCount] = useState(amount)
 
-    cartList && cartList.map((c, i) =>
-        amount.push(c.quantity)
+    checkedQuantity && checkedQuantity.map((c, i) =>
+        amount.push(checkedQuantity.length === 0 ? 0 : checkedQuantity[i].quantity)
     )
+    console.log(amount)
 
-    item && item.map((p, i) =>
-        price.push(p.price)
+
+    checkedPrice && checkedPrice.map((p, i) =>
+        price.push(checkedPrice.length === 0 ? 0 : checkedPrice[i].price)
     )
+    console.log(price)
 
 
     // 제품의 가격을 cart리스트의 quantity(수량)만큼 곱해서 배열에 넣기
-    for (let i = 0; i < cartList.length; i++) {
+    for (let i = 0; i < checkedQuantity.length; i++) {
         price2.push(amount[i] * price[i])
     }
+    console.log(price2)
 
     // 장바구니에 들어있는 제품들 가격의 합계 구하기.
-    const sum = price2.reduce((acc, cur) =>
+
+    const sum = price2.length !== 0 ? price2.reduce((acc, cur) =>
         acc + cur
-    )
+    ) : 0
+    console.log(sum)
 
     const checkSingleBox = (checked, id) => {
         if (checked) {
@@ -61,10 +70,10 @@ function CartGrid(props) {
         }
     }
 
-
     useEffect(() => {
         dispatch(getProductDB())
     }, [dispatch])
+
 
 
     if (cart_sum_grid) {
@@ -102,7 +111,7 @@ function CartGrid(props) {
     return (
         <>
             {
-                item.map((p, i) => {
+                item && item.map((p, i) => {
                     return <Grid key={i}>
                         <CartCheckBox
                             margin="0 40px 0 30px"
