@@ -13,14 +13,28 @@ import { getCartDB } from '../redux/modules/cart';
 
 
 function ShoppingCart() {
+    const [checkList, setCheckList] = useState([])
+
     const dispatch = useDispatch()
     const isLogin = localStorage.getItem("token")
     const cart = useSelector((state) => state.cart.cartList)
+    const quantityList = cart.map((q) => q.quantity)
+    const cartId = cart.map((c) => c.product_id)
     const product = useSelector((state) => state.product.products)
+    const cartItemId = cart.map((c, i) => cart[i].product_id)
+    console.log(cartItemId)
+    const checkedQuantity = cart.filter((c, i) => checkList[i] !== c.product_id[i])
+    console.log(checkedQuantity)
+    const item = product.filter((i) => cartId.includes(i.product_id))
+    const checkedPrice = item.filter((c, i) => checkList[i] !== c.product_id[i])
+
 
     const [modal, setModal] = useState(0);
-    const [checkList, setCheckList] = useState([])
     const [isCheck, setIsCheck] = useState(false)
+
+    const amount = [];
+    const price = [];
+    const price2 = [];
 
     const checkAllBox = (checked) => {
         if (checked) {
@@ -34,6 +48,40 @@ function ShoppingCart() {
             setIsCheck(false)
         }
     }
+
+    const checkSingleBox = (checked, id) => {
+        if (checked) {
+            setCheckList([...checkList, id])
+            setIsCheck(true)
+        } else {
+            setCheckList(checkList.filter((c) => c !== id))
+            setIsCheck(false)
+        }
+    }
+
+    checkedQuantity && checkedQuantity.map((c, i) =>
+        amount.push(checkedQuantity.length === 0 ? 0 : checkedQuantity[i].quantity)
+    )
+    console.log(amount)
+
+
+    checkedPrice && checkedPrice.map((p, i) =>
+        price.push(checkedPrice.length === 0 ? 0 : checkedPrice[i].price)
+    )
+    console.log(price)
+
+    // 제품의 가격을 cart리스트의 quantity(수량)만큼 곱해서 배열에 넣기
+    for (let i = 0; i < checkedQuantity.length; i++) {
+        price2.push(amount[i] * price[i])
+    }
+    console.log(price2)
+
+    // 장바구니에 들어있는 제품들 가격의 합계 구하기.
+
+    const sum = price2.length !== 0 ? price2.reduce((acc, cur) =>
+        acc + cur
+    ) : 0
+    console.log(sum)
 
     useEffect(() => {
         dispatch(getCartDB())
@@ -62,16 +110,25 @@ function ShoppingCart() {
                             <p>원하는 상품을 장바구니에 담아보세요!</p>
                         </div> :
                         <>
-                            <CartGrid
-                                _onClickPlus={() => setModal(1)}
-                                _onClickMinus={() => setModal(1)}
-                                _onClick={() => setModal(2)}
-                                checkList={checkList}
-                                setCheckList={setCheckList}
-                                setIsCheck={setIsCheck}
-                                isCheck={isCheck}
+                            {
+                                item.map((c, i) => {
+                                    return <CartGrid
+                                        key={i}
+                                        {...c}
+                                        cart={cart[i]}
+                                        quantityList={quantityList[i]}
+                                        amount={amount[i]}
+                                        _onClickPlus={() => setModal(1)}
+                                        _onClickMinus={() => setModal(1)}
+                                        _onClick={() => setModal(2)}
+                                        onChange={(e) => checkSingleBox(e.target.checked, cartItemId)}
+                                        checked={checkList.includes(cartItemId) ? true : false}
+                                    />
+                                })
+                            }
+                            <CartGrid cart_sum_grid
+                                sum={sum}
                             />
-                            <CartGrid cart_sum_grid />
                             <Button width="220px" height="68px" font_size="24px" font_weight="bold" margin="0 0 160px 0">주문하기</Button>
                         </>
                 }

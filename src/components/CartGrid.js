@@ -13,7 +13,8 @@ import UserModal from './UserModal';
 import { deleteCartItemDB, modifyCartDB } from '../redux/modules/cart';
 
 function CartGrid(props) {
-    const { cart_sum_grid, checkList, setCheckList, isCheck, setIsCheck } = props;
+    console.log(props.count)
+    const { cart_sum_grid, sum, onChange, checked, checkList, setCheckList, isCheck, setIsCheck } = props;
     const dispatch = useDispatch();
     const cartList = useSelector((state) => state.cart.cartList)
     const product = useSelector((state) => state.product.products)
@@ -26,49 +27,7 @@ function CartGrid(props) {
     const [modal, setModal] = useState(0);
     console.log(checkList)
     const [itemId, setItemId] = useState();
-    const amount = [];
-    const price = [];
-    const price2 = [];
-    const checkedQuantity = cartList.filter((c, i) => checkList[i] !== c.product_id[i])
-    console.log(checkedQuantity)
-    const checkedPrice = item.filter((c, i) => checkList[i] !== c.product_id[i])
-
-    const [count, setCount] = useState(amount)
-
-    checkedQuantity && checkedQuantity.map((c, i) =>
-        amount.push(checkedQuantity.length === 0 ? 0 : checkedQuantity[i].quantity)
-    )
-    console.log(amount)
-
-
-    checkedPrice && checkedPrice.map((p, i) =>
-        price.push(checkedPrice.length === 0 ? 0 : checkedPrice[i].price)
-    )
-    console.log(price)
-
-
-    // 제품의 가격을 cart리스트의 quantity(수량)만큼 곱해서 배열에 넣기
-    for (let i = 0; i < checkedQuantity.length; i++) {
-        price2.push(amount[i] * price[i])
-    }
-    console.log(price2)
-
-    // 장바구니에 들어있는 제품들 가격의 합계 구하기.
-
-    const sum = price2.length !== 0 ? price2.reduce((acc, cur) =>
-        acc + cur
-    ) : 0
-    console.log(sum)
-
-    const checkSingleBox = (checked, id) => {
-        if (checked) {
-            setCheckList([...checkList, id])
-            setIsCheck(true)
-        } else {
-            setCheckList(checkList.filter((c) => c !== id))
-            setIsCheck(false)
-        }
-    }
+    const [count, setCount] = useState(cartList.map((c) => c.quantity))
 
     useEffect(() => {
         dispatch(getProductDB())
@@ -111,95 +70,96 @@ function CartGrid(props) {
     return (
         <>
             {
-                item && item.map((p, i) => {
-                    return <Grid key={i}>
-                        <CartCheckBox
-                            margin="0 40px 0 30px"
-                            onChange={(e) => checkSingleBox(e.target.checked, cartList[i].product_id)}
-                            checked={checkList.includes(cartList[i].product_id) ? true : false}
-                        />
-                        <div className='cart-info'>
-                            <img src={p.image} alt="" />
-                            <div className='info-text'>
-                                <p>{p.seller_store}</p>
-                                <p>{p.product_name}</p>
-                                <p>{p.price}</p>
-                                <p>택배배송/ 무료배송</p>
-                            </div>
+                // item && item.map((p, i) => {
+                <Grid >
+                    <CartCheckBox
+                        margin="0 40px 0 30px"
+                        onChange={onChange}
+                        checked={checked}
+                    />
+                    <div className='cart-info'>
+                        <img src={props.image} alt="" />
+                        <div className='info-text'>
+                            <p>{props.seller_store}</p>
+                            <p>{props.product_name}</p>
+                            <p>{props.price}</p>
+                            <p>택배배송/ 무료배송</p>
                         </div>
-                        <Button quantity_button margin="0 148px 0 0"
-                            _onClickMinus={() => {
-                                setModal(1)
-                                setItemId(p.product_id)
-                            }}
-                            _onClickPlus={() => {
-                                setModal(1)
-                                setItemId(p.product_id)
-                            }}
-                        >
-                            {
-                                cartList[i].quantity
-                            }
-                        </Button>
-                        <div className='cart-price'>
-                            <p>{p.price * (cartList[i].quantity)}원</p>
-                            <Button width="130px" height="40px" font_weight="500">주문하기</Button>
-                        </div>
-                        <img className="icon-delete" src={DeleteIcon} alt="" onClick={() => setModal(2)} />
+                    </div>
+                    <Button quantity_button margin="0 148px 0 0"
+                        _onClickMinus={() => {
+                            setModal(1)
+                            setItemId(props.product_id)
+                        }}
+                        _onClickPlus={() => {
+                            setModal(1)
+                            setItemId(props.product_id)
+                        }}
+                    >
                         {
-                            itemId === cartList[i].product_id &&
-                                modal === 1 ?
-                                <UserModal modal_to_check
-                                    children={count[i]}
-                                    _onClickMinus={() => {
-                                        let countCopy = [...count]
-                                        if (1 < count[i]) {
-                                            countCopy[i] -= 1
-                                        }
-                                        setCount(countCopy)
-                                    }}
-                                    _onClickPlus={() => {
-                                        let countCopy = [...count]
-                                        if (count[i] < item[i].stock) {
-                                            countCopy[i] += 1
-                                        }
-                                        setCount(countCopy)
-                                    }}
-                                    btn_children_1="취소"
-                                    btn_children_2="수정"
-                                    margin="26px 0 0 0"
-                                    _onClick={() => setModal(0)}
-                                    _onClick2={() => {
-                                        const itemData = {
-                                            product_id: cartList[i].product_id,
-                                            quantity: count[i],
-                                            is_active: isCheck,
-                                            // item[i].product_id === cartList[i].product_id
-                                        }
-                                        const cartItemId = cartList[i].cart_item_id
-                                        dispatch(modifyCartDB(cartItemId, itemData))
-                                        console.log("아이디", cartItemId)
-                                        setModal(0)
-                                    }}
-                                    _onClickBg={() => setModal(0)}
-                                /> :
-                                modal === 2 &&
-                                <UserModal modal_to_check
-                                    _disabled={true}
-                                    children2="상품을 삭제하시겠습니까?"
-                                    btn_children_1="취소"
-                                    btn_children_2="확인"
-                                    margin="40px 0 0 0"
-                                    _onClick={() => setModal(0)}
-                                    _onClick2={() => {
-                                        dispatch(deleteCartItemDB(cartList[i].cart_item_id))
-                                        setModal(0)
-                                    }}
-                                    _onClickBg={() => setModal(0)}
-                                />
+                            props.quantityList
                         }
-                    </Grid>
-                })
+                    </Button>
+                    <div className='cart-price'>
+                        <p>{props.price * (props.quantityList)}원</p>
+                        <Button width="130px" height="40px" font_weight="500">주문하기</Button>
+                    </div>
+                    <img className="icon-delete" src={DeleteIcon} alt="" onClick={() => setModal(2)} />
+                    {
+                        itemId === props.product_id &&
+                            modal === 1 ?
+                            <UserModal modal_to_check
+                                children={props.quantityList}
+                                _onClickMinus={() => {
+                                    let countCopy = [...count]
+                                    console.log(countCopy)
+                                    if (1 < props.quantityList) {
+                                        countCopy -= 1
+                                    }
+                                    setCount(countCopy)
+                                }}
+                                _onClickPlus={() => {
+                                    let countCopy = [...count]
+                                    if (props.quantityList < props.stock) {
+                                        countCopy += 1
+                                    }
+                                    props.setCount(countCopy)
+                                }}
+                                btn_children_1="취소"
+                                btn_children_2="수정"
+                                margin="26px 0 0 0"
+                                _onClick={() => setModal(0)}
+                                _onClick2={() => {
+                                    const itemData = {
+                                        product_id: props.product_id,
+                                        quantity: props.quantityList,
+                                        is_active: isCheck,
+                                        // item[i].product_id === cartList[i].product_id
+                                    }
+                                    const cartItemId = props.cart.cart_item_id
+                                    dispatch(modifyCartDB(cartItemId, itemData))
+                                    console.log("아이디", cartItemId)
+                                    setModal(0)
+                                }}
+                                _onClickBg={() => setModal(0)}
+                            /> :
+                            modal === 2 &&
+                            <UserModal modal_to_check
+                                _disabled={true}
+                                children2="상품을 삭제하시겠습니까?"
+                                btn_children_1="취소"
+                                btn_children_2="확인"
+                                margin="40px 0 0 0"
+                                _onClick={() => setModal(0)}
+                                _onClick2={() => {
+                                    dispatch(deleteCartItemDB(props.cart.cart_item_id))
+                                    setModal(0)
+                                }}
+                                _onClickBg={() => setModal(0)}
+                            />
+                    }
+                </Grid>
+                // })
             }
         </>
     )
