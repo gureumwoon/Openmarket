@@ -13,26 +13,23 @@ import UserModal from './UserModal';
 import { deleteCartItemDB, modifyCartDB } from '../redux/modules/cart';
 
 function CartGrid(props) {
-    console.log(props.count)
     const { cart_sum_grid, sum, onChange, checked, checkList, setCheckList, isCheck, setIsCheck } = props;
     const dispatch = useDispatch();
     const cartList = useSelector((state) => state.cart.cartList)
     const product = useSelector((state) => state.product.products)
     const cartId = cartList.map((c, i) => c.product_id)
     const item = product.filter((i) => cartId.includes(i.product_id))
-    console.log("아이템", item)
-    console.log("카트리스트", cartList)
 
 
     const [modal, setModal] = useState(0);
-    console.log(checkList)
+    console.log(checkList);
     const [itemId, setItemId] = useState();
-    const [count, setCount] = useState(cartList.map((c) => c.quantity))
+    const [count, setCount] = useState(props.quantityList)
+    console.log(count)
 
     useEffect(() => {
         dispatch(getProductDB())
     }, [dispatch])
-
 
 
     if (cart_sum_grid) {
@@ -109,21 +106,21 @@ function CartGrid(props) {
                         itemId === props.product_id &&
                             modal === 1 ?
                             <UserModal modal_to_check
-                                children={props.quantityList}
+                                children={count}
                                 _onClickMinus={() => {
-                                    let countCopy = [...count]
-                                    console.log(countCopy)
-                                    if (1 < props.quantityList) {
-                                        countCopy -= 1
+                                    // let countCopy = [...count]
+                                    console.log()
+                                    if (1 < count) {
+                                        setCount(count - 1)
                                     }
-                                    setCount(countCopy)
+                                    // setCount(countCopy)
                                 }}
                                 _onClickPlus={() => {
-                                    let countCopy = [...count]
-                                    if (props.quantityList < props.stock) {
-                                        countCopy += 1
+                                    // let countCopy = [...count]
+                                    if (count < props.stock) {
+                                        setCount(count + 1)
                                     }
-                                    props.setCount(countCopy)
+                                    // setCount(countCopy)
                                 }}
                                 btn_children_1="취소"
                                 btn_children_2="수정"
@@ -132,7 +129,7 @@ function CartGrid(props) {
                                 _onClick2={() => {
                                     const itemData = {
                                         product_id: props.product_id,
-                                        quantity: props.quantityList,
+                                        quantity: count,
                                         is_active: isCheck,
                                         // item[i].product_id === cartList[i].product_id
                                     }

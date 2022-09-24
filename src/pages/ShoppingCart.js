@@ -97,7 +97,7 @@ function ShoppingCart() {
                         margin="0 0 0 30px"
                         width="30%"
                         onChange={(e) => checkAllBox(e.target.checked)}
-                        checked={checkList.length === cart.length ? true : false}
+                        checked={checkList.length === cart.length && 0 < checkList.length && 0 < cart.length ? true : false}
                     />
                     <p>상품정보</p>
                     <p>수량</p>
@@ -120,9 +120,10 @@ function ShoppingCart() {
                                         amount={amount[i]}
                                         _onClickPlus={() => setModal(1)}
                                         _onClickMinus={() => setModal(1)}
+                                        isCheck={isCheck}
                                         _onClick={() => setModal(2)}
-                                        onChange={(e) => checkSingleBox(e.target.checked, cartItemId)}
-                                        checked={checkList.includes(cartItemId) ? true : false}
+                                        onChange={(e) => checkSingleBox(e.target.checked, cartId[i])}
+                                        checked={checkList.includes(cartId[i]) ? true : false}
                                     />
                                 })
                             }
@@ -140,6 +141,7 @@ function ShoppingCart() {
 
 const Main = styled.div`
     width: 100%;
+    min-height: 573px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -184,7 +186,7 @@ const Main = styled.div`
         justify-content: center;
         p {
             &:first-child {
-                margin: 200px 0 17px;
+                margin: 100px 0 17px;
                 font-size: 18px;
                 font-weight: bold;
             }
