@@ -88,7 +88,7 @@ export const modifyCartDB = (cartItemId, cartItem) => {
 }
 
 // 장바구니 아이템 개별 삭제
-export const deleteCartItemDB = (cartItemId, cartList) => {
+export const deleteCartItemDB = (cartItemId) => {
     return async function (dispatch) {
         await apis.deleteItem(cartItemId)
             .then((res) => {
@@ -129,6 +129,8 @@ export default handleActions(
             }),
         [DELETEITEM]: (state, action) =>
             produce(state, (draft) => {
+                const idx = state.cartList.findIndex((c) => c.cart_item_id === action.payload.cartItemId)
+                console.log("삭제리듀서", draft.cartList[idx].cart_item_id, action.payload.cartItemId)
                 draft.cartList = draft.cartList.filter((item) =>
                     item.cart_item_id !== action.payload.cartItemId
                 )

@@ -22,7 +22,6 @@ function CartGrid(props) {
 
 
     const [modal, setModal] = useState(0);
-    console.log(checkList);
     const [itemId, setItemId] = useState();
     const [count, setCount] = useState(props.quantityList)
     console.log(count)

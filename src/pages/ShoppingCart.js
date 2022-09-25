@@ -111,7 +111,7 @@ function ShoppingCart() {
                         </div> :
                         <>
                             {
-                                item.map((c, i) => {
+                                item && item.map((c, i) => {
                                     return <CartGrid
                                         key={i}
                                         {...c}
