@@ -29,6 +29,7 @@ function ProductDetail() {
 
     const [quantity, setQuantity] = useState(1)
     const [modal, setModal] = useState(0);
+    const [itemDupCheck, setItemDupCheck] = useState()
 
     useEffect(() => {
         dispatch(getCartDB())
@@ -51,12 +52,14 @@ function ProductDetail() {
     }
 
     const handleAddCart = () => {
+        setItemDupCheck(cartList.map((c) => c.product_id).includes(product.product_id))
+        console.log(itemDupCheck)
         const itemData = {
             product_id: product.product_id,
             quantity: quantity,
-            check: true
+            check: itemDupCheck
         }
-        if (cartList.some((c) => c.product_id === product.product_id)) {
+        if (itemDupCheck === true) {
             setModal(1)
         } else {
             dispatch(addCartDB(itemData));
@@ -65,10 +68,11 @@ function ProductDetail() {
     }
 
     const modalAddCart = () => {
+        setItemDupCheck(cartList.map((c) => c.product_id).includes(product.product_id))
         const itemData = {
             product_id: product.product_id,
             quantity: quantity,
-            check: true
+            check: itemDupCheck
         }
         dispatch(addCartDB(itemData));
         navigate("/cart");
