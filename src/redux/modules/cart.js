@@ -29,9 +29,13 @@ export const addCartDB = (data) => {
             .then((res) => {
                 console.log("장바구니데이터", res)
                 dispatch(addCart(res.data))
+                window.location.assign("/cart")
             })
             .catch((error) => {
-                console.log("장바구니에러", error)
+                console.log("장바구니에러", error.response)
+                if (error.response.status === 406) {
+                    window.alert(error.response.data.FAIL_message)
+                }
             })
     }
 }

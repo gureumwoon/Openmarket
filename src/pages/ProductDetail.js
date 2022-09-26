@@ -63,7 +63,7 @@ function ProductDetail() {
             setModal(1)
         } else {
             dispatch(addCartDB(itemData));
-            navigate("/cart");
+            // navigate("/cart");
         }
     }
 
@@ -75,7 +75,7 @@ function ProductDetail() {
             check: itemDupCheck
         }
         dispatch(addCartDB(itemData));
-        navigate("/cart");
+        // navigate("/cart");
     }
 
     return (
