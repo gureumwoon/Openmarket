@@ -59,9 +59,13 @@ function ProductDetail() {
             quantity: quantity,
             check: itemDupCheck
         }
-        if (itemDupCheck === true) {
+        // if (cartList.some((c) => c.quantity >= product.stock)) {
+        //     window.alert("수량이 넘침")
+        // }
+        if (cartList.some((c) => c.quantity >= product.stock) === false && itemDupCheck === true) {
             setModal(1)
-        } else {
+        }
+        else {
             dispatch(addCartDB(itemData));
             // navigate("/cart");
         }
