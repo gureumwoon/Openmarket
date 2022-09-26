@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getOneProductDB } from '../redux/modules/product';
-import { addCartDB } from '../redux/modules/cart';
+import { addCartDB, getCartDB } from '../redux/modules/cart';
 
 //elements
 import Button from '../elements/Button';
@@ -21,12 +21,18 @@ function ProductDetail() {
     const navigate = useNavigate()
     const product = useSelector((state) => state.product.productOne)
     const product_stock = product.stock
+    const cartList = useSelector((state) => state.cart.cartList)
+    console.log(cartList)
     console.log(product)
     const isLogin = localStorage.getItem("token")
     const userId = localStorage.getItem("id")
 
     const [quantity, setQuantity] = useState(1)
     const [modal, setModal] = useState(0);
+
+    useEffect(() => {
+        dispatch(getCartDB())
+    }, [dispatch])
 
     useEffect(() => {
         dispatch(getOneProductDB(id))
@@ -44,16 +50,21 @@ function ProductDetail() {
         }
     }
 
-    // const handleCart = () => {
-
-    //     // const itemData = {
-
-    //     // }
-    //     // dispatch(addCartDB());
-    //     // navigate(`/cart/${userId}`);
-    // }
-
     const handleAddCart = () => {
+        const itemData = {
+            product_id: product.product_id,
+            quantity: quantity,
+            check: true
+        }
+        if (cartList.some((c) => c.product_id === product.product_id)) {
+            setModal(1)
+        } else {
+            dispatch(addCartDB(itemData));
+            navigate("/cart");
+        }
+    }
+
+    const modalAddCart = () => {
         const itemData = {
             product_id: product.product_id,
             quantity: quantity,
@@ -119,7 +130,7 @@ function ProductDetail() {
                         btn_children_2="예"
                         margin="40px 0 0 0"
                         _onClick={() => setModal(0)}
-                        // _onClick2={handleAddCart}
+                        _onClick2={modalAddCart}
                         _onClickBg={() => setModal(0)}
                     /> : null
             }
