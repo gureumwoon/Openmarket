@@ -8,6 +8,7 @@ const GETCART = "cart/GETCART";
 const GETCARTITEM = "cart/GETCARTITEM";
 const MODIFYCARTITEM = "cart/MODIFYCARTITEM";
 const DELETEITEM = "cart/DELETEITEM";
+const DELETEALLITEM = "cart/DELETEALLITEM";
 
 const initialState = {
     cartList: [],
@@ -19,6 +20,7 @@ const getCart = createAction(GETCART, (cartItem) => ({ cartItem }));
 const getCartItem = createAction(GETCARTITEM, (cartItem) => ({ cartItem }));
 const modifyCart = createAction(MODIFYCARTITEM, (cartItem) => ({ cartItem }));
 const deleteItem = createAction(DELETEITEM, (cartItemId) => ({ cartItemId }));
+const deleteAllItem = createAction(DELETEALLITEM, (cartItem) => ({ cartItem }));
 
 export const addCartDB = (data) => {
     console.log(data)
@@ -33,18 +35,6 @@ export const addCartDB = (data) => {
             })
     }
 }
-
-// export const getItemCartDB = () => {
-//     return async function (dispatch) {
-//         await apis.getItemCart()
-//             .then((res) => {
-//                 console.log("아이템", res)
-//             })
-//             .catch((error) => {
-//                 console.log("아이템에러", error)
-//             })
-//     }
-// }
 
 export const getCartDB = () => {
     return async function (dispatch) {
@@ -101,6 +91,20 @@ export const deleteCartItemDB = (cartItemId) => {
     }
 }
 
+//장바구니 아이템 전체 삭제
+export const deleteAllItemDB = () => {
+    return async function (dispatch) {
+        await apis.deleteAllItem()
+            .then((res) => {
+                console.log("전체삭제", res)
+                dispatch(deleteAllItem())
+            })
+            .catch((error) => {
+                console.log("전체삭제에러", error)
+            })
+    }
+}
+
 
 
 
@@ -134,6 +138,10 @@ export default handleActions(
                 draft.cartList = draft.cartList.filter((item) =>
                     item.cart_item_id !== action.payload.cartItemId
                 )
+            }),
+        [DELETEALLITEM]: (state, action) =>
+            produce(state, (draft) => {
+                draft.cartList = action.payload.cartList
             })
     },
     initialState

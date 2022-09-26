@@ -9,7 +9,8 @@ import Footer from '../components/Footer';
 import Nav from '../components/Nav'
 import CartCheckBox from '../components/CartCheckBox';
 import Button from '../elements/Button';
-import { getCartDB } from '../redux/modules/cart';
+import { deleteAllItemDB, getCartDB } from '../redux/modules/cart';
+import DeleteIcon from '../assets/images/icon-delete.svg';
 
 
 function ShoppingCart() {
@@ -83,6 +84,10 @@ function ShoppingCart() {
     ) : 0
     console.log(sum)
 
+    const handleDeleteAll = () => {
+        dispatch(deleteAllItemDB())
+    }
+
     useEffect(() => {
         dispatch(getCartDB())
     }, [dispatch])
@@ -102,6 +107,7 @@ function ShoppingCart() {
                     <p>상품정보</p>
                     <p>수량</p>
                     <p>상품금액</p>
+                    <img className="icon-delete" src={DeleteIcon} alt="" onClick={handleDeleteAll} />
                 </div>
                 {
                     cart && cart.length === 0 ?
@@ -151,6 +157,7 @@ const Main = styled.div`
         margin: 54px 0 52px;
     }
     .cart-nav {
+        position:relative;
         width: 1280px;
         height: 60px;
         background-color: #F2F2F2;
@@ -177,6 +184,11 @@ const Main = styled.div`
                 width: 25%;
                 text-align: end;
             }
+        }
+        img {
+            position: absolute;
+            right: 18px;
+            cursor: pointer;
         }
     }
     .empty-cart {
