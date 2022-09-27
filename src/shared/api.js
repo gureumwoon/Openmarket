@@ -27,12 +27,14 @@ export const apis = {
     // product
     getProduct: () => api.get("products/"),
     getOneProduct: (id) => api.get(`products/${id}`),
-    //cart
+    // cart
     addCart: (data) => api.post("cart/", data),
     getCart: () => api.get("cart/"),
     getItemCart: (id) => api.get(`cart/${id}`),
     modifyQuantity: (id, data) => api.put(`cart/${id}/`, data),
     deleteItem: (id) => api.delete(`cart/${id}/`),
-    deleteAllItem: () => api.delete("cart/")
+    deleteAllItem: () => api.delete("cart/"),
+    // order
+    directOrder: (data) => api.post("order/", data),
 }
 

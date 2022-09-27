@@ -15,6 +15,7 @@ import DeleteIcon from '../assets/images/icon-delete.svg';
 
 function ShoppingCart() {
     const [checkList, setCheckList] = useState([])
+    console.log(checkList)
 
     const dispatch = useDispatch()
     const isLogin = localStorage.getItem("token")
@@ -22,13 +23,13 @@ function ShoppingCart() {
     console.log(cart)
     const quantityList = cart?.map((q) => q.quantity)
     const cartId = cart?.map((c) => c.product_id)
+    console.log(cartId)
     const product = useSelector((state) => state.product.products)
-    const cartItemId = cart?.map((c, i) => cart[i].product_id)
-    console.log(cartItemId)
-    const checkedQuantity = cart.filter((c, i) => checkList[i] !== c.product_id[i])
+    const checkedQuantity = cart.filter((c, i) => checkList.includes(c.product_id))
     console.log(checkedQuantity)
     const item = product.filter((i) => cartId.includes(i.product_id))
-    const checkedPrice = item.filter((c, i) => checkList[i] !== c.product_id[i])
+    const checkedPrice = item.filter((c, i) => checkList.includes(c.product_id))
+    console.log(checkedPrice)
 
 
     const [modal, setModal] = useState(0);
@@ -37,6 +38,7 @@ function ShoppingCart() {
     const amount = [];
     const price = [];
     const price2 = [];
+    const shippingFee = [];
 
     const checkAllBox = (checked) => {
         if (checked) {
@@ -84,6 +86,13 @@ function ShoppingCart() {
         acc + cur
     ) : 0
     console.log(sum)
+
+    // 배송 합계 구하기
+    checkedPrice.map((p) =>
+        shippingFee.push(p.length === 0 ? 0 : p.shipping_fee)
+    )
+
+    const shippingFeeSum = shippingFee.length !== 0 ? shippingFee.reduce((acc, cur) => acc + cur) : 0
 
     const handleDeleteAll = () => {
         dispatch(deleteAllItemDB())
@@ -135,7 +144,8 @@ function ShoppingCart() {
                                 })
                             }
                             <CartGrid cart_sum_grid
-                                sum={sum}
+                                sum={sum + shippingFeeSum}
+                                shippingFee={shippingFeeSum}
                             />
                             <Button width="220px" height="68px" font_size="24px" font_weight="bold" margin="0 0 160px 0">주문하기</Button>
                         </>

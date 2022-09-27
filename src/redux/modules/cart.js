@@ -109,11 +109,6 @@ export const deleteAllItemDB = () => {
     }
 }
 
-
-
-
-
-
 export default handleActions(
     {
         [GETCART]: (state, action) =>

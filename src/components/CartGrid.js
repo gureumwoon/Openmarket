@@ -13,7 +13,7 @@ import UserModal from './UserModal';
 import { deleteCartItemDB, modifyCartDB } from '../redux/modules/cart';
 
 function CartGrid(props) {
-    const { cart_sum_grid, sum, onChange, checked, checkList, setCheckList, isCheck, setIsCheck } = props;
+    const { cart_sum_grid, sum, shippingFee, onChange, checked, checkList, setCheckList, isCheck, setIsCheck } = props;
     const dispatch = useDispatch();
     const cartList = useSelector((state) => state.cart.cartList)
     const product = useSelector((state) => state.product.products)
@@ -49,7 +49,7 @@ function CartGrid(props) {
                     <img src={PlusIcon} alt="" />
                     <div>
                         <p>배송비</p>
-                        <span>0</span>
+                        <span>{shippingFee}</span>
                         <span>원</span>
                     </div>
                 </div>
@@ -79,7 +79,7 @@ function CartGrid(props) {
                             <p>{props.seller_store}</p>
                             <p>{props.product_name}</p>
                             <p>{props.price}</p>
-                            <p>택배배송/ 무료배송</p>
+                            <p>택배배송/ {props.shipping_fee === 0 ? "무료배송" : props.shipping_fee}</p>
                         </div>
                     </div>
                     <Button quantity_button margin="0 148px 0 0"

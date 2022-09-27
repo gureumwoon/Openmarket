@@ -29,6 +29,7 @@ function ProductDetail() {
 
     const [quantity, setQuantity] = useState(1)
     const [modal, setModal] = useState(0);
+    const [orderInfo, setOrderInfo] = useState()
     const [itemDupCheck, setItemDupCheck] = useState()
 
     useEffect(() => {
@@ -51,6 +52,10 @@ function ProductDetail() {
         }
     }
 
+    const handleBuyItNow = () => {
+        navigate("/payment")
+    }
+
     const handleAddCart = () => {
         setItemDupCheck(cartList.map((c) => c.product_id).includes(product.product_id))
         console.log(itemDupCheck)
@@ -62,7 +67,7 @@ function ProductDetail() {
         // if (cartList.some((c) => c.quantity >= product.stock)) {
         //     window.alert("수량이 넘침")
         // }
-        if (cartList.some((c) => c.quantity >= product.stock) === false && itemDupCheck === true) {
+        if (cartList.some((c) => c.quantity >= product.stock) === true || itemDupCheck === true) {
             setModal(1)
         }
         else {
@@ -116,7 +121,7 @@ function ProductDetail() {
                         </div>
                     </div>
                     <div className='btn-container'>
-                        <Button width="416px" height="60px" margin="0 14px 0 0">바로구매</Button>
+                        <Button width="416px" height="60px" margin="0 14px 0 0" _onClick={handleBuyItNow}>바로구매</Button>
                         <Button width="200px" height="60px" bg="#767676" _onClick={handleAddCart}>장바구니</Button>
                     </div>
                 </div>
@@ -132,8 +137,8 @@ function ProductDetail() {
                 modal === 1 ?
                     <UserModal modal_to_check
                         display="none"
-                        children="이미 장바구니에 있는 상품입니다."
-                        children2="장바구니로 이동하시겠습니까?"
+                        children2="이미 장바구니에 있는 상품입니다."
+                        children3="장바구니로 이동하시겠습니까?"
                         btn_children_1="아니오"
                         btn_children_2="예"
                         margin="40px 0 0 0"
