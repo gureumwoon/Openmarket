@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import styled from "styled-components";
 import CartGrid from '../components/CartGrid';
-import UserModal from '../components/UserModal';
 import Footer from '../components/Footer';
 
 // components
@@ -15,22 +14,16 @@ import DeleteIcon from '../assets/images/icon-delete.svg';
 
 function ShoppingCart() {
     const [checkList, setCheckList] = useState([])
-    console.log(checkList)
 
     const dispatch = useDispatch()
     const isLogin = localStorage.getItem("token")
     const cart = useSelector((state) => state.cart.cartList)
-    console.log(cart)
     const quantityList = cart?.map((q) => q.quantity)
     const cartId = cart?.map((c) => c.product_id)
-    console.log(cartId)
     const product = useSelector((state) => state.product.products)
-    const checkedQuantity = cart.filter((c, i) => checkList.includes(c.product_id))
-    console.log(checkedQuantity)
+    const checkedCart = cart.filter((c, i) => checkList.includes(c.product_id))
     const item = product.filter((i) => cartId.includes(i.product_id))
-    const checkedPrice = item.filter((c, i) => checkList.includes(c.product_id))
-    console.log(checkedPrice)
-
+    const checkedProduct = item.filter((c, i) => checkList.includes(c.product_id))
 
     const [modal, setModal] = useState(0);
     const [isCheck, setIsCheck] = useState(false)
@@ -63,32 +56,27 @@ function ShoppingCart() {
         }
     }
 
-    checkedQuantity && checkedQuantity.map((c, i) =>
-        amount.push(checkedQuantity.length === 0 ? 0 : checkedQuantity[i].quantity)
+    checkedCart && checkedCart.map((c, i) =>
+        amount.push(checkedCart.length === 0 ? 0 : checkedCart[i].quantity)
     )
-    console.log(amount)
 
-
-    checkedPrice && checkedPrice.map((p, i) =>
-        price.push(checkedPrice.length === 0 ? 0 : checkedPrice[i].price)
+    checkedProduct && checkedProduct.map((p, i) =>
+        price.push(checkedProduct.length === 0 ? 0 : checkedProduct[i].price)
     )
-    console.log(price)
 
     // 제품의 가격을 cart리스트의 quantity(수량)만큼 곱해서 배열에 넣기
-    for (let i = 0; i < checkedQuantity.length; i++) {
+    for (let i = 0; i < checkedCart.length; i++) {
         price2.push(amount[i] * price[i])
     }
-    console.log(price2)
 
     // 장바구니에 들어있는 제품들 가격의 합계 구하기.
 
     const sum = price2.length !== 0 ? price2.reduce((acc, cur) =>
         acc + cur
     ) : 0
-    console.log(sum)
 
     // 배송 합계 구하기
-    checkedPrice.map((p) =>
+    checkedProduct.map((p) =>
         shippingFee.push(p.length === 0 ? 0 : p.shipping_fee)
     )
 
