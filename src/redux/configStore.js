@@ -4,8 +4,9 @@ import thunk from "redux-thunk";
 import user from './modules/user';
 import product from './modules/product';
 import cart from './modules/cart';
+import payment from './modules/payment';
 
-const rootReducer = combineReducers({ user, product, cart });
+const rootReducer = combineReducers({ user, product, cart, payment });
 const middlewares = [thunk];
 const enhancer = applyMiddleware(...middlewares);
 const store = createStore(rootReducer, enhancer);

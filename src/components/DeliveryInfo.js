@@ -1,11 +1,86 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from "styled-components";
 
 //element
 import Input from '../elements/Input';
 import Button from '../elements/Button';
+import PostCodeModal from './PostCode';
+import { useDispatch } from 'react-redux';
+import { addPatymentDB } from '../redux/modules/payment';
 
-function DeliveryInfo() {
+function DeliveryInfo(props) {
+    const { shipping_fee, price, product_id, quantity, order_kind } = props;
+
+    const dispatch = useDispatch();
+
+    const [orderer, setOrderer] = useState();
+    const [orderPhone, setOrderPhone] = useState();
+    const [orderPhone2, setOrderPhone2] = useState();
+    const [orderPhone3, setOrderPhone3] = useState();
+    const fullOrdererPhone = orderPhone + orderPhone2 + orderPhone3;
+    const [reciever, setReciever] = useState();
+    const [phone, setPhone] = useState();
+    const [phone2, setPhone2] = useState();
+    const [phone3, setPhone3] = useState();
+    const [address, setAddress] = useState();
+    const [zipcode, setZipcode] = useState();
+    const [detailAddress, setDetailAddress] = useState()
+    const [addressMessage, setAddressMessage] = useState();
+    const [paymentMethod, setPaymentMethod] = useState();
+    const [isOpen, setIsOpen] = useState(false)
+    const [isCheck, setIsCheck] = useState()
+
+    const fullPhoneNum = phone + phone2 + phone3;
+    const fullAddress = address + detailAddress;
+    const sumPrice = price + shipping_fee
+    // console.log(fullAddress)
+    // console.log(fullPhoneNum)
+
+    const handlePostCode = () => {
+        setIsOpen(!isOpen)
+    }
+
+    const handleComplete = (data) => {
+        let fullAddress = data.address;
+        let extraAddress = '';
+
+        if (data.addressType === 'R') {
+            if (data.bname !== '') {
+                extraAddress += data.bname;
+            }
+            if (data.buildingName !== '') {
+                extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
+            }
+            fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+        }
+        console.log(data)
+        setAddress(fullAddress)
+        setZipcode(data.zonecode)
+    }
+
+    const paymentBtnCheck = () => {
+        if (!isCheck || !reciever || !addressMessage || !detailAddress || !zipcode || !address || !paymentMethod || !orderer || fullOrdererPhone === "" || fullPhoneNum === "") {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    const handlePayment = () => {
+        const data = {
+            product_id: product_id,
+            quantity: quantity,
+            order_kind: order_kind,
+            reciever: reciever,
+            reciever_phone_number: fullPhoneNum,
+            address: fullAddress,
+            address_message: addressMessage,
+            payment_method: paymentMethod,
+            total_price: sumPrice
+        }
+        dispatch(addPatymentDB(data))
+    }
+
     return (
         <Info>
             <p className='container-title'>배송정보</p>
@@ -13,53 +88,156 @@ function DeliveryInfo() {
                 <p className="order-person">주문자 정보</p>
                 <div className='order-name'>
                     <p>이름</p>
-                    <Input radius="none" margin_top="0" margin_bottom="0" width="334px" height="40px" border="1px solid #C4C4C4" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
+                    <Input
+                        radius="none"
+                        margin_top="0"
+                        margin_bottom="0"
+                        width="334px"
+                        height="40px"
+                        border="1px solid #C4C4C4"
+                        borderColor="#C4C4C4"
+                        borderBottomColor="#C4C4C4"
+                        _onChange={(e) => setOrderer(e.target.value)}
+                    />
                 </div>
                 <div className="order-phone">
                     <p className='cellphone'>휴대폰</p>
                     <div className='phone-input'>
-                        <Input radius="none" width="80px" height="40px" margin_top="0" margin_bottom="0" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
+                        <Input
+                            radius="none"
+                            width="80px"
+                            height="40px"
+                            margin_top="0"
+                            margin_bottom="0"
+                            borderColor="#C4C4C4"
+                            borderBottomColor="#C4C4C4"
+                            _onChange={(e) => setOrderPhone(e.target.value)}
+                        />
                         <p>-</p>
-                        <Input radius="none" width="80px" height="40px" margin_top="0" margin_bottom="0" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
+                        <Input
+                            radius="none"
+                            width="80px"
+                            height="40px"
+                            margin_top="0"
+                            margin_bottom="0"
+                            borderColor="#C4C4C4"
+                            borderBottomColor="#C4C4C4"
+                            _onChange={(e) => setOrderPhone2(e.target.value)}
+                        />
                         <p>-</p>
-                        <Input radius="none" width="80px" height="40px" margin_top="0" margin_bottom="0" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
+                        <Input
+                            radius="none"
+                            width="80px"
+                            height="40px"
+                            margin_top="0"
+                            margin_bottom="0"
+                            borderColor="#C4C4C4"
+                            borderBottomColor="#C4C4C4"
+                            _onChange={(e) => setOrderPhone3(e.target.value)}
+                        />
                     </div>
                 </div>
                 <div className="order-email">
                     <p>이메일</p>
-                    <Input radius="none" margin_top="0" margin_bottom="0" width="334px" height="40px" border="1px solid #C4C4C4" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
+                    <Input
+                        radius="none"
+                        margin_top="0"
+                        margin_bottom="0"
+                        width="334px"
+                        height="40px"
+                        border="1px solid #C4C4C4"
+                        borderColor="#C4C4C4"
+                        borderBottomColor="#C4C4C4"
+                    />
                 </div>
             </OrderingPersonInfo>
             <DeliveryInput>
                 <p className="delivery-info">배송지 정보</p>
                 <div className='recipient'>
                     <p>수령인</p>
-                    <Input radius="none" margin_top="0" margin_bottom="0" width="334px" height="40px" border="1px solid #C4C4C4" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
+                    <Input radius="none" margin_top="0" margin_bottom="0" width="334px" height="40px" border="1px solid #C4C4C4" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" _onChange={(e) => setReciever(e.target.value)} />
                 </div>
                 <div className="order-phone">
                     <p className='cellphone'>휴대폰</p>
                     <div className='phone-input'>
-                        <Input radius="none" width="80px" height="40px" margin_top="0" margin_bottom="0" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
+                        <Input
+                            radius="none"
+                            width="80px"
+                            height="40px"
+                            margin_top="0"
+                            margin_bottom="0"
+                            borderColor="#C4C4C4"
+                            borderBottomColor="#C4C4C4"
+                            _onChange={(e) => setPhone(e.target.value)}
+                        />
                         <p>-</p>
-                        <Input radius="none" width="80px" height="40px" margin_top="0" margin_bottom="0" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
+                        <Input
+                            radius="none"
+                            width="80px"
+                            height="40px"
+                            margin_top="0"
+                            margin_bottom="0"
+                            borderColor="#C4C4C4"
+                            borderBottomColor="#C4C4C4"
+                            _onChange={(e) => setPhone2(e.target.value)}
+                        />
                         <p>-</p>
-                        <Input radius="none" width="80px" height="40px" margin_top="0" margin_bottom="0" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
+                        <Input radius="none" width="80px" height="40px" margin_top="0" margin_bottom="0" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" _onChange={(e) => setPhone3(e.target.value)} />
                     </div>
                 </div>
                 <div className='order-location'>
                     <p>배송주소</p>
                     <div className='location-input'>
                         <div className='postcode'>
-                            <Input radius="none" width="170px" height="40px" margin_top="0" margin_bottom="0" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
-                            <Button width="154px" height="40px" margin="0 0 0 10px">우편번호 조회</Button>
+                            <Input radius="none" width="170px" height="40px" margin_top="0" margin_bottom="0" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" defaultValue={zipcode} />
+                            <Button width="154px" height="40px" margin="0 0 0 10px" _onClick={handlePostCode}>우편번호 조회</Button>
                         </div>
-                        <Input radius="none" width="800px" width_screen="100%" height="40px" margin_top="0" margin_bottom="0" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
-                        <Input radius="none" width="800px" width_screen="100%" height="40px" margin_top="0" margin_bottom="0" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
+                        <Input
+                            radius="none"
+                            width="800px"
+                            width_screen="100%"
+                            height="40px"
+                            margin_top="0"
+                            margin_bottom="0"
+                            borderColor="#C4C4C4"
+                            borderBottomColor="#C4C4C4"
+                            defaultValue={address}
+                        />
+                        <Input
+                            radius="none"
+                            width="800px"
+                            width_screen="100%"
+                            height="40px"
+                            margin_top="0"
+                            margin_bottom="0"
+                            borderColor="#C4C4C4"
+                            borderBottomColor="#C4C4C4"
+                            _onChange={(e) => setDetailAddress(e.target.value)}
+                        />
                     </div>
                 </div>
+                {
+                    isOpen &&
+                    <>
+                        <PostCodeModal
+                            onComplete={handleComplete}
+                        />
+                    </>
+                }
                 <div className='delivery-message'>
                     <p>배송 메시지</p>
-                    <Input radius="none" margin_top="0" margin_bottom="0" width="800px" width_screen="100%" height="40px" border="1px solid #C4C4C4" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" />
+                    <Input
+                        radius="none"
+                        margin_top="0"
+                        margin_bottom="0"
+                        width="800px"
+                        width_screen="100%"
+                        height="40px"
+                        border="1px solid #C4C4C4"
+                        borderColor="#C4C4C4"
+                        borderBottomColor="#C4C4C4"
+                        _onChange={(e) => setAddressMessage(e.target.value)}
+                    />
                 </div>
             </DeliveryInput>
             <PaymentInfo>
@@ -67,23 +245,23 @@ function DeliveryInfo() {
                     <p className='container-title'>결제수단</p>
                     <div className='option'>
                         <label>
-                            <input type="radio" name="payment-option" />
+                            <input type="radio" name="payment-option" id="CARD" onChange={(e) => setPaymentMethod(e.target.id)} />
                             신용/체크카드
                         </label>
                         <label>
-                            <input type="radio" name="payment-option" />
+                            <input type="radio" name="payment-option" id="DEPOSIT" onChange={(e) => setPaymentMethod(e.target.id)} />
                             무통장 입금
                         </label>
                         <label>
-                            <input type="radio" name="payment-option" />
+                            <input type="radio" name="payment-option" id="PHONE_PAYMENT" onChange={(e) => setPaymentMethod(e.target.id)} />
                             휴대폰 결제
                         </label>
                         <label>
-                            <input type="radio" name="payment-option" />
+                            <input type="radio" name="payment-option" id="NAVERPAY" onChange={(e) => setPaymentMethod(e.target.id)} />
                             네이버페이
                         </label>
                         <label>
-                            <input type="radio" name="payment-option" />
+                            <input type="radio" name="payment-option" id="KAKAOPAY" onChange={(e) => setPaymentMethod(e.target.id)} />
                             카카오페이
                         </label>
                     </div>
@@ -95,7 +273,7 @@ function DeliveryInfo() {
                             <div>
                                 <p>-상품금액</p>
                                 <p>
-                                    <span>46,500</span>
+                                    <span>{price}</span>
                                     <span>원</span>
                                 </p>
                             </div>
@@ -110,22 +288,31 @@ function DeliveryInfo() {
                                 <div>
                                     <p>-배송비</p>
                                     <p>
-                                        <span>0</span>
+                                        <span>{shipping_fee}</span>
                                         <span>원</span>
                                     </p>
                                 </div>
                             </div>
                             <div>
                                 <p>-결제금액</p>
-                                <p>46,500원</p>
+                                <p>{sumPrice}원</p>
                             </div>
                         </div>
                         <div className='payment-container_bottom'>
                             <div className='consent-check'>
-                                <input type="checkbox" />
+                                <input type="checkbox" onChange={() => setIsCheck(!isCheck)} />
                                 <p>주문 내용을 확인하였으며, 정보 제공 등에 동의합니다.</p>
                             </div>
-                            <Button width="228px" height="68px" font_size="24px" font_weight="700">결제하기</Button>
+                            <Button
+                                width="228px"
+                                height="68px"
+                                font_size="24px"
+                                font_weight="700"
+                                _disabled={paymentBtnCheck()}
+                                _onClick={handlePayment}
+                            >
+                                결제하기
+                            </Button>
                         </div>
                     </div>
                 </div>

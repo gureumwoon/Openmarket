@@ -4,21 +4,22 @@ import styled from "styled-components";
 //assets
 import ProductImg from "../assets/images/product-img.png";
 
-function PaymentGrid() {
+function PaymentGrid(props) {
+    const { product_image, shop_name, product_name, quantity, shipping_fee, price } = props;
     return (
         <Grid>
             <div className='product-info'>
-                <img src={ProductImg} alt="" />
+                <img src={product_image} alt="" />
                 <div>
-                    <p>백엔드글로벌</p>
-                    <p>딥러닝 개발자 무릎 담요</p>
-                    <p>수량: 1개</p>
+                    <p>{shop_name}</p>
+                    <p>{product_name}</p>
+                    <p>수량: {quantity}개</p>
                 </div>
             </div>
             <div className='price-container'>
                 <p>-</p>
-                <p>무료배송</p>
-                <p>17,500원</p>
+                <p>{shipping_fee}</p>
+                <p>{price}원</p>
             </div>
         </Grid>
     )

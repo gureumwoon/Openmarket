@@ -12,6 +12,7 @@ import Button from '../elements/Button';
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import UserModal from '../components/UserModal';
+import { addPatymentDB } from '../redux/modules/payment';
 
 
 function ProductDetail() {
@@ -53,7 +54,25 @@ function ProductDetail() {
     }
 
     const handleBuyItNow = () => {
-        navigate("/payment")
+        // const data = {
+        //     product_id: product.product_id,
+        //     quantity: quantity,
+        //     order_kind: "direct_order",
+        //     total_price: (product.price * quantity) + product.shipping_fee,
+        // }
+        // dispatch(addPatymentDB(data))
+        navigate("/payment", {
+            state: {
+                product_id: product.product_id,
+                quantity: quantity,
+                product_image: product.image,
+                product_name: product.product_name,
+                shipping_fee: product.shipping_fee,
+                store_name: product.store_name,
+                order_kind: "direct_order",
+                price: product.price * quantity
+            }
+        })
     }
 
     const handleAddCart = () => {
@@ -75,7 +94,7 @@ function ProductDetail() {
             // navigate("/cart");
         }
     }
-
+    console.log(quantity)
     const modalAddCart = () => {
         setItemDupCheck(cartList.map((c) => c.product_id).includes(product.product_id))
         const itemData = {

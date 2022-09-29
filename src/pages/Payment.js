@@ -1,13 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import styled from "styled-components";
 import DeliveryInfo from '../components/DeliveryInfo';
 import Nav from '../components/Nav'
 import PaymentGrid from '../components/PaymentGrid';
+import { getProductDB } from '../redux/modules/product';
 
 function Payment() {
+    const location = useLocation();
+    const dispatch = useDispatch();
+    const isLogin = localStorage.getItem("token")
+    const productList = useSelector((state) => state.product.products)
+    console.log(productList.product_id)
+    const productIdList = productList.map((p) => p.product_id)
+    console.log(productIdList)
+    const product = productList.filter((p) => p.product_id === location.state.product_id)
+    console.log(product[0].store_name)
+    const sum = location.state.price + location.state.shipping_fee
+    console.log(sum)
+
+    useEffect(() => {
+        dispatch(getProductDB())
+    }, [dispatch])
     return (
         <div>
-            <Nav user_nav />
+            <Nav user_nav children={isLogin ? "마이페이지" : "로그인"} />
             <Main>
                 <h1>주문/결제하기</h1>
                 <PaymentNav>
@@ -18,13 +36,28 @@ function Payment() {
                         <p>주문금액</p>
                     </div>
                 </PaymentNav>
-                <PaymentGrid />
-                <PaymentGrid />
+                {
+                    location.state.order_kind === "direct_order" &&
+                    <PaymentGrid
+                        product_image={location.state.product_image}
+                        shop_name={location.state.store_name}
+                        product_name={location.state.product_name}
+                        quantity={location.state.quantity}
+                        shipping_fee={location.state.shipping_fee === 0 ? 0 : location.state.shipping_fee}
+                        price={location.state.price}
+                    />
+                }
                 <div className='price-sum'>
                     <p>총 주문금액</p>
-                    <p>46,500원</p>
+                    <p>{sum}원</p>
                 </div>
-                <DeliveryInfo />
+                <DeliveryInfo
+                    shipping_fee={location.state.shipping_fee === 0 ? 0 : location.state.shipping_fee}
+                    price={location.state.price}
+                    quantity={location.state.quantity}
+                    product_id={location.state.product_id}
+                    order_kind={location.state.order_kind}
+                />
             </Main>
         </div >
     )

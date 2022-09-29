@@ -127,15 +127,15 @@ const UploadContainer = styled.div`
                 align-items: flex-end;
                 .children-container {
                     width: 54px;
-                height: 54px;
-                text-align: center;
-                background-color: #c4c4c4;
-                border-top-right-radius: 5px;
-                border-bottom-right-radius: 5px;
+                    height: 54px;
+                    text-align: center;
+                    background-color: #c4c4c4;
+                    border-top-right-radius: 5px;
+                    border-bottom-right-radius: 5px;
                 span {
                     color: #FFFF;
-                text-align: center;
-                line-height: 52px;
+                    text-align: center;
+                    line-height: 52px;
         }
     }
                 `
