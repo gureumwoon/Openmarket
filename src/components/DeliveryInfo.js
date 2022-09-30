@@ -18,7 +18,7 @@ function DeliveryInfo(props) {
     const [orderPhone2, setOrderPhone2] = useState();
     const [orderPhone3, setOrderPhone3] = useState();
     const fullOrdererPhone = orderPhone + orderPhone2 + orderPhone3;
-    const [reciever, setReciever] = useState();
+    const [receiver, setReceiver] = useState();
     const [phone, setPhone] = useState();
     const [phone2, setPhone2] = useState();
     const [phone3, setPhone3] = useState();
@@ -59,7 +59,7 @@ function DeliveryInfo(props) {
     }
 
     const paymentBtnCheck = () => {
-        if (!isCheck || !reciever || !addressMessage || !detailAddress || !zipcode || !address || !paymentMethod || !orderer || fullOrdererPhone === "" || fullPhoneNum === "") {
+        if (!isCheck || !receiver || !addressMessage || !detailAddress || !zipcode || !address || !paymentMethod || !orderer || fullOrdererPhone === "" || fullPhoneNum === "") {
             return true
         } else {
             return false
@@ -71,8 +71,8 @@ function DeliveryInfo(props) {
             product_id: product_id,
             quantity: quantity,
             order_kind: order_kind,
-            reciever: reciever,
-            reciever_phone_number: fullPhoneNum,
+            receiver: receiver,
+            receiver_phone_number: fullPhoneNum,
             address: fullAddress,
             address_message: addressMessage,
             payment_method: paymentMethod,
@@ -155,7 +155,7 @@ function DeliveryInfo(props) {
                 <p className="delivery-info">배송지 정보</p>
                 <div className='recipient'>
                     <p>수령인</p>
-                    <Input radius="none" margin_top="0" margin_bottom="0" width="334px" height="40px" border="1px solid #C4C4C4" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" _onChange={(e) => setReciever(e.target.value)} />
+                    <Input radius="none" margin_top="0" margin_bottom="0" width="334px" height="40px" border="1px solid #C4C4C4" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" _onChange={(e) => setReceiver(e.target.value)} />
                 </div>
                 <div className="order-phone">
                     <p className='cellphone'>휴대폰</p>
