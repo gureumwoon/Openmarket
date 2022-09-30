@@ -10,9 +10,12 @@ import CartCheckBox from '../components/CartCheckBox';
 import Button from '../elements/Button';
 import { deleteAllItemDB, getCartDB } from '../redux/modules/cart';
 import DeleteIcon from '../assets/images/icon-delete.svg';
+import { useNavigate } from 'react-router-dom';
 
 
 function ShoppingCart() {
+    const navigate = useNavigate();
+
     const [checkList, setCheckList] = useState([])
 
     const dispatch = useDispatch()
@@ -86,6 +89,18 @@ function ShoppingCart() {
         dispatch(deleteAllItemDB())
     }
 
+    const navigateToPayment = () => {
+        navigate("/payment", {
+            state: {
+                total_price: sum + shippingFeeSum,
+                order_kind: "cart_order",
+                item,
+            }
+        })
+    }
+
+    console.log(sum + shippingFeeSum)
+
     useEffect(() => {
         dispatch(getCartDB())
     }, [dispatch])
@@ -135,7 +150,16 @@ function ShoppingCart() {
                                 sum={sum + shippingFeeSum}
                                 shippingFee={shippingFeeSum}
                             />
-                            <Button width="220px" height="68px" font_size="24px" font_weight="bold" margin="0 0 160px 0">주문하기</Button>
+                            <Button
+                                width="220px"
+                                height="68px"
+                                font_size="24px"
+                                font_weight="bold"
+                                margin="0 0 160px 0"
+                                _onClick={navigateToPayment}
+                            >
+                                주문하기
+                            </Button>
                         </>
                 }
             </Main>

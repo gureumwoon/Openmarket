@@ -3,23 +3,24 @@ import styled from "styled-components";
 
 //assets
 import ProductImg from "../assets/images/product-img.png";
+import { deleteCartItemDB } from '../redux/modules/cart';
 
 function PaymentGrid(props) {
-    const { product_image, shop_name, product_name, quantity, shipping_fee, price } = props;
+    // const { product_image, shop_name, product_name, quantity, shipping_fee, price, order_kind } = props;
     return (
         <Grid>
             <div className='product-info'>
-                <img src={product_image} alt="" />
+                <img src={props.image} alt="" />
                 <div>
-                    <p>{shop_name}</p>
-                    <p>{product_name}</p>
-                    <p>수량: {quantity}개</p>
+                    <p>{props.shop_name}</p>
+                    <p>{props.product_name}</p>
+                    <p>수량: {props.quantity}개</p>
                 </div>
             </div>
             <div className='price-container'>
                 <p>-</p>
-                <p>{shipping_fee}</p>
-                <p>{price}원</p>
+                <p>{props.shipping_fee}</p>
+                <p>{props.price}원</p>
             </div>
         </Grid>
     )

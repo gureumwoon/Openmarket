@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import styled from "styled-components";
@@ -15,10 +15,13 @@ function Payment() {
     console.log(productList.product_id)
     const productIdList = productList.map((p) => p.product_id)
     console.log(productIdList)
+    const cart = useSelector((state) => state.cart.cartList)
+    console.log(cart)
     const product = productList.filter((p) => p.product_id === location.state.product_id)
-    console.log(product[0].store_name)
-    const sum = location.state.price + location.state.shipping_fee
-    console.log(sum)
+
+    const sum = location.state.total_price
+    console.log(location.state.item)
+
 
     useEffect(() => {
         dispatch(getProductDB())
@@ -39,13 +42,26 @@ function Payment() {
                 {
                     location.state.order_kind === "direct_order" &&
                     <PaymentGrid
-                        product_image={location.state.product_image}
+                        image={location.state.product_image}
                         shop_name={location.state.store_name}
                         product_name={location.state.product_name}
                         quantity={location.state.quantity}
                         shipping_fee={location.state.shipping_fee === 0 ? 0 : location.state.shipping_fee}
                         price={location.state.price}
+                        order_kind={location.state.order_kind}
                     />
+                }
+                {
+                    location.state.order_kind === "cart_order" &&
+                    location.state.item.map((cartItem, i) => {
+                        return <PaymentGrid
+                            key={i}
+                            {...cartItem}
+                            order_kind={location.state.order_kind}
+                            quantity={cart[i].quantity}
+                            price={cartItem.price * cart[i].quantity}
+                        />
+                    })
                 }
                 <div className='price-sum'>
                     <p>총 주문금액</p>

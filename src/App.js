@@ -9,7 +9,7 @@ import SellerCenter from './pages/SellerCenter';
 import Upload from './pages/Upload';
 import ProductDetail from './pages/ProductDetail';
 import ShoppingCart from './pages/ShoppingCart';
-import Payment from './pages/Payment';
+import Payment from './pages/PaymentPage';
 
 function App() {
   return (
