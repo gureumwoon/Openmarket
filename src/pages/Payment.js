@@ -59,6 +59,7 @@ function Payment() {
                     order_kind={location.state.order_kind}
                 />
             </Main>
+
         </div >
     )
 }

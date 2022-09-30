@@ -7,6 +7,7 @@ const ADDPAYMENT = "order/ADDPAYMENT";
 
 const initialState = {
     paymentList: [],
+    status: null,
 }
 
 // Action Creators
@@ -19,6 +20,8 @@ export const addPatymentDB = (item) => {
             .then((res) => {
                 console.log(res)
                 dispatch(addPayment(res.data))
+                window.alert("구매가 성공적으로 완료되었습니다. :)")
+                window.location.assign("/")
             })
             .catch((error) => {
                 console.log(error)

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Input from '../elements/Input';
 import Button from '../elements/Button';
 import PostCodeModal from './PostCode';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addPatymentDB } from '../redux/modules/payment';
 
 function DeliveryInfo(props) {

@@ -20,7 +20,7 @@ const getCart = createAction(GETCART, (cartItem) => ({ cartItem }));
 const getCartItem = createAction(GETCARTITEM, (cartItem) => ({ cartItem }));
 const modifyCart = createAction(MODIFYCARTITEM, (cartItem) => ({ cartItem }));
 const deleteItem = createAction(DELETEITEM, (cartItemId) => ({ cartItemId }));
-const deleteAllItem = createAction(DELETEALLITEM, (cartItem) => ({ cartItem }));
+const deleteAllItem = createAction(DELETEALLITEM, () => ({}));
 
 export const addCartDB = (data) => {
     console.log(data)
@@ -101,7 +101,7 @@ export const deleteAllItemDB = () => {
         await apis.deleteAllItem()
             .then((res) => {
                 console.log("전체삭제", res)
-                dispatch(deleteAllItem())
+                dispatch(deleteAllItem(res.data))
             })
             .catch((error) => {
                 console.log("전체삭제에러", error)
@@ -140,7 +140,9 @@ export default handleActions(
             }),
         [DELETEALLITEM]: (state, action) =>
             produce(state, (draft) => {
-                draft.cartList = action.payload.cartList
+                console.log(draft.cartList)
+                console.log(action.payload)
+                draft.cartList = []
             })
     },
     initialState
