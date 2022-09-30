@@ -70,7 +70,7 @@ function ProductDetail() {
                 shipping_fee: product.shipping_fee,
                 store_name: product.store_name,
                 order_kind: "direct_order",
-                price: product.price * quantity
+                total_price: product.price * quantity
             }
         })
     }

@@ -95,6 +95,7 @@ function ShoppingCart() {
                 total_price: sum + shippingFeeSum,
                 order_kind: "cart_order",
                 item,
+                shipping_fee: shippingFeeSum
             }
         })
     }
