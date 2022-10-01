@@ -11,20 +11,57 @@ import PlusIcon from "../assets/images/plus-icon_2.svg";
 import DeleteIcon from '../assets/images/icon-delete.svg';
 import UserModal from './UserModal';
 import { deleteCartItemDB, modifyCartDB } from '../redux/modules/cart';
+import { useNavigate } from 'react-router-dom';
 
 function CartGrid(props) {
     const { cart_sum_grid, sum, shippingFee, onChange, checked, checkList, setCheckList, isCheck, setIsCheck } = props;
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const cartList = useSelector((state) => state.cart.cartList)
     const product = useSelector((state) => state.product.products)
     const cartId = cartList.map((c, i) => c.product_id)
     const item = product.filter((i) => cartId.includes(i.product_id))
+    console.log(props.product_id)
 
 
     const [modal, setModal] = useState(0);
     const [itemId, setItemId] = useState();
     const [count, setCount] = useState(props.quantityList)
     console.log(count)
+
+    const cartToPayment = () => {
+        if (props.cart.is_active === true && isCheck === true) {
+            navigate("/payment", {
+                state: {
+                    product_id: props.product_id,
+                    quantity: props.cart.quantity,
+                    order_kind: "cart_one_order",
+                    total_price: (props.price * props.cart.quantity) + props.shipping_fee,
+                    shipping_fee: props.shipping_fee
+                }
+            })
+        } else if (isCheck === false) {
+            window.alert("구매하실 상품을 선택해주세요.")
+        }
+        else if (props.cart.is_active === false) {
+            const itemData = {
+                product_id: props.product_id,
+                quantity: count,
+                is_active: true,
+                // item[i].product_id === cartList[i].product_id
+            }
+            dispatch(modifyCartDB(props.cart.cart_item_id, itemData))
+            navigate("/payment", {
+                state: {
+                    product_id: props.product_id,
+                    quantity: props.cart.quantity,
+                    order_kind: "cart_one_order",
+                    total_price: props.price + props.shipping_fee,
+                    shipping_fee: props.shipping_fee
+                }
+            })
+        }
+    }
 
     useEffect(() => {
         dispatch(getProductDB())
@@ -98,7 +135,7 @@ function CartGrid(props) {
                     </Button>
                     <div className='cart-price'>
                         <p>{props.price * (props.quantityList)}원</p>
-                        <Button width="130px" height="40px" font_weight="500">주문하기</Button>
+                        <Button width="130px" height="40px" font_weight="500" _onClick={cartToPayment}>주문하기</Button>
                     </div>
                     <img className="icon-delete" src={DeleteIcon} alt="" onClick={() => setModal(2)} />
                     {

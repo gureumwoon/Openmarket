@@ -18,6 +18,7 @@ function Payment() {
     const cart = useSelector((state) => state.cart.cartList)
     console.log(cart)
     const product = productList.filter((p) => p.product_id === location.state.product_id)
+    console.log(product[0])
     const orderKind = location.state.order_kind
 
 
@@ -42,16 +43,16 @@ function Payment() {
                     </div>
                 </PaymentNav>
                 {
-                    orderKind === "direct_order" &&
-                    <PaymentGrid
-                        image={location.state.product_image}
-                        shop_name={location.state.store_name}
-                        product_name={location.state.product_name}
-                        quantity={location.state.quantity}
-                        shipping_fee={location.state.shipping_fee === 0 ? 0 : location.state.shipping_fee}
-                        price={location.state.total_price}
-                        order_kind={orderKind}
-                    />
+                    orderKind === "direct_order" || orderKind === "cart_one_order" ?
+                        <PaymentGrid
+                            image={product[0].image}
+                            shop_name={product[0].store_name}
+                            product_name={product[0].product_name}
+                            quantity={location.state.quantity}
+                            shipping_fee={product[0].shipping_fee === 0 ? 0 : product[0].shipping_fee}
+                            price={location.state.total_price - location.state.shipping_fee}
+                            order_kind={orderKind}
+                        /> : null
                 }
                 {
                     orderKind === "cart_order" &&
@@ -71,7 +72,7 @@ function Payment() {
                 </div>
                 <DeliveryInfo
                     shipping_fee={location.state.shipping_fee === 0 ? 0 : location.state.shipping_fee}
-                    price={orderKind === "direct_order" ? location.state.total_price : location.state.total_price - location.state.shipping_fee}
+                    price={location.state.total_price - location.state.shipping_fee}
                     quantity={location.state.quantity}
                     product_id={location.state.product_id}
                     order_kind={location.state.order_kind}

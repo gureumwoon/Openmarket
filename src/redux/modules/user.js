@@ -56,7 +56,7 @@ export const signInDB = (data) => {
                 window.location.assign("/")
             })
             .catch((error) => {
-                window.alert(error.response.data.FAIL_Message)
+                window.alert(error.response.data)
             })
     }
 }
