@@ -60,13 +60,13 @@ function Nav(props) {
                     <div className="my-page" onClick={() => { isLogin ? setModal(!modal) : navigate("/login") }}>
                         <img src={UserIcon} alt="mypage-button" />
                         <p>{children}</p>
+                        {
+                            isLogin ?
+                                modal === true ? <UserModal _onClick={handleLogOut} /> : null
+                                : null
+                        }
                     </div>
                 </div>
-                {
-                    isLogin ?
-                        modal === true ? <UserModal _onClick={handleLogOut} /> : null
-                        : null
-                }
             </Navigation>
         )
     }
@@ -78,7 +78,7 @@ function Nav(props) {
                 </h1>
                 <Input nav_input placeholder="상품을 검색해보세요!" />
             </div>
-            <div>
+            <div className='container-userIcon'>
                 <Link to="/login">
                     <img src={UserIcon} alt="mypage-button" />
                     <p>마이페이지</p>
@@ -90,7 +90,7 @@ function Nav(props) {
 }
 
 const Navigation = styled.nav`
-  position: relative;
+  /* position: relative; */
   width: 100%;
   height: 90px;
   display: flex;
@@ -121,6 +121,9 @@ const Navigation = styled.nav`
     p {
       font-size: 12px;
       color: #767676;
+    }
+    .container-useIcon {
+        position: relative;
     }
 `
 

@@ -20,7 +20,7 @@ export const addPatymentDB = (item) => {
                 console.log(res)
                 dispatch(addPayment(res.data))
                 window.alert("구매가 성공적으로 완료되었습니다. :)")
-                // window.location.assign("/")
+                window.location.assign("/")
             })
             .catch((error) => {
                 console.log(error)
