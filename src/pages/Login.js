@@ -8,9 +8,11 @@ import Tab from "../elements/Tab";
 import Hodu from "../assets/images/Logo-hodu15.png";
 import { useDispatch } from 'react-redux';
 import { signInDB } from '../redux/modules/user';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [tab, setTab] = useState(0)
     const [id, setId] = useState("")
@@ -94,6 +96,10 @@ function Login() {
                     </ul>
                 }
             </LoginForm>
+            <div className='move-to_signup'>
+                <span onClick={() => navigate("/signup")}>회원가입</span>
+                <span>비밀번호찾기</span>
+            </div>
         </LoginSection>
     )
 }
@@ -105,6 +111,24 @@ const LoginSection = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 100px;
+   .move-to_signup {
+    margin-top: 30px;
+    span {
+        font-size: 16px;
+        :first-child {
+            cursor: pointer;
+            ::after {
+                display: inline-block;
+                content: "";
+                width: 1.8px;
+                height: 16px;
+                background-color: #333333;
+                vertical-align: bottom;
+                margin: 0 10px;
+            }
+        }
+    }
+  }
 `
 
 const LoginForm = styled.div`
