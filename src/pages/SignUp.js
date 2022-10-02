@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from "styled-components";
 import { useDispatch } from 'react-redux';
-import { signUpDB } from '../redux/modules/user';
+import { sellerSignUpDB, signUpDB } from '../redux/modules/user';
 import { apis } from '../shared/api';
 
 // elements
@@ -21,12 +21,9 @@ function SignUp() {
     const [tab, setTab] = useState(0)
     const [checkBox, setCheckBox] = useState(false)
     const [dropdown, setDropDown] = useState(false)
-    const [phoneData1, setPhoneData] = useState("")
-    const [phoneData2, setPhoneData2] = useState("")
-    const [phoneData3, setPhoneData3] = useState("")
-    const phoneData = phoneData1 + phoneData2 + phoneData3
 
-    // 회원가입 정보 저장
+
+    // 구매 회원가입 정보 저장
     const [id, setId] = useState("")
     const [pw, setPw] = useState("")
     const [pw2, setPw2] = useState("")
@@ -34,11 +31,29 @@ function SignUp() {
     const [email, setEmail] = useState("")
     const [email2, setEmail2] = useState("")
     const emailData = email + "@" + email2
+    const [phoneData1, setPhoneData] = useState("")
+    const [phoneData2, setPhoneData2] = useState("")
+    const [phoneData3, setPhoneData3] = useState("")
+    const phoneData = phoneData1 + phoneData2 + phoneData3
+
+    // 판매 회원가입 정보 저장
+    const [sellerId, setSellerId] = useState("")
+    const [sellerPw, setSellerPw] = useState("")
+    const [sellerPw2, setSellerPw2] = useState("")
+    const [sellerName, setSellerName] = useState("")
+    const [sellerEmail, setSellerEmail] = useState("")
+    const [sellerEmail2, setSellerEmail2] = useState("")
+    const sellerEmailData = sellerEmail + "@" + sellerEmail2
+    const [sellerPhoneData1, setSellerPhoneData] = useState("")
+    const [sellerPhoneData2, setSellerPhoneData2] = useState("")
+    const [sellerPhoneData3, setSellerPhoneData3] = useState("")
+    const sellerPhoneData = sellerPhoneData1 + sellerPhoneData2 + sellerPhoneData3
     const [bin, setBin] = useState("")
     const [storeName, setStoreName] = useState("")
 
     //중복확인 체크
-    const [isCheck, setIsCheck] = useState(false)
+    const [isCheck, setIsCheck] = useState(false);
+    const [isCoNumCheck, setIsCoNumCheck] = useState(false);
 
     // 구매자 계정 에러 메세지
     const [idMessage, setIdMessage] = useState("")
@@ -82,16 +97,19 @@ function SignUp() {
     }
 
     const handleSelect = (e) => {
-        setPhoneData(e.target.textContent)
+        tab === 0 ?
+            setPhoneData(e.target.textContent) :
+            setSellerPhoneData(e.target.textContent)
         setDropDown(false)
     }
 
     // Id 유효성 검사
     const idCheck = (e) => {
         setId(e.target.value)
+        setSellerId(e.target.value)
         const regId = /^[a-zA-Z][0-9a-zA-Z]{0,19}$/
         if (tab === 0) {
-            if (!regId.test(id)) {
+            if (!regId.test(e.target.value)) {
                 setIdMessage("20자 이내의 영문 소문자,대문자,숫자만 사용 가능합니다.")
                 setIsId(false)
             } else if (e.target.value === "") {
@@ -102,14 +120,14 @@ function SignUp() {
                 setIsId(true)
             }
         } else if (tab === 1) {
-            if (!regId.test(id)) {
-                setSalesIdMessage("닉네임 형식에 맞게 입력해주세요")
+            if (!regId.test(e.target.value)) {
+                setSalesIdMessage("20자 이내의 영문 소문자,대문자,숫자만 사용 가능합니다.")
                 setSalesIsId(false)
             } else if (e.target.value === "") {
                 setSalesIdMessage("필수 정보입니다")
                 setSalesIsId(false)
             } else {
-                setSalesIdMessage("멋진 아이디네요 :)")
+                setSalesIdMessage("")
                 setSalesIsId(true)
             }
         }
@@ -118,25 +136,23 @@ function SignUp() {
     //ID중복검사 체크
     const dupCheck = () => {
         const signUpData = {
-            username: id,
+            username: tab === 0 ? id : sellerId,
         }
         apis.dupcheck(signUpData)
             .then((res) => {
                 console.log("중복확인", res)
-                setIdMessage(res.data.Success)
-                // setIdMessage("멋진 아이디네요:)")
+                tab === 0 ?
+                    setIdMessage(res.data.Success) :
+                    setSalesIdMessage(res.data.Success)
             })
             .catch((error) => {
                 console.log("중복확인에러", error)
-                setIdMessage(error.response.data.FAIL_Message)
-                setIsId(false)
-                // if (error.response.data.username == "해당 사용자 아이디는 이미 존재합니다.") {
-                //     setIdMessage("이미 사용 중인 아디입니다.")
-                //     setIsId(false)
-                // } else if (error.response.data.username == "이 필드는 blank일 수 없습니다.") {
-                //     setIdMessage("필수 정보입니다")
-                //     setIsId(false)
-                // }
+                tab === 0 ?
+                    setIdMessage(error.response.data.FAIL_Message) :
+                    setSalesIdMessage(error.response.data.FAIL_Message)
+                tab === 0 ?
+                    setIsId(false) :
+                    setSalesIsId(false)
             })
         setIsCheck(true)
     }
@@ -149,7 +165,7 @@ function SignUp() {
                 setIsId(false)
             }
         } else if (tab === 1) {
-            if (id === "") {
+            if (sellerId === "") {
                 setSalesIdMessage("필수 정보입니다")
                 setSalesIsId(false)
             }
@@ -159,6 +175,7 @@ function SignUp() {
     // 비밀번호 유효성 검사
     const pwCheck = (e) => {
         setPw(e.target.value)
+        setSellerPw(e.target.value)
         const regPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&^])[A-Za-z\d@$!%*#?&^]{8,}$/
 
         if (tab === 0) {
@@ -176,7 +193,7 @@ function SignUp() {
             if (e.target.value === "") {
                 setSalesPwMessage("필수 정보입니다")
                 setSalesIsPw(false)
-            } else if (!regPw.test(pw)) {
+            } else if (!regPw.test(sellerPw)) {
                 setSalesPwMessage("8자 이상 영문, 숫자 조합으로 입력해주세요")
                 setSalesIsPw(false)
             } else {
@@ -194,7 +211,7 @@ function SignUp() {
                 setIsPw(false)
             }
         } else if (tab === 1) {
-            if (pw === "") {
+            if (sellerPw === "") {
                 setSalesPwMessage("필수 정보입니다")
                 setSalesIsPw(false)
             }
@@ -204,11 +221,16 @@ function SignUp() {
     // 비밀번호 확인 유효성 검사
     const isSamePw = (e) => {
         setPw2(e.target.value)
+        setSellerPw2(e.target.value)
         if (tab === 0) {
             if (pw === e.target.value) {
                 setPw2Message("비밀번호가 일치합니다.")
                 setIsPw2(true)
-            } else if (e.target.value === "") {
+            } else if (pw === "" === e.target.value) {
+                setPw2Message("필수 정보입니다")
+                setIsPw(false)
+            }
+            else if (e.target.value === "") {
                 setPw2Message("필수 정보입니다")
                 setIsPw2(false)
             } else {
@@ -216,9 +238,12 @@ function SignUp() {
                 setIsPw2(false)
             }
         } else if (tab === 1) {
-            if (pw === e.target.value) {
+            if (sellerPw === e.target.value) {
                 setSalesPw2Message("비밀번호가 일치합니다.")
                 setSalesIsPw2(true)
+            } else if (sellerPw === "" === e.target.value) {
+                setSalesPw2Message("필수 정보입니다")
+                setSalesIsPw(false)
             } else if (e.target.value === "") {
                 setSalesPw2Message("필수 정보 입니다")
                 setSalesIsPw2(false)
@@ -237,7 +262,7 @@ function SignUp() {
                 setIsPw2(false)
             }
         } else if (tab === 1) {
-            if (pw2 === "") {
+            if (sellerPw2 === "") {
                 setSalesPw2Message("필수 정보입니다")
                 setSalesIsPw2(false)
             }
@@ -246,6 +271,7 @@ function SignUp() {
 
     const nameCheck = (e) => {
         setName(e.target.value)
+        setSellerName(e.target.value)
         if (tab === 0) {
             if (e.target.value === "") {
                 setNameMessage("필수 정보입니다")
@@ -267,7 +293,7 @@ function SignUp() {
                 setIsName(false)
             }
         } else if (tab === 1) {
-            if (name === "") {
+            if (sellerName === "") {
                 setSalesNameMessage("필수 정보입니다")
                 setSalesIsName(false)
             }
@@ -277,6 +303,7 @@ function SignUp() {
     // 이메일 유효성 검사
     const emailCheck = (e) => {
         setEmail(e.target.value)
+        setSellerEmail(e.target.value)
         const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
         if (tab === 0) {
@@ -294,7 +321,7 @@ function SignUp() {
             if (e.target.value === "") {
                 setSalesEmailMessage("필수 정보입니다")
                 setSalesIsEmail(false)
-            } else if (!regEmail.test(email)) {
+            } else if (!regEmail.test(sellerEmailData)) {
                 setSalesEmailMessage("잘못된 이메일 형식입니다.")
                 setSalesIsEmail(false)
             } else {
@@ -306,6 +333,7 @@ function SignUp() {
 
     const email2Check = (e) => {
         setEmail2(e.target.value)
+        setSellerEmail2(e.target.value)
         const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
         if (tab === 0) {
@@ -324,7 +352,7 @@ function SignUp() {
             if (e.target.value === "") {
                 setSalesEmailMessage("필수 정보입니다")
                 setSalesIsEmail(false)
-            } else if (!regEmail.test(email)) {
+            } else if (!regEmail.test(sellerEmailData)) {
                 setSalesEmailMessage("이메일 형식에 맞게 입력해주세요")
                 setSalesIsEmail(false)
             } else {
@@ -342,7 +370,7 @@ function SignUp() {
                 setIsEmail(false)
             }
         } else if (tab === 1) {
-            if (email === "") {
+            if (sellerEmail === "") {
                 setSalesEmailMessage("필수 정보입니다")
                 setSalesIsEmail(false)
             }
@@ -352,25 +380,30 @@ function SignUp() {
     // Phone Number 중복검사
     const phoneCheck = (e) => {
         setPhoneData3(e.target.value)
-        if (tab === 0) {
-            const signUpData = {
-                phone_number: phoneData1 + phoneData2 + e.target.value,
-            }
-            apis.signUp(signUpData)
-                .then((res) => {
-
-                })
-                .catch((error) => {
-                    if (error.response.data.phone_number == "해당 사용자 전화번호는 이미 존재합니다.") {
-                        setPhoneMessage("해당 사용자 전화번호는 이미 존재합니다.")
-                        setIsPhone(false)
-                    } else {
-                        setPhoneMessage("")
-                    }
-                })
-        } else if (tab === 1) {
-
+        setSellerPhoneData3(e.target.value)
+        const signUpData = {
+            phone_number: tab === 0 ?
+                phoneData1 + phoneData2 + e.target.value :
+                sellerPhoneData1 + sellerPhoneData2 + e.target.value
         }
+        apis.signUp(signUpData)
+            .then((res) => {
+
+            })
+            .catch((error) => {
+                if (error.response.data.phone_number == "해당 사용자 전화번호는 이미 존재합니다.") {
+                    tab === 0 ?
+                        setPhoneMessage("해당 사용자 전화번호는 이미 존재합니다.") :
+                        setSalesPhoneMessage("해당 사용자 전화번호는 이미 존재합니다.")
+                    tab === 0 ?
+                        setIsPhone(false) :
+                        setSalesIsPhone(false)
+                } else {
+                    tab === 0 ?
+                        setPhoneMessage("") :
+                        setSalesPhoneMessage("")
+                }
+            })
     }
 
     // Phone Input focus out 했을시 빈칸일때
@@ -381,25 +414,20 @@ function SignUp() {
                 setIsPhone(false)
             }
         } else if (tab === 1) {
-            if (phoneData === "") {
+            if (sellerPhoneData === "") {
                 setSalesPhoneMessage("필수 정보입니다")
                 setSalesIsPhone(false)
             }
         }
     }
 
-    // 스토어 네임 유효성 체크
-    const storeNameCheck = (e) => {
-        setStoreName(e.target.value)
-    }
-
-    // StreName Input focus out 했을시 빈칸일때
-    const storeNameBlankCheck = () => {
-        if (storeName === "") {
-            setSalesStoreNameMessage("필수 정보입니다")
-            setSalesIsStoreName(false)
-        }
-    }
+    // StoreName Input focus out 했을시 빈칸일때
+    // const storeNameBlankCheck = () => {
+    //     if (storeName === "") {
+    //         setSalesStoreNameMessage("필수 정보입니다")
+    //         setSalesIsStoreName(false)
+    //     }
+    // }
 
     // 사업자 등록번호 유효성 체크
 
@@ -418,12 +446,57 @@ function SignUp() {
         }
     }
 
+    const handleComNumCheck = () => {
+        const companyNumberData = {
+            company_registration_number: bin,
+        }
+        apis.companyNumCheck(companyNumberData)
+            .then((res) => {
+                console.log("중복확인", res)
+                setSalesBinMessage(res.data.Success)
+            })
+            .catch((error) => {
+                console.log("중복확인에러", error)
+                setSalesBinMessage(error.response.data.FAIL_Message)
+            })
+        setIsCoNumCheck(true)
+    }
+
     // Bin Input focus out 했을시 빈칸일때
     const binBlankCheck = () => {
         if (bin === "") {
             setSalesBinMessage("필수 정보입니다")
             setSalesIsBin(false)
         }
+    }
+
+    // Store Name focus out 했을시 빈칸일때
+    const storeNameBlankCheck = () => {
+        if (storeName === "") {
+            setSalesStoreNameMessage("필수 정보입니다")
+            setSalesIsStoreName(false)
+        }
+    }
+
+    // StoreName 중복검사
+    const storeNameCheck = (e) => {
+        setStoreName(e.target.value)
+        const storeNameData = {
+            store_name: e.target.value
+        }
+        apis.sellerSignUp(storeNameData)
+            .then((res) => {
+
+            })
+            .catch((error) => {
+                if (error.response.data.phone_number == "해당 스토어이름은 이미 존재합니다.") {
+                    setSalesStoreNameMessage("해당 스토어이름은 이미 존재합니다.")
+                    setSalesIsStoreName(false)
+                } else {
+                    setSalesStoreNameMessage("사용 가능한 스토어 이름입니다.")
+                    setSalesIsStoreName(true)
+                }
+            })
     }
 
     // 회원가입 버튼 활성화 검사
@@ -435,7 +508,7 @@ function SignUp() {
                 return false;
             }
         } else {
-            if (!isId || !isPw || !isPw2 || !isEmail || name === "" || phoneData === "" || bin === "" || storeName === "") {
+            if (!salesIsId || !salesIsPw || !salesIsPw2 || !salesIsEmail || salesIsName === "" || sellerPhoneData === "" || !salesIsBin || !salesIsStoreName || !checkBox) {
                 return true;
             } else {
                 return false;
@@ -450,17 +523,37 @@ function SignUp() {
 
     // 회원가입
     const handleSignUp = () => {
-        if (isCheck === false) {
-            window.alert("아이디 중복확인을 해주세요.")
+        if (tab === 0) {
+            if (isCheck === false) {
+                window.alert("아이디 중복확인을 해주세요.")
+            }
+            const signupData = {
+                username: id,
+                password: pw,
+                password2: pw2,
+                phone_number: phoneData,
+                name: name,
+            };
+            dispatch(signUpDB(signupData))
+        } else {
+            if (isCheck === false) {
+                window.alert("아이디 중복확인을 해주세요.")
+            } else if (isCoNumCheck === false) {
+                window.alert("사업자등록번호를 인증해주세요.")
+            } else if (isCheck === false && isCoNumCheck === false) {
+                window.alert("아이디 중복확인/ 사업자등록번호 인증을 완료해주세요.")
+            }
+            const signupData = {
+                username: sellerId,
+                password: sellerPw,
+                password2: sellerPw2,
+                phone_number: sellerPhoneData,
+                name: sellerName,
+                company_registration_number: bin,
+                store_name: storeName,
+            }
+            dispatch(sellerSignUpDB(signupData))
         }
-        const signupData = {
-            username: id,
-            password: pw,
-            password2: pw2,
-            phone_number: phoneData,
-            name: name,
-        };
-        dispatch(signUpDB(signupData))
     }
 
 
@@ -575,7 +668,7 @@ function SignUp() {
                             <Input label="이름" height="44px" _onChange={nameCheck} _onBlur={nameBlankCheck} />
                             {name.length === 0 && (
                                 <>
-                                    <Message className={`${isName ? "success" : "error"}`}>
+                                    <Message className="error">
                                         {nameMessage}
                                     </Message>
                                 </>
@@ -673,12 +766,12 @@ function SignUp() {
                                     _onChange={idCheck}
                                     _onBlur={idBlankCheck}
                                     borderColor={
-                                        id.length > 0 && (
+                                        sellerId.length >= 0 && (
                                             salesIsId ? "#21BF48" : "#EB5757"
                                         )
                                     }
                                     borderBottomColor={
-                                        id.length > 0 && (
+                                        sellerId.length >= 0 && (
                                             salesIsId ? "#21BF48" : "#EB5757"
                                         )
                                     }
@@ -687,9 +780,10 @@ function SignUp() {
                                     height="44px"
                                     align="end"
                                     width="122px"
+                                    _onClick={dupCheck}
                                 >중복확인</Button>
                             </div>
-                            {id.length >= 0 && (
+                            {sellerId.length >= 0 && (
                                 <>
                                     <Message className={`${salesIsId ? "success" : "error"}`}>
                                         {salesIdMessage}
@@ -703,17 +797,25 @@ function SignUp() {
                                 _onChange={pwCheck}
                                 _onBlur={pwBlankCheck}
                                 borderColor={
-                                    pw.length > 0 && (
+                                    sellerPw.length >= 0 && (
                                         salesIsPw ? "#21BF48" : "#EB5757"
                                     )
                                 }
                                 borderBottomColor={
-                                    pw.length > 0 && (
+                                    sellerPw.length >= 0 && (
                                         salesIsPw ? "#21BF48" : "#EB5757"
                                     )
                                 }
                             />
-                            {pw.length >= 0 && (
+                            <div className='pw-check'>
+                                {
+                                    !salesIsPw ?
+                                        <img src={pwCheckOff} alt="" />
+                                        :
+                                        <img src={pwCheckOn} alt="" />
+                                }
+                            </div>
+                            {sellerPw.length >= 0 && (
                                 <>
                                     <Message className={`${salesIsPw ? "success" : "error"}`}>
                                         {salesPwMessage}
@@ -727,34 +829,42 @@ function SignUp() {
                                 _onChange={isSamePw}
                                 _onBlur={pw2BlankCheck}
                                 borderColor={
-                                    pw2.length > 0 && (
+                                    sellerPw2.length >= 0 && (
                                         salesIsPw2 ? "#21BF48" : "#EB5757"
                                     )
                                 }
                                 borderBottomColor={
-                                    pw2.length > 0 && (
+                                    sellerPw2.length >= 0 && (
                                         salesIsPw2 ? "#21BF48" : "#EB5757"
                                     )
                                 }
                             />
-                            {pw2.length >= 0 && (
+                            <div className='pw-check'>
+                                {
+                                    !salesIsPw2 ?
+                                        <img src={pwCheckOff} alt="" />
+                                        :
+                                        <img src={pwCheckOn} alt="" />
+                                }
+                            </div>
+                            {sellerPw2.length >= 0 && (
                                 <>
                                     <Message className={`${salesIsPw2 ? "success" : "error"}`}>
                                         {salesPw2Message}
                                     </Message>
                                 </>
                             )}
-                            <Input label="이름" height="44px" _onChange={(e) => setName(e.target.value)} _onBlur={nameBlankCheck} />
-                            {name.length === 0 && (
+                            <Input label="이름" height="44px" _onChange={(e) => setSellerName(e.target.value)} _onBlur={nameBlankCheck} />
+                            {sellerName.length === 0 && (
                                 <>
-                                    <Message className={`${salesIsName ? "success" : "error"}`}>
+                                    <Message className="error">
                                         {salesNameMessage}
                                     </Message>
                                 </>
                             )}
                             <Phone>
                                 <div className='dropdown'>
-                                    <Input defaultValue={phoneData1} label="휴대전화 번호" height="44px" _onBlur={phoneBlankCheck} />
+                                    <Input defaultValue={sellerPhoneData1} label="휴대전화 번호" height="44px" _onBlur={phoneBlankCheck} />
                                     <img className={`${!dropdown ? "on" : "off"}`} src={arrowUp} alt="" onClick={hadnleArrow} />
                                     {dropdown === true ? <ul className="dropdown-items">
                                         <li className="dropdown-item" onClick={handleSelect}>
@@ -777,10 +887,10 @@ function SignUp() {
                                         </li>
                                     </ul> : null}
                                 </div>
-                                <Input height="44px" _onChange={(e) => setPhoneData2(e.target.value)} _onBlur={phoneBlankCheck} />
-                                <Input height="44px" _onChange={(e) => setPhoneData3(e.target.value)} _onBlur={phoneBlankCheck} />
+                                <Input height="44px" _onChange={(e) => setSellerPhoneData2(e.target.value)} _onBlur={phoneBlankCheck} />
+                                <Input height="44px" _onBlur={phoneBlankCheck} _onChange={phoneCheck} />
                             </Phone>
-                            {phoneData.length === 0 && (
+                            {sellerPhoneData.length >= 0 && (
                                 <>
                                     <Message className={`${salesIsPhone ? "success" : "error"}`} >
                                         {salesPhoneMessage}
@@ -794,12 +904,12 @@ function SignUp() {
                                     _onChange={emailCheck}
                                     _onBlur={emailBlankCheck}
                                     borderColor={
-                                        email.length > 0 && (
+                                        sellerEmail.length >= 0 && (
                                             salesIsEmail ? "#21BF48" : "#EB5757"
                                         )
                                     }
                                     borderBottomColor={
-                                        email.length > 0 && (
+                                        sellerEmail.length >= 0 && (
                                             salesIsEmail ? "#21BF48" : "#EB5757"
                                         )
                                     }
@@ -807,21 +917,21 @@ function SignUp() {
                                 <p className='at'>@</p>
                                 <Input
                                     height="44px"
-                                    _onChange={emailCheck}
+                                    _onChange={email2Check}
                                     _onBlur={emailBlankCheck}
                                     borderColor={
-                                        email.length > 0 && (
+                                        sellerEmail2.length >= 0 && (
                                             salesIsEmail ? "#21BF48" : "#EB5757"
                                         )
                                     }
                                     borderBottomColor={
-                                        email.length > 0 && (
+                                        sellerEmail2.length >= 0 && (
                                             salesIsEmail ? "#21BF48" : "#EB5757"
                                         )
                                     }
                                 />
                             </Email>
-                            {email.length >= 0 && (
+                            {sellerEmailData.length >= 0 && (
                                 <>
                                     <Message className={`${salesIsEmail ? "success" : "error"}`} >
                                         {salesEmailMessage}
@@ -837,12 +947,12 @@ function SignUp() {
                                     _onChange={binCheck}
                                     _onBlur={binBlankCheck}
                                     borderColor={
-                                        bin.length > 0 && (
+                                        bin.length >= 0 && (
                                             salesIsBin ? "#21BF48" : "#EB5757"
                                         )
                                     }
                                     borderBottomColor={
-                                        bin.length > 0 && (
+                                        bin.length >= 0 && (
                                             salesIsBin ? "#21BF48" : "#EB5757"
                                         )
                                     }
@@ -851,6 +961,7 @@ function SignUp() {
                                     height="44px"
                                     align="end"
                                     width="122px"
+                                    _onClick={handleComNumCheck}
                                 >인증</Button>
                             </div>
                             {bin.length >= 0 && (
@@ -866,7 +977,7 @@ function SignUp() {
                                 _onChange={storeNameCheck}
                                 _onBlur={storeNameBlankCheck}
                             />
-                            {storeName.length === 0 && (
+                            {storeName.length >= 0 && (
                                 <>
                                     <Message className={`${salesIsStoreName ? "success" : "error"}`} >
                                         {salesStoreNameMessage}
@@ -884,7 +995,7 @@ function SignUp() {
             {tab === 0 ?
                 <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={buttoncheck()} _onClick={handleSignUp}>가입하기</Button>
                 :
-                <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={buttoncheck()} >가입하기</Button>
+                <Button width="380px" height="50px" margin="0px 0px 100px" font_size="17px" _disabled={buttoncheck()} _onClick={handleSignUp}>가입하기</Button>
             }
         </SignUpSection>
     )
@@ -946,6 +1057,15 @@ const SignUpForm = styled.div`
         li {
             .id-container {
               display: flex;
+          }
+          .pw-check {
+            width: 28px;
+            position: relative;
+            img {
+                position: absolute;
+                bottom: 8px;
+                left: 338px;
+            }
           }
         }
     }

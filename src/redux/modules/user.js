@@ -22,12 +22,29 @@ export const signUpDB = (data) => {
         await apis.signUp(data)
             .then((res) => {
                 console.log(res)
+                window.alert("회원가입에 성공했습니다!")
                 window.location.assign("/login")
             })
             .catch((error) => {
                 console.log(error)
                 window.alert(error)
                 window.alert(error.response.data.errorMessage)
+            })
+    }
+}
+
+//판매자 로그인
+export const sellerSignUpDB = (data) => {
+    return async function (dispatch) {
+        await apis.sellerSignUp(data)
+            .then((res) => {
+                console.log(res)
+                window.alert("회원가입에 성공했습니다!")
+                window.location.assign("/login")
+            })
+            .catch((error) => {
+                console.log(error.response.data)
+
             })
     }
 }

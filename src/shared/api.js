@@ -21,9 +21,12 @@ api.interceptors.request.use((config) => {
 export const apis = {
     // user
     signUp: (data) => api.post("accounts/signup/", data),
-    dupcheck: (data) => api.post("accounts/signup/valid/", data),
+    dupcheck: (data) => api.post("accounts/signup/valid/username/", data),
+    companyNumCheck: (data) => api.post("accounts/signup/valid/company_registration_number/", data),
     signIn: (data) => api.post("accounts/login/", data),
     signOut: (data) => api.post("accounts/logout/", data),
+    // seller-user
+    sellerSignUp: (data) => api.post("accounts/signup_seller/", data),
     // product
     getProduct: () => api.get("products/"),
     getOneProduct: (id) => api.get(`products/${id}`),
