@@ -4,6 +4,7 @@ import produce from "immer";
 
 // Actions
 const SIGNIN = "user/SIGNIN";
+const SIGNOUT = "user/SIGNOUT";
 
 const initialState = {
     user: null,
@@ -12,6 +13,7 @@ const initialState = {
 
 // Action Creators
 const signInUser = createAction(SIGNIN, (user) => ({ user }));
+const signOutUser = createAction(SIGNOUT, (user) => ({ user }));
 
 
 export const signUpDB = (data) => {
@@ -57,6 +59,17 @@ export const signInDB = (data) => {
             })
             .catch((error) => {
                 window.alert(error.response.data)
+            })
+    }
+}
+
+export const signOutDB = () => {
+    return function (dispatch) {
+        apis.signOut()
+            .then((res) => {
+                localStorage.clear()
+                window.alert(res.data.detail)
+                window.location.assign("/")
             })
     }
 }

@@ -8,6 +8,7 @@ import Button from '../elements/Button';
 import DeleteIcon from '../assets/images/icon-delete.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { modifyCartDB } from '../redux/modules/cart';
+import { signOutDB } from '../redux/modules/user';
 
 function UserModal(props) {
     const dispatch = useDispatch();
@@ -17,6 +18,10 @@ function UserModal(props) {
 
     const { display, modal_to_check, _disabled, children, children2, children3, btn_children_1, btn_children_2, margin, _onClick, _onClickMinus, _onClickPlus, _onClickBg, _onClick2 } = props;
 
+
+    const handleLogOut = () => {
+        dispatch(signOutDB())
+    }
 
     if (modal_to_check) {
         return (
@@ -47,7 +52,7 @@ function UserModal(props) {
             <div className='triangle'></div>
             <ModalContent>
                 <p>마이페이지</p>
-                <p onClick={_onClick}>로그아웃</p>
+                <p onClick={handleLogOut}>로그아웃</p>
             </ModalContent>
         </Modal>
     )
@@ -114,7 +119,7 @@ const Modal = styled.div`
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 75px;
+    top: 95px;
     z-index: 1;
     .triangle {
         width: 30px;

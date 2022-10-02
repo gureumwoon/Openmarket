@@ -49,7 +49,7 @@ function Login() {
             <h1 style={{ marginBottom: "70px" }}>
                 <img src={Hodu} alt="" />
             </h1>
-            <Tab tab={tab} setTab={setTab} children="판매로그인" children2="구매로그인" />
+            <Tab tab={tab} setTab={setTab} children="구매로그인" children2="판매로그인" />
             <LoginForm>
                 {tab === 0 &&
                     <ul className='login-wrap'>
