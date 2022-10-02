@@ -44,6 +44,7 @@ function Login() {
             if (pw === "") {
                 setSalesPwMessage("비밀번호를 입력해주세요")
             }
+            dispatch(signInDB(loginData))
         }
     }
     return (
@@ -84,7 +85,7 @@ function Login() {
                                 </Message>
                             </>
                         )}
-                        <Input placeholder="비밀번호" height="44px" padding="none" border="none" radius="none" borderBottom="1px solid #c4c4c4" borderColor="transparent" _onChange={(e) => setPw(e.target.value)} />
+                        <Input type="password" placeholder="비밀번호" height="44px" padding="none" border="none" radius="none" borderBottom="1px solid #c4c4c4" borderColor="transparent" _onChange={(e) => setPw(e.target.value)} />
                         {pw.length >= 0 && (
                             <>
                                 <Message>
@@ -92,7 +93,11 @@ function Login() {
                                 </Message>
                             </>
                         )}
-                        <Button height="50px" margin="52px 0 0" font_size="16px" font_weight="bold" _onClick={handleLogin}>로그인</Button>
+                        {
+                            tab === 0 ?
+                                <Button height="50px" margin="52px 0 0" font_size="16px" font_weight="bold" _onClick={handleLogin}>로그인</Button> :
+                                <Button height="50px" margin="52px 0 0" font_size="16px" font_weight="bold" _onClick={handleLogin}>로그인</Button>
+                        }
                     </ul>
                 }
             </LoginForm>

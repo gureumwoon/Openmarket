@@ -72,6 +72,7 @@ export const signInDB = (data) => {
                 localStorage.setItem("type", res.data.user_type)
                 localStorage.setItem("id", res.data.id)
                 dispatch(signInUser({ data }))
+                window.alert(`환영합니다 ${data.username}님 :)`)
                 window.location.assign("/")
             })
             .catch((error) => {
