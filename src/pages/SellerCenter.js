@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from "styled-components";
 import Nav from '../components/Nav'
 import Button from '../elements/Button';
@@ -6,8 +6,10 @@ import Button from '../elements/Button';
 //assets
 import PlusIcon from "../assets/images/icon-plus.svg";
 import BasicProfile from "../assets/images/profile-bunny.png";
+import { useNavigate } from 'react-router-dom';
 
 function SellerCenter() {
+    const navigate = useNavigate();
     return (
         <div>
             <Nav seller_nav />
@@ -17,15 +19,15 @@ function SellerCenter() {
                         <p>대시보드</p>
                         <p>백엔드글로벌</p>
                     </div>
-                    <Button src={PlusIcon} seller_nav_button >상품 업로드</ Button>
+                    <Button src={PlusIcon} seller_nav_button _onClick={() => navigate("/upload")}>상품 업로드</ Button>
                 </Header>
                 <Section>
                     <div className='button-container'>
                         <Button seller_tab_button >판매중인 상품(3)</Button>
-                        <Button seller_tab_button _disabled="false">주문/배송</Button>
-                        <Button seller_tab_button _disabled="false">문의/리뷰</Button>
-                        <Button seller_tab_button _disabled="false">통계</Button>
-                        <Button seller_tab_button _disabled="false">스토어 설정</Button>
+                        <Button seller_tab_button _disabled={true}>주문/배송</Button>
+                        <Button seller_tab_button _disabled={true}>문의/리뷰</Button>
+                        <Button seller_tab_button _disabled={true}>통계</Button>
+                        <Button seller_tab_button _disabled={true}>스토어 설정</Button>
                     </div>
                     <div className='dash-board'>
                         <div className='info-nav'>

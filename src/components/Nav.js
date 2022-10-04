@@ -83,7 +83,7 @@ function Nav(props) {
                     <img src={UserIcon} alt="mypage-button" />
                     <p>마이페이지</p>
                 </Link>
-                <Button src={ShoppingIcon} seller_nav_button>판매자센터</Button>
+                <Button src={ShoppingIcon} seller_nav_button _onClick={() => navigate("/seller-center")}>판매자센터</Button>
             </div>
         </Navigation>
     )

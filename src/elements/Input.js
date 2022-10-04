@@ -11,6 +11,8 @@ function Input(props) {
         defaultValue,
         _onChange,
         _onBlur,
+        _onKeyDown,
+        _maxLength,
         border,
         radius,
         borderBottom,
@@ -57,6 +59,7 @@ function Input(props) {
                         placeholder={placeholder}
                         onChange={_onChange}
                         onBlur={_onBlur}
+                        onKeyDown={_onKeyDown}
                         {...styles}
                     />
                 </div>
@@ -75,6 +78,7 @@ function Input(props) {
                 placeholder={placeholder}
                 onChange={_onChange}
                 onBlur={_onBlur}
+                maxLength={_maxLength}
                 {...styles}
             />
         </label>
@@ -146,6 +150,10 @@ const UploadInputField = styled.input`
                 border: 1px solid #c4c4c4;
                 border-top-left-radius: 5px;
                 border-bottom-left-radius: 5px;
+                padding: 17px;
+                &:focus {
+                    outline: none;
+                }
                 `
 
 const NavInputContainer = styled.div`
