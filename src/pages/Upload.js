@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react'
+import { useDispatch } from 'react-redux';
 import styled from "styled-components";
 
 //components
@@ -10,29 +11,43 @@ import Footer from '../components/Footer'
 //assets
 import UploadIcon from "../assets/images/icon-img.svg";
 import UploadBg from "../assets/images/product-basic-img.png";
+import { addProductDB } from '../redux/modules/product';
+import { comma, unComma } from '../elements/Comma';
 
 function Upload() {
+    const dispatch = useDispatch();
     const fileInput = useRef(null);
+    const token = localStorage.getItem("token")
+
     const [productName, setProductName] = useState("");
     const [productPrice, setProductPrice] = useState("");
     const [attachment, setAttachment] = useState("");
     const [shippingCheck, setShippingCheck] = useState(false);
+    const [shippingFee, setShippingFee] = useState("");
+    const [productStock, setProductStock] = useState()
 
     const handleProductName = (e) => {
         setProductName(e.target.value)
     }
 
-    // const handleInputValue = (e) => {
-    //     const price = e.target.value;
-    //     const priceValue = Number(price.replace(',', ''));
-    //     e.target.value = priceValue.toLocaleString();
-    // }
+    const isNumValid = (num) => {
+        const reg = /[0-9]/g;
+        const isValid = reg.test(num)
+        return isValid
+    }
 
     const handlePrice = (e) => {
         const price = e.target.value;
-        const priceValue = Number(price.replace(',', ''));
-        e.target.value = priceValue.toLocaleString();
-        setProductPrice(priceValue.toLocaleString())
+        // const priceValue = Number(price.replace(',', ''));
+        if (e.target.value === "") {
+            e.target.value = ""
+        } else if (!isNumValid(price)) {
+            e.target.value = ""
+        }
+        else {
+            e.target.value = comma(price);
+        }
+        setProductPrice(unComma(price))
     }
 
     const selectImg = () => {
@@ -55,18 +70,55 @@ function Upload() {
         setShippingCheck(true)
     }
 
+    const handleShippingFee = (e) => {
+        const shippingPrice = e.target.value;
+        // const shippingPriceValue = Number(shippingPrice.replace(',', ''));
+        if (e.target.value === "") {
+            e.target.value = ""
+        } else if (!isNumValid(shippingPrice)) {
+            e.target.value = ""
+        }
+        else {
+            e.target.value = comma(shippingPrice);
+        }
+        setShippingFee(unComma(shippingPrice))
+    }
+
+    const handleStock = (e) => {
+        setProductStock(e.target.value)
+        if (!isNumValid(e.target.value)) {
+            e.target.value = ""
+        }
+    }
+
 
     const handleUpload = () => {
-        const uploadData = {
-            product_name: productName,
-            image: attachment,
-            price: productPrice,
-            shipping_method: String, // PARCEL 또는 DELIVERY 선택
-            shipping_fee: "숫자",
-            stock: "숫자",
-            products_info: String,
-            token: String,
-        }
+
+        const file = fileInput.current.files[0];
+
+        const formData = new FormData();
+        formData.append("product_name", productName)
+        formData.append("image", file);
+        formData.append("price", productPrice)
+        formData.append("shipping_method", shippingCheck ? "PARCEL" : "DELIVERY")
+        formData.append("shipping_fee", shippingFee)
+        formData.append("stock", productStock)
+        formData.append("product_info", `${productName} 입니다.`)
+        formData.append("token", token)
+
+        console.log(file.name)
+
+        // const uploadData = {
+        //     product_name: productName,
+        //     formData,
+        //     price: Number(productPrice),
+        //     shipping_method: shippingCheck ? "PARCEL" : "DELIVERY", // PARCEL 또는 DELIVERY 선택
+        //     shipping_fee: Number(shippingFee),
+        //     stock: productStock,
+        //     products_info: productName,
+        //     token: token,
+        // }
+        dispatch(addProductDB(formData))
     }
 
     return (
@@ -115,8 +167,8 @@ function Upload() {
                                 <p style={{ margin: "16px 0 10px 0", color: "#767676" }}>배송방법</p>
                                 <Button width="220px" height="54px" bg={shippingCheck ? "#FFFF" : ""} color={shippingCheck ? "#767676" : ""} border={shippingCheck ? "1px solid #c4c4c4" : ""} hover_color={shippingCheck ? "black" : ""} hover_border={shippingCheck ? "1px solid #767676" : ""} margin="0 10px 0 0" _onClick={deliveryCheck}>택배,소포,등기</Button>
                                 <Button width="220px" height="54px" bg={shippingCheck ? "" : "#FFFF"} color={shippingCheck ? "" : "#767676"} border={shippingCheck ? "" : "1px solid #c4c4c4"} hover_color={shippingCheck ? "" : "black"} hover_border={shippingCheck ? "" : "1px solid #767676"} _onClick={parcelCheck}>직접배송(화물배달)</Button>
-                                <Input upload_input label="기본 배송비" children="원" />
-                                <Input upload_input label="재고" children="개" />
+                                <Input upload_input label="기본 배송비" children="원" _onChange={handleShippingFee} />
+                                <Input upload_input label="재고" children="개" _onChange={handleStock} />
                             </div>
                         </div>
                         <div className='bottom-container'>

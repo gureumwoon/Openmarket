@@ -5,6 +5,7 @@ import produce from "immer";
 // Actions
 const GETPRODUCT = "product/GETPRODUCT";
 const GETONEPRODUCT = "product/GETONEPRODUCT";
+const ADDPRODUCT = "product/ADDPRODUCT";
 
 const initialState = {
     products: [],
@@ -14,6 +15,7 @@ const initialState = {
 //Action Creators
 const getProduct = createAction(GETPRODUCT, (products) => ({ products }))
 const getOneProduct = createAction(GETONEPRODUCT, (productOne) => ({ productOne }))
+const addProduct = createAction(ADDPRODUCT, (product) => ({ product }))
 
 export const getProductDB = () => {
     return async function (dispatch) {
@@ -38,6 +40,19 @@ export const getOneProductDB = (productId) => {
             })
             .catch((error) => {
                 console.log("상품하나", error)
+            })
+    }
+}
+
+// 상품 업로드
+export const addProductDB = (product) => {
+    return async function (dispatch) {
+        await apis.addProduct(product)
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((error) => {
+                console.log(error)
             })
     }
 }
