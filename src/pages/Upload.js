@@ -10,7 +10,6 @@ import Footer from '../components/Footer'
 //assets
 import UploadIcon from "../assets/images/icon-img.svg";
 import UploadBg from "../assets/images/product-basic-img.png";
-import { comma } from '../elements/Comma';
 
 function Upload() {
     const fileInput = useRef(null);
@@ -22,20 +21,17 @@ function Upload() {
         setProductName(e.target.value)
     }
 
-    const handleInputValue = (e) => {
-        const price = e.target.value;
-        const priceValue = Number(price.replace(',', ''));
-        return priceValue.toLocaleString();
-    }
+    // const handleInputValue = (e) => {
+    //     const price = e.target.value;
+    //     const priceValue = Number(price.replace(',', ''));
+    //     e.target.value = priceValue.toLocaleString();
+    // }
 
     const handlePrice = (e) => {
-        setProductPrice(e.target.value);
-        // comma(productPrice)
-        // const price = e.target.value;
-        // // // console.log(price)
-        // const priceValue = Number(price.replace(',', ''));
-        // // console.log(priceValue)
-        // setProductPrice(priceValue.toLocaleString());
+        const price = e.target.value;
+        const priceValue = Number(price.replace(',', ''));
+        e.target.value = priceValue.toLocaleString();
+        setProductPrice(priceValue.toLocaleString())
     }
 
     const selectImg = () => {
@@ -105,7 +101,7 @@ function Upload() {
                             <div className='container-input'>
                                 <Input height="54px" label="상품명" _maxLength="20" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" _onChange={handleProductName} />
                                 <p className='product-name_length'>{`${productName.length}/20`}</p>
-                                <Input upload_input label="판매가" children="원" defaultValue={comma(productPrice)} _onChange={handlePrice} />
+                                <Input upload_input label="판매가" children="원" _onChange={handlePrice} />
                                 <p style={{ margin: "16px 0 10px 0", color: "#767676" }}>배송방법</p>
                                 <Button width="220px" height="54px" margin="0 10px 0 0">택배,소포,등기</Button>
                                 <Button width="220px" height="54px" bg="#FFFF" color="#767676" border="1px solid #c4c4c4" hover_color="black" hover_border="1px solid #767676">직접배송(화물배달)</Button>
