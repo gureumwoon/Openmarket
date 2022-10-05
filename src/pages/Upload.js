@@ -38,7 +38,6 @@ function Upload() {
 
     const handlePrice = (e) => {
         const price = e.target.value;
-        // const priceValue = Number(price.replace(',', ''));
         if (e.target.value === "") {
             e.target.value = ""
         } else if (!isNumValid(price)) {
@@ -72,7 +71,6 @@ function Upload() {
 
     const handleShippingFee = (e) => {
         const shippingPrice = e.target.value;
-        // const shippingPriceValue = Number(shippingPrice.replace(',', ''));
         if (e.target.value === "") {
             e.target.value = ""
         } else if (!isNumValid(shippingPrice)) {
@@ -106,18 +104,6 @@ function Upload() {
         formData.append("product_info", `${productName} 입니다.`)
         formData.append("token", token)
 
-        console.log(file.name)
-
-        // const uploadData = {
-        //     product_name: productName,
-        //     formData,
-        //     price: Number(productPrice),
-        //     shipping_method: shippingCheck ? "PARCEL" : "DELIVERY", // PARCEL 또는 DELIVERY 선택
-        //     shipping_fee: Number(shippingFee),
-        //     stock: productStock,
-        //     products_info: productName,
-        //     token: token,
-        // }
         dispatch(addProductDB(formData))
     }
 

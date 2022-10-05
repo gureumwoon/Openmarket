@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getOneProductDB } from '../redux/modules/product';
 import { addCartDB, getCartDB } from '../redux/modules/cart';
+import { addPaymentDB } from '../redux/modules/payment';
 
 //elements
 import Button from '../elements/Button';
@@ -12,7 +13,7 @@ import Button from '../elements/Button';
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import UserModal from '../components/UserModal';
-import { addPatymentDB } from '../redux/modules/payment';
+
 
 
 function ProductDetail() {
@@ -27,6 +28,7 @@ function ProductDetail() {
     console.log(product)
     const isLogin = localStorage.getItem("token")
     const userId = localStorage.getItem("id")
+    const userType = localStorage.getItem("type")
 
     const [quantity, setQuantity] = useState(1)
     const [modal, setModal] = useState(0);
@@ -140,8 +142,8 @@ function ProductDetail() {
                         </div>
                     </div>
                     <div className='btn-container'>
-                        <Button width="416px" height="60px" margin="0 14px 0 0" _onClick={handleBuyItNow}>바로구매</Button>
-                        <Button width="200px" height="60px" bg="#767676" _onClick={handleAddCart}>장바구니</Button>
+                        <Button width="416px" height="60px" margin="0 14px 0 0" _disabled={userType === "SELLER" && true} _onClick={handleBuyItNow}>바로구매</Button>
+                        <Button width="200px" height="60px" bg={userType === "SELLER" ? "#C4C4C4" : "#767676"} _disabled={userType === "SELLER" && true} _onClick={handleAddCart}>장바구니</Button>
                     </div>
                 </div>
             </SectionOne>
