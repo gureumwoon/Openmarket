@@ -16,6 +16,7 @@ function Upload() {
     const [productName, setProductName] = useState("");
     const [productPrice, setProductPrice] = useState("");
     const [attachment, setAttachment] = useState("");
+    const [shippingCheck, setShippingCheck] = useState(false);
 
     const handleProductName = (e) => {
         setProductName(e.target.value)
@@ -45,6 +46,15 @@ function Upload() {
             setAttachment(result);
         };
     }
+
+    const deliveryCheck = () => {
+        setShippingCheck(false)
+    }
+
+    const parcelCheck = () => {
+        setShippingCheck(true)
+    }
+
 
     const handleUpload = () => {
         const uploadData = {
@@ -103,8 +113,8 @@ function Upload() {
                                 <p className='product-name_length'>{`${productName.length}/20`}</p>
                                 <Input upload_input label="판매가" children="원" _onChange={handlePrice} />
                                 <p style={{ margin: "16px 0 10px 0", color: "#767676" }}>배송방법</p>
-                                <Button width="220px" height="54px" margin="0 10px 0 0">택배,소포,등기</Button>
-                                <Button width="220px" height="54px" bg="#FFFF" color="#767676" border="1px solid #c4c4c4" hover_color="black" hover_border="1px solid #767676">직접배송(화물배달)</Button>
+                                <Button width="220px" height="54px" bg={shippingCheck ? "#FFFF" : ""} color={shippingCheck ? "#767676" : ""} border={shippingCheck ? "1px solid #c4c4c4" : ""} hover_color={shippingCheck ? "black" : ""} hover_border={shippingCheck ? "1px solid #767676" : ""} margin="0 10px 0 0" _onClick={deliveryCheck}>택배,소포,등기</Button>
+                                <Button width="220px" height="54px" bg={shippingCheck ? "" : "#FFFF"} color={shippingCheck ? "" : "#767676"} border={shippingCheck ? "" : "1px solid #c4c4c4"} hover_color={shippingCheck ? "" : "black"} hover_border={shippingCheck ? "" : "1px solid #767676"} _onClick={parcelCheck}>직접배송(화물배달)</Button>
                                 <Input upload_input label="기본 배송비" children="원" />
                                 <Input upload_input label="재고" children="개" />
                             </div>

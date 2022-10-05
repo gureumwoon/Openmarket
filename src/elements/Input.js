@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 // assets
 import Search from "../assets/images/search.svg";
-import { comma } from './Comma';
 
 function Input(props) {
     const { label,
