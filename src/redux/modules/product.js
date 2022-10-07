@@ -5,17 +5,18 @@ import produce from "immer";
 // Actions
 const GETPRODUCT = "product/GETPRODUCT";
 const GETONEPRODUCT = "product/GETONEPRODUCT";
-const ADDPRODUCT = "product/ADDPRODUCT";
+const GETSELLERPRODUCT = "seller/GETSELLERPRODUCT"
 
 const initialState = {
     products: [],
-    productOne: []
+    productOne: [],
+    sellerProducts: []
 }
 
 //Action Creators
 const getProduct = createAction(GETPRODUCT, (products) => ({ products }))
 const getOneProduct = createAction(GETONEPRODUCT, (productOne) => ({ productOne }))
-const addProduct = createAction(ADDPRODUCT, (product) => ({ product }))
+const getSellerProduct = createAction(GETSELLERPRODUCT, (products) => ({ products }))
 
 export const getProductDB = () => {
     return async function (dispatch) {
@@ -50,6 +51,21 @@ export const addProductDB = (product) => {
         await apis.addProduct(product)
             .then((res) => {
                 console.log(res)
+                window.location.assign("/seller-center")
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+}
+
+// 판매자 상품 불러오기
+export const getSellerProductDB = () => {
+    return async function (dispatch) {
+        await apis.getSellerProduct()
+            .then((res) => {
+                console.log(res)
+                // dispatch(getSellerProduct(res.data))
             })
             .catch((error) => {
                 console.log(error)
@@ -66,6 +82,10 @@ export default handleActions(
         [GETONEPRODUCT]: (state, action) =>
             produce(state, (draft) => {
                 draft.productOne = action.payload.productOne
+            }),
+        [GETSELLERPRODUCT]: (state, action) =>
+            produce(state, (draft) => {
+                draft.sellerProducts = action.payload.products
             })
     },
     initialState
