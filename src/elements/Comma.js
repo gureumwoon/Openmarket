@@ -9,3 +9,4 @@ export const unComma = (price) => {
     const priceValue = Number(price.replace(',', ''));
     return priceValue
 }
+

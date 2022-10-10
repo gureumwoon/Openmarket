@@ -64,8 +64,8 @@ export const getSellerProductDB = () => {
     return async function (dispatch) {
         await apis.getSellerProduct()
             .then((res) => {
-                console.log(res)
-                // dispatch(getSellerProduct(res.data))
+                console.log(res.data.results)
+                dispatch(getSellerProduct(res.data.results))
             })
             .catch((error) => {
                 console.log(error)

@@ -1,15 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from "styled-components";
 import Nav from '../components/Nav'
 import Button from '../elements/Button';
 
 //assets
 import PlusIcon from "../assets/images/icon-plus.svg";
-import BasicProfile from "../assets/images/profile-bunny.png";
 import { useNavigate } from 'react-router-dom';
+import SellerCenterItem from './SellerCenterItem';
+import { getSellerProductDB } from '../redux/modules/product';
+import { useDispatch, useSelector } from 'react-redux';
 
 function SellerCenter() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const sellerProducts = useSelector((state) => state.product.sellerProducts)
+    console.log(sellerProducts)
+    useEffect(() => {
+        dispatch(getSellerProductDB())
+    }, [dispatch])
+
     return (
         <div>
             <Nav seller_nav />
@@ -23,7 +32,7 @@ function SellerCenter() {
                 </Header>
                 <Section>
                     <div className='button-container'>
-                        <Button seller_tab_button >판매중인 상품(3)</Button>
+                        <Button seller_tab_button >판매중인 상품({sellerProducts.length})</Button>
                         <Button seller_tab_button _disabled={true}>주문/배송</Button>
                         <Button seller_tab_button _disabled={true}>문의/리뷰</Button>
                         <Button seller_tab_button _disabled={true}>통계</Button>
@@ -36,20 +45,14 @@ function SellerCenter() {
                             <p>수정</p>
                             <p>삭제</p>
                         </div>
-                        <div className='info-container'>
-                            <div className='basic-info'>
-                                <img src={BasicProfile} alt="" />
-                                <div>
-                                    <p>딥러닝 개발자 무릎담요</p>
-                                    <p>재고: 370개</p>
-                                </div>
-                            </div>
-                            <p className='price-info'>17,500원</p>
-                            <div className='btn-container'>
-                                <Button width="80px" height="40px" >수정</Button>
-                                <Button width="80px" height="40px" bg="#FFFF" color="#767676" border="1px solid #c4c4c4" hover_color="black" hover_border="1px solid #767676">삭제</Button>
-                            </div>
-                        </div>
+                        {
+                            sellerProducts.map((p, i) => {
+                                return <SellerCenterItem
+                                    key={i}
+                                    {...p}
+                                />
+                            })
+                        }
                     </div>
                 </Section>
             </MainSection>
@@ -115,51 +118,6 @@ const Section = styled.div`
                 &:nth-child(4) {
                     width: 10%;
                 }
-            }
-        }
-        .info-container {
-            width: 100%;
-            height: 103px;
-            display: flex;
-            border-bottom: 1px solid #c4c4c4;
-            background-color: #FFFF;
-            align-items: center;
-            img {
-                width: 70px;
-                height: 70px;
-                border-radius: 50%;
-                background-color: #c4c4c4;
-                margin-right: 30px;
-            }
-            .basic-info {
-                display: flex;
-                width: 50%;
-                padding-left: 30px;
-                div{
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                }
-                p {
-                    &:first-child {
-                        font-size: 18px;
-                        margin-bottom: 10px;
-                    }
-                    &:nth-child(2) {
-                        color: #767676;
-                    }
-                }
-            }
-            .price-info {
-                width: 30%;
-                text-align: center;
-                font-size: 18px;
-            }
-            .btn-container {
-                width: 20%;
-                display: flex;
-                align-items: center;
-                justify-content: space-around;
             }
         }
     }
