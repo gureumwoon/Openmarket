@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import styled from "styled-components";
 import Nav from '../components/Nav'
 import Button from '../elements/Button';
@@ -7,13 +7,18 @@ import Button from '../elements/Button';
 import PlusIcon from "../assets/images/icon-plus.svg";
 import { useNavigate } from 'react-router-dom';
 import SellerCenterItem from './SellerCenterItem';
-import { getSellerProductDB } from '../redux/modules/product';
+import { deleteProductDB, getSellerProductDB } from '../redux/modules/product';
 import { useDispatch, useSelector } from 'react-redux';
+import UserModal from '../components/UserModal';
+import { deleteCartItemDB } from '../redux/modules/cart';
 
 function SellerCenter() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const sellerProducts = useSelector((state) => state.product.sellerProducts)
+
+    const [modal, setModal] = useState(0);
+
     console.log(sellerProducts)
     useEffect(() => {
         dispatch(getSellerProductDB())
@@ -47,10 +52,27 @@ function SellerCenter() {
                         </div>
                         {
                             sellerProducts.map((p, i) => {
-                                return <SellerCenterItem
-                                    key={i}
-                                    {...p}
-                                />
+                                return <Fragment>
+                                    <SellerCenterItem
+                                        key={i}
+                                        {...p}
+                                        _onClick={() => setModal(1)}
+                                    />
+                                    {modal === 1 &&
+                                        <UserModal modal_to_check
+                                            _disabled={true}
+                                            children2="상품을 삭제하시겠습니까?"
+                                            btn_children_1="취소"
+                                            btn_children_2="확인"
+                                            margin="40px 0 0 0"
+                                            _onClick={() => setModal(0)}
+                                            _onClick2={() => {
+                                                dispatch(deleteProductDB(p.product_id))
+                                                setModal(0)
+                                            }}
+                                            _onClickBg={() => setModal(0)}
+                                        />}
+                                </Fragment>
                             })
                         }
                     </div>

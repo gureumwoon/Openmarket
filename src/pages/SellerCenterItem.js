@@ -1,11 +1,12 @@
 import React from 'react'
 import styled from "styled-components";
+
 //Components
 import Button from '../elements/Button';
-//Elements
-import { comma } from '../elements/Comma';
 
 function SellerCenterItem(props) {
+    const { _onClick } = props;
+
     return (
         <Item>
             <div className='basic-info'>
@@ -18,7 +19,7 @@ function SellerCenterItem(props) {
             <p className='price-info'>{props.price.toLocaleString()}원</p>
             <div className='btn-container'>
                 <Button width="80px" height="40px" >수정</Button>
-                <Button width="80px" height="40px" bg="#FFFF" color="#767676" border="1px solid #c4c4c4" hover_color="black" hover_border="1px solid #767676">삭제</Button>
+                <Button width="80px" height="40px" bg="#FFFF" color="#767676" border="1px solid #c4c4c4" hover_color="black" hover_border="1px solid #767676" _onClick={_onClick}>삭제</Button>
             </div>
         </Item>
     )

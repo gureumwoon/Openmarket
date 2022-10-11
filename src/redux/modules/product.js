@@ -5,7 +5,8 @@ import produce from "immer";
 // Actions
 const GETPRODUCT = "product/GETPRODUCT";
 const GETONEPRODUCT = "product/GETONEPRODUCT";
-const GETSELLERPRODUCT = "seller/GETSELLERPRODUCT"
+const GETSELLERPRODUCT = "seller/GETSELLERPRODUCT";
+const DELETEPRODUCT = "product/DELETEPRODUCT";
 
 const initialState = {
     products: [],
@@ -17,6 +18,7 @@ const initialState = {
 const getProduct = createAction(GETPRODUCT, (products) => ({ products }))
 const getOneProduct = createAction(GETONEPRODUCT, (productOne) => ({ productOne }))
 const getSellerProduct = createAction(GETSELLERPRODUCT, (products) => ({ products }))
+const deleteProduct = createAction(DELETEPRODUCT, (productId) => ({ productId }))
 
 export const getProductDB = () => {
     return async function (dispatch) {
@@ -73,6 +75,20 @@ export const getSellerProductDB = () => {
     }
 }
 
+// 판매상품 삭제하기
+export const deleteProductDB = (productId) => {
+    return async function (dispatch) {
+        await apis.deleteProduct(productId)
+            .then((res) => {
+                console.log(res)
+                dispatch(deleteProduct(productId))
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+}
+
 export default handleActions(
     {
         [GETPRODUCT]: (state, action) =>
@@ -86,6 +102,13 @@ export default handleActions(
         [GETSELLERPRODUCT]: (state, action) =>
             produce(state, (draft) => {
                 draft.sellerProducts = action.payload.products
+            }),
+        [DELETEPRODUCT]: (state, action) =>
+            produce(state, (draft) => {
+                const idx = state.sellerProducts.findIndex((p) => p.product_id === action.payload.productId)
+                draft.sellerProducts = draft.sellerProducts.filter((product) =>
+                    product.product_id === action.payload.productId
+                )
             })
     },
     initialState

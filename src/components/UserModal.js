@@ -66,7 +66,7 @@ const ModalBg = styled.div`
     top: 0;
     left: 0;
     z-index: 9;
-    opacity: 0.5;
+    opacity: 0.2;
     @media screen and (max-width:1320px) {
         width: 100%;
         height: 100vh;
@@ -75,7 +75,7 @@ const ModalBg = styled.div`
         top: 0;
         left: 0;
         z-index: 9;
-        opacity: 0.5;
+        opacity: 0.2;
     }
 `
 
