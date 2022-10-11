@@ -52,9 +52,8 @@ function SellerCenter() {
                         </div>
                         {
                             sellerProducts.map((p, i) => {
-                                return <Fragment>
+                                return <Fragment key={i}>
                                     <SellerCenterItem
-                                        key={i}
                                         {...p}
                                         _onClick={() => setModal(1)}
                                     />

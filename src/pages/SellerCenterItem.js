@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 
 //Components
@@ -7,8 +8,10 @@ import Button from '../elements/Button';
 function SellerCenterItem(props) {
     const { _onClick } = props;
 
+    const navigate = useNavigate();
+
     return (
-        <Item>
+        <Item onClick={() => navigate(`/detail/${props.product_id}`)}>
             <div className='basic-info'>
                 <img src={props.image} alt="" />
                 <div>
@@ -26,12 +29,13 @@ function SellerCenterItem(props) {
 }
 
 const Item = styled.div`
-              width: 100%;
+            width: 100%;
             height: 103px;
             display: flex;
             border-bottom: 1px solid #c4c4c4;
             background-color: #FFFF;
             align-items: center;
+            cursor: pointer;
             img {
                 width: 70px;
                 height: 70px;
