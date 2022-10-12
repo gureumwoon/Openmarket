@@ -6,7 +6,7 @@ import Button from '../elements/Button';
 //assets
 import PlusIcon from "../assets/images/icon-plus.svg";
 import { useNavigate } from 'react-router-dom';
-import SellerCenterItem from './SellerCenterItem';
+import SellerCenterItem from '../components/SellerCenterItem';
 import { deleteProductDB, getSellerProductDB } from '../redux/modules/product';
 import { useDispatch, useSelector } from 'react-redux';
 import UserModal from '../components/UserModal';
@@ -19,7 +19,6 @@ function SellerCenter() {
 
     const [modal, setModal] = useState(0);
 
-    console.log(sellerProducts)
     useEffect(() => {
         dispatch(getSellerProductDB())
     }, [dispatch])

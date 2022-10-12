@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 
@@ -11,9 +11,9 @@ function SellerCenterItem(props) {
     const navigate = useNavigate();
 
     return (
-        <Item onClick={() => navigate(`/detail/${props.product_id}`)}>
+        <Item>
             <div className='basic-info'>
-                <img src={props.image} alt="" />
+                <img src={props.image} alt="" onClick={() => navigate(`/detail/${props.product_id}`)} />
                 <div>
                     <p>{props.product_name}</p>
                     <p>재고: {props.stock}개</p>
@@ -21,7 +21,7 @@ function SellerCenterItem(props) {
             </div>
             <p className='price-info'>{props.price.toLocaleString()}원</p>
             <div className='btn-container'>
-                <Button width="80px" height="40px" >수정</Button>
+                <Button width="80px" height="40px" _onClick={() => navigate(`/upload/${props.product_id}`)}>수정</Button>
                 <Button width="80px" height="40px" bg="#FFFF" color="#767676" border="1px solid #c4c4c4" hover_color="black" hover_border="1px solid #767676" _onClick={_onClick}>삭제</Button>
             </div>
         </Item>
@@ -35,13 +35,13 @@ const Item = styled.div`
             border-bottom: 1px solid #c4c4c4;
             background-color: #FFFF;
             align-items: center;
-            cursor: pointer;
             img {
                 width: 70px;
                 height: 70px;
                 border-radius: 50%;
                 background-color: #c4c4c4;
                 margin-right: 30px;
+                cursor: pointer;
             }
             .basic-info {
                 display: flex;

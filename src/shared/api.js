@@ -33,6 +33,7 @@ export const apis = {
     addProduct: (data) => api.post("products/", data),
     getSellerProduct: () => api.get("seller/"),
     deleteProduct: (id) => api.delete(`products/${id}/`),
+    modifyProduct: (id, data) => api.put(`products/${id}/`, data),
     // cart
     addCart: (data) => api.post("cart/", data),
     getCart: () => api.get("cart/"),

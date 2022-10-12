@@ -1,6 +1,8 @@
-import React, { useRef, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import styled from "styled-components";
+import { addProductDB, getOneProductDB, modifyProductDB } from '../redux/modules/product';
 
 //components
 import Nav from '../components/Nav'
@@ -11,20 +13,33 @@ import Footer from '../components/Footer'
 //assets
 import UploadIcon from "../assets/images/icon-img.svg";
 import UploadBg from "../assets/images/product-basic-img.png";
-import { addProductDB } from '../redux/modules/product';
+
+//elements
 import { comma, unComma } from '../elements/Comma';
+
 
 function Upload() {
     const dispatch = useDispatch();
     const fileInput = useRef(null);
+    const image = useRef();
+    console.log("이미지타켓", image.current)
+    const { id } = useParams();
+    const isId = id ? true : false;
+    const sellerItem = useSelector((state) => state.product.productOne)
+    console.log(sellerItem)
     const token = localStorage.getItem("token")
 
-    const [productName, setProductName] = useState("");
-    const [productPrice, setProductPrice] = useState("");
-    const [attachment, setAttachment] = useState("");
-    const [shippingCheck, setShippingCheck] = useState(false);
-    const [shippingFee, setShippingFee] = useState("");
-    const [productStock, setProductStock] = useState()
+    const [productName, setProductName] = useState(isId ? sellerItem.product_name : "");
+    const [productPrice, setProductPrice] = useState(isId ? sellerItem.price : "");
+    const [attachment, setAttachment] = useState(isId ? sellerItem.image : "");
+    const [shippingCheck, setShippingCheck] = useState(isId ? sellerItem.shipping_method === "DELIVERY" ? false : true : false);
+    const [shippingFee, setShippingFee] = useState(isId ? sellerItem.shipping_fee : "");
+    const [productStock, setProductStock] = useState(isId ? sellerItem.stock : "")
+
+    useEffect(() => {
+        dispatch(getOneProductDB(id))
+        console.log("이상하다")
+    }, [dispatch, id])
 
     const handleProductName = (e) => {
         setProductName(e.target.value)
@@ -93,7 +108,7 @@ function Upload() {
     const handleUpload = () => {
 
         const file = fileInput.current.files[0];
-
+        console.log("이미지", file)
         const formData = new FormData();
         formData.append("product_name", productName)
         formData.append("image", file);
@@ -105,6 +120,23 @@ function Upload() {
         formData.append("token", token)
 
         dispatch(addProductDB(formData))
+    }
+
+    const handleModify = () => {
+        const file = fileInput.current.files[0];
+        console.log("이미지", file)
+
+        const formData = new FormData();
+
+        formData.append("product_name", productName)
+        formData.append("image", file);
+        formData.append("price", productPrice)
+        formData.append("shipping_method", shippingCheck ? "PARCEL" : "DELIVERY")
+        formData.append("shipping_fee", shippingFee)
+        formData.append("stock", productStock)
+        formData.append("product_info", `${productName} 입니다.`)
+
+        dispatch(modifyProductDB(sellerItem.product_id, formData))
     }
 
     return (
@@ -140,21 +172,21 @@ function Upload() {
                         <div className='top-container'>
                             <div style={{ position: "relative", marginRight: "40px" }}>
                                 <p style={{ color: "#767676", marginBottom: "10px", lineHeight: "20.03px" }}>상품 이미지</p>
-                                <img className='upload-img' src={attachment ? attachment : UploadBg} alt="업로드 할 이미지" />
+                                <img className='upload-img' src={attachment ? attachment : UploadBg} alt="업로드 할 이미지" ref={image} />
                                 <label htmlFor="file-input" style={{ cursor: "pointer" }}>
                                     <input id="file-input" type="file" style={{ display: "none" }} ref={fileInput} onChange={selectImg} />
                                     <img src={UploadIcon} alt="" style={{ position: "absolute", top: "202px", left: "202px" }} />
                                 </label>
                             </div>
                             <div className='container-input'>
-                                <Input height="54px" label="상품명" _maxLength="20" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" _onChange={handleProductName} />
-                                <p className='product-name_length'>{`${productName.length}/20`}</p>
-                                <Input upload_input label="판매가" children="원" _onChange={handlePrice} />
+                                <Input height="54px" label="상품명" defaultValue={productName} _maxLength="20" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" _onChange={handleProductName} />
+                                <p className='product-name_length'>{isId ? `${sellerItem.product_name.length}/20` : `${productName.length}/20`}</p>
+                                <Input upload_input label="판매가" defaultValue={productPrice.toLocaleString()} children="원" _onChange={handlePrice} />
                                 <p style={{ margin: "16px 0 10px 0", color: "#767676" }}>배송방법</p>
                                 <Button width="220px" height="54px" bg={shippingCheck ? "#FFFF" : ""} color={shippingCheck ? "#767676" : ""} border={shippingCheck ? "1px solid #c4c4c4" : ""} hover_color={shippingCheck ? "black" : ""} hover_border={shippingCheck ? "1px solid #767676" : ""} margin="0 10px 0 0" _onClick={deliveryCheck}>택배,소포,등기</Button>
                                 <Button width="220px" height="54px" bg={shippingCheck ? "" : "#FFFF"} color={shippingCheck ? "" : "#767676"} border={shippingCheck ? "" : "1px solid #c4c4c4"} hover_color={shippingCheck ? "" : "black"} hover_border={shippingCheck ? "" : "1px solid #767676"} _onClick={parcelCheck}>직접배송(화물배달)</Button>
-                                <Input upload_input label="기본 배송비" children="원" _onChange={handleShippingFee} />
-                                <Input upload_input label="재고" children="개" _onChange={handleStock} />
+                                <Input upload_input label="기본 배송비" defaultValue={shippingFee.toLocaleString()} children="원" _onChange={handleShippingFee} />
+                                <Input upload_input label="재고" defaultValue={productStock} children="개" _onChange={handleStock} />
                             </div>
                         </div>
                         <div className='bottom-container'>
@@ -167,7 +199,11 @@ function Upload() {
                 </div>
                 <ButtonContainer>
                     <Button width="200px" font_size="18px" height="60px" bg="#FFFF" color="#767676" border="1px solid #c4c4c4" hover_color="black" hover_border="1px solid #767676">취소</Button>
-                    <Button width="200px" font_size="18px" height="60px" margin="0 0 0 14px" _onClick={handleUpload}>저장하기</Button>
+                    {
+                        isId ?
+                            <Button width="200px" font_size="18px" height="60px" margin="0 0 0 14px" _onClick={handleModify}>수정하기</Button> :
+                            <Button width="200px" font_size="18px" height="60px" margin="0 0 0 14px" _onClick={handleUpload}>저장하기</Button>
+                    }
                 </ButtonContainer>
             </MainSection >
             <Footer />
