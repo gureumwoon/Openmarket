@@ -1,16 +1,20 @@
 import React, { Fragment, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
-import Nav from '../components/Nav'
+import { deleteProductDB, getSellerProductDB } from '../redux/modules/product';
+
+//element
 import Button from '../elements/Button';
+
+//components
+import Nav from '../components/Nav'
+import UserModal from '../components/UserModal';
+import SellerCenterItem from '../components/SellerCenterItem';
 
 //assets
 import PlusIcon from "../assets/images/icon-plus.svg";
-import { useNavigate } from 'react-router-dom';
-import SellerCenterItem from '../components/SellerCenterItem';
-import { deleteProductDB, getSellerProductDB } from '../redux/modules/product';
-import { useDispatch, useSelector } from 'react-redux';
-import UserModal from '../components/UserModal';
-import { deleteCartItemDB } from '../redux/modules/cart';
+
 
 function SellerCenter() {
     const navigate = useNavigate();

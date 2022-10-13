@@ -29,7 +29,7 @@ export const apis = {
     sellerSignUp: (data) => api.post("accounts/signup_seller/", data),
     // product
     getProduct: () => api.get("products/"),
-    getOneProduct: (id) => api.get(`products/${id}`),
+    getOneProduct: (id) => api.get(`products/${id}/`),
     addProduct: (data) => api.post("products/", data),
     getSellerProduct: () => api.get("seller/"),
     deleteProduct: (id) => api.delete(`products/${id}/`),
@@ -37,7 +37,7 @@ export const apis = {
     // cart
     addCart: (data) => api.post("cart/", data),
     getCart: () => api.get("cart/"),
-    getItemCart: (id) => api.get(`cart/${id}`),
+    getItemCart: (id) => api.get(`cart/${id}/`),
     modifyQuantity: (id, data) => api.put(`cart/${id}/`, data),
     deleteItem: (id) => api.delete(`cart/${id}/`),
     deleteAllItem: () => api.delete("cart/"),

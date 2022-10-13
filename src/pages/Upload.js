@@ -22,24 +22,21 @@ function Upload() {
     const dispatch = useDispatch();
     const fileInput = useRef(null);
     const image = useRef();
-    console.log("이미지타켓", image.current)
+    console.log("이미지타겟", image.current.currentSrc)
     const { id } = useParams();
     const isId = id ? true : false;
-    const sellerItem = useSelector((state) => state.product.productOne)
-    console.log(sellerItem)
+    const sellerItem = useSelector((state) => state.product.sellerProducts)
+    console.log("판매아이템", sellerItem)
+    const modifyItem = sellerItem.filter((s) => s.product_id !== id)
+    console.log("수정아이템", modifyItem.product_id)
     const token = localStorage.getItem("token")
 
-    const [productName, setProductName] = useState(isId ? sellerItem.product_name : "");
-    const [productPrice, setProductPrice] = useState(isId ? sellerItem.price : "");
-    const [attachment, setAttachment] = useState(isId ? sellerItem.image : "");
-    const [shippingCheck, setShippingCheck] = useState(isId ? sellerItem.shipping_method === "DELIVERY" ? false : true : false);
-    const [shippingFee, setShippingFee] = useState(isId ? sellerItem.shipping_fee : "");
-    const [productStock, setProductStock] = useState(isId ? sellerItem.stock : "")
-
-    useEffect(() => {
-        dispatch(getOneProductDB(id))
-        console.log("이상하다")
-    }, [dispatch, id])
+    const [productName, setProductName] = useState(isId ? modifyItem[0].product_name : "");
+    const [productPrice, setProductPrice] = useState(isId ? modifyItem[0].price : "");
+    const [attachment, setAttachment] = useState(isId ? modifyItem[0].image : "");
+    const [shippingCheck, setShippingCheck] = useState(isId ? modifyItem[0].shipping_method === "DELIVERY" ? false : true : false);
+    const [shippingFee, setShippingFee] = useState(isId ? modifyItem[0].shipping_fee : "");
+    const [productStock, setProductStock] = useState(isId ? modifyItem[0].stock : "")
 
     const handleProductName = (e) => {
         setProductName(e.target.value)
@@ -123,20 +120,24 @@ function Upload() {
     }
 
     const handleModify = () => {
+
         const file = fileInput.current.files[0];
-        console.log("이미지", file)
 
         const formData = new FormData();
 
         formData.append("product_name", productName)
-        formData.append("image", file);
+        formData.append("image", file === undefined ? modifyItem[0].image : file);
         formData.append("price", productPrice)
         formData.append("shipping_method", shippingCheck ? "PARCEL" : "DELIVERY")
         formData.append("shipping_fee", shippingFee)
         formData.append("stock", productStock)
         formData.append("product_info", `${productName} 입니다.`)
 
-        dispatch(modifyProductDB(sellerItem.product_id, formData))
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+
+        dispatch(modifyProductDB(modifyItem[0].product_id, formData))
     }
 
     return (
@@ -180,7 +181,7 @@ function Upload() {
                             </div>
                             <div className='container-input'>
                                 <Input height="54px" label="상품명" defaultValue={productName} _maxLength="20" borderColor="#C4C4C4" borderBottomColor="#C4C4C4" _onChange={handleProductName} />
-                                <p className='product-name_length'>{isId ? `${sellerItem.product_name.length}/20` : `${productName.length}/20`}</p>
+                                <p className='product-name_length'>{isId ? `${modifyItem[0].product_name.length}/20` : `${productName.length}/20`}</p>
                                 <Input upload_input label="판매가" defaultValue={productPrice.toLocaleString()} children="원" _onChange={handlePrice} />
                                 <p style={{ margin: "16px 0 10px 0", color: "#767676" }}>배송방법</p>
                                 <Button width="220px" height="54px" bg={shippingCheck ? "#FFFF" : ""} color={shippingCheck ? "#767676" : ""} border={shippingCheck ? "1px solid #c4c4c4" : ""} hover_color={shippingCheck ? "black" : ""} hover_border={shippingCheck ? "1px solid #767676" : ""} margin="0 10px 0 0" _onClick={deliveryCheck}>택배,소포,등기</Button>

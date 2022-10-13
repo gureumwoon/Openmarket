@@ -98,6 +98,7 @@ export const modifyProductDB = (sellerProductId, product) => {
             .then((res) => {
                 console.log(res)
                 dispatch(modifyProduct(res.data))
+                // window.location.assign("/seller-center")
             })
             .catch((error) => {
                 console.log(error)

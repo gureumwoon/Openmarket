@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getOneProductDB } from '../redux/modules/product';
@@ -13,8 +13,6 @@ import Button from '../elements/Button';
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import UserModal from '../components/UserModal';
-
-
 
 function ProductDetail() {
     const { id } = useParams()
