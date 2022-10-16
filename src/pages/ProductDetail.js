@@ -108,7 +108,11 @@ function ProductDetail() {
 
     return (
         <div>
-            <Nav user_nav children={isLogin ? "마이페이지" : "로그인"} />
+            {
+                userType === "SELLER" ?
+                    <Nav /> :
+                    <Nav user_nav children={isLogin ? "마이페이지" : "로그인"} />
+            }
             <SectionOne>
                 <img src={product.image} alt="" />
                 <div className='container-right'>

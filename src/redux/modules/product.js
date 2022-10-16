@@ -122,9 +122,10 @@ export default handleActions(
             }),
         [DELETEPRODUCT]: (state, action) =>
             produce(state, (draft) => {
+                console.log("상품삭제", action.payload)
                 const idx = state.sellerProducts.findIndex((p) => p.product_id === action.payload.productId)
                 draft.sellerProducts = draft.sellerProducts.filter((product) =>
-                    product.product_id === action.payload.productId
+                    product.product_id !== action.payload.productId
                 )
             }),
         [MODIFYPRODUCT]: (state, action) =>

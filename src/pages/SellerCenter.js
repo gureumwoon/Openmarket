@@ -21,8 +21,6 @@ function SellerCenter() {
     const dispatch = useDispatch();
     const sellerProducts = useSelector((state) => state.product.sellerProducts)
 
-    const [modal, setModal] = useState(0);
-
     useEffect(() => {
         dispatch(getSellerProductDB())
     }, [dispatch])
@@ -55,25 +53,12 @@ function SellerCenter() {
                         </div>
                         {
                             sellerProducts.map((p, i) => {
+                                console.log("p", p)
+                                console.log("p2", sellerProducts[i].product_id)
                                 return <Fragment key={i}>
                                     <SellerCenterItem
                                         {...p}
-                                        _onClick={() => setModal(1)}
                                     />
-                                    {modal === 1 &&
-                                        <UserModal modal_to_check
-                                            _disabled={true}
-                                            children2="상품을 삭제하시겠습니까?"
-                                            btn_children_1="취소"
-                                            btn_children_2="확인"
-                                            margin="40px 0 0 0"
-                                            _onClick={() => setModal(0)}
-                                            _onClick2={() => {
-                                                dispatch(deleteProductDB(p.product_id))
-                                                setModal(0)
-                                            }}
-                                            _onClickBg={() => setModal(0)}
-                                        />}
                                 </Fragment>
                             })
                         }
