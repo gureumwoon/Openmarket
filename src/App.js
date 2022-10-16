@@ -20,7 +20,7 @@ function App() {
         <Route path="/" element={<SellerMain />} />
         <Route path="/seller-center" element={<SellerCenter />} />
         <Route path="/upload" element={<Upload />} />
-        <Route path="/upload/:id" element={<Upload />} />
+        <Route path="/edit/:id" element={<Upload />} />
         <Route path="/detail/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<ShoppingCart />} />
         <Route path="/payment" element={<Payment />} />

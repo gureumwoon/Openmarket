@@ -21,7 +21,7 @@ function SellerCenterItem(props) {
             </div>
             <p className='price-info'>{props.price.toLocaleString()}원</p>
             <div className='btn-container'>
-                <Button width="80px" height="40px" _onClick={() => navigate(`/upload/${props.product_id}`)}>수정</Button>
+                <Button width="80px" height="40px" _onClick={() => navigate(`/edit/${props.product_id}`)}>수정</Button>
                 <Button width="80px" height="40px" bg="#FFFF" color="#767676" border="1px solid #c4c4c4" hover_color="black" hover_border="1px solid #767676" _onClick={_onClick}>삭제</Button>
             </div>
         </Item>

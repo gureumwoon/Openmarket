@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import styled from "styled-components";
-import { addProductDB, getOneProductDB, modifyProductDB } from '../redux/modules/product';
+import { addProductDB, modifyProductDB } from '../redux/modules/product';
 
 //components
 import Nav from '../components/Nav'
@@ -22,21 +22,31 @@ function Upload() {
     const dispatch = useDispatch();
     const fileInput = useRef(null);
     const image = useRef();
-    console.log("이미지타겟", image.current.currentSrc)
+    // console.log("이미지타겟", image.current.currentSrc)
     const { id } = useParams();
+    console.log(id)
     const isId = id ? true : false;
     const sellerItem = useSelector((state) => state.product.sellerProducts)
     console.log("판매아이템", sellerItem)
-    const modifyItem = sellerItem.filter((s) => s.product_id !== id)
-    console.log("수정아이템", modifyItem.product_id)
+    const sellerItemId = sellerItem.map((s) => s.product_id)
+    console.log(sellerItemId)
+    const modifyItem = sellerItem.filter((s) => s.product_id === Number(id))
+    console.log("수정아이템", modifyItem)
     const token = localStorage.getItem("token")
 
     const [productName, setProductName] = useState(isId ? modifyItem[0].product_name : "");
     const [productPrice, setProductPrice] = useState(isId ? modifyItem[0].price : "");
     const [attachment, setAttachment] = useState(isId ? modifyItem[0].image : "");
+    const [encodImage, setEncodImage] = useState();
     const [shippingCheck, setShippingCheck] = useState(isId ? modifyItem[0].shipping_method === "DELIVERY" ? false : true : false);
     const [shippingFee, setShippingFee] = useState(isId ? modifyItem[0].shipping_fee : "");
     const [productStock, setProductStock] = useState(isId ? modifyItem[0].stock : "")
+    console.log("프리뷰이미지", attachment)
+    console.log("업로드이미지", encodImage)
+
+    useEffect(() => {
+
+    })
 
     const handleProductName = (e) => {
         setProductName(e.target.value)
@@ -61,10 +71,10 @@ function Upload() {
         setProductPrice(unComma(price))
     }
 
-    const selectImg = () => {
+    const selectImg = (e) => {
         const reader = new FileReader();
         const theFile = fileInput.current.files[0];
-        reader.readAsDataURL(theFile);
+        reader.readAsDataURL(theFile)
         reader.onloadend = (finishiedEvent) => {
             const {
                 currentTarget: { result },
@@ -105,8 +115,9 @@ function Upload() {
     const handleUpload = () => {
 
         const file = fileInput.current.files[0];
-        console.log("이미지", file)
+        // console.log("업로드이미지2", encodImage)
         const formData = new FormData();
+
         formData.append("product_name", productName)
         formData.append("image", file);
         formData.append("price", productPrice)
@@ -116,17 +127,21 @@ function Upload() {
         formData.append("product_info", `${productName} 입니다.`)
         formData.append("token", token)
 
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
         dispatch(addProductDB(formData))
     }
 
     const handleModify = () => {
 
         const file = fileInput.current.files[0];
+        console.log("업로드이미지3", encodImage)
 
         const formData = new FormData();
 
         formData.append("product_name", productName)
-        formData.append("image", file === undefined ? modifyItem[0].image : file);
+        formData.append("image", attachment);
         formData.append("price", productPrice)
         formData.append("shipping_method", shippingCheck ? "PARCEL" : "DELIVERY")
         formData.append("shipping_fee", shippingFee)

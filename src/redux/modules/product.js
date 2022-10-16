@@ -12,7 +12,7 @@ const MODIFYPRODUCT = "product/MODIFYPRODUCT";
 const initialState = {
     products: [],
     productOne: [],
-    sellerProducts: []
+    sellerProducts: [],
 }
 
 //Action Creators
@@ -51,11 +51,11 @@ export const getOneProductDB = (productId) => {
 
 // 상품 업로드
 export const addProductDB = (product) => {
-    return async function (dispatch) {
+    return async function (dispatch, getState) {
         await apis.addProduct(product)
             .then((res) => {
-                console.log(res)
-                window.location.assign(`/detail/${res.data.product_id}`)
+                console.log(res.data)
+                window.location.assign("/seller-center")
             })
             .catch((error) => {
                 console.log(error)
@@ -131,7 +131,7 @@ export default handleActions(
             produce(state, (draft) => {
                 const idx = state.sellerProducts.findIndex((p) => p.product_id === action.payload.product_id)
                 draft.sellerProducts[idx] = action.payload.product[idx]
-            })
+            }),
     },
     initialState
-)
+);
