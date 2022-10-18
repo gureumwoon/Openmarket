@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProductDB } from '../redux/modules/product'
 
@@ -16,6 +16,20 @@ function SellerMain() {
     const mainItem = useSelector((state) => state.product.products)
     console.log("메인", mainItem)
 
+    const [isLoading, setIsLoading] = useState(false);
+    const [target, setTarget] = useState("");
+
+    const handleInterSect = ([entry], observer) => {
+        if (entry.isIntersecting && !isLoading) {
+            observer.unobserve(entry.target);
+            setIsLoading(true);
+            dispatch(getProductDB())
+            setIsLoading(false);
+            observer.observe(entry.target)
+        }
+    }
+
+
     useEffect(() => {
         dispatch(getProductDB())
     }, [dispatch])
@@ -29,6 +43,7 @@ function SellerMain() {
             }
             <Banner />
             <MainGrid />
+            {/* {!isLoading && <div ref={setTarget}></div>} */}
             <Footer />
         </div>
     )
