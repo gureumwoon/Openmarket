@@ -115,7 +115,7 @@ function Upload() {
     const handleUpload = () => {
 
         const file = fileInput.current.files[0];
-        // console.log("업로드이미지2", encodImage)
+        console.log("업로드이미지2", file)
         const formData = new FormData();
 
         formData.append("product_name", productName)
@@ -133,15 +133,27 @@ function Upload() {
         dispatch(addProductDB(formData))
     }
 
+    const urlToFile = (url) => {
+        // const data = url.blob();
+        // const ext = url.split(".").pop()
+        const filename = url.split("/").pop()
+        const filename2 = filename.split("_").shift()
+        const filename3 = filename.split(".").pop()
+        const metadata = { type: "image/jpeg" };
+        return new File([url], filename2 + "." + filename3, metadata);
+    }
+
     const handleModify = () => {
 
-        const file = fileInput.current.files[0];
-        console.log("업로드이미지3", encodImage)
+        const file2 = fileInput.current.files[0];
+        console.log("업로드이미지3", file2)
+        const file = urlToFile(modifyItem[0].image)
+        console.log("수정할 이미지", file)
 
         const formData = new FormData();
 
         formData.append("product_name", productName)
-        formData.append("image", attachment);
+        formData.append("image", file);
         formData.append("price", productPrice)
         formData.append("shipping_method", shippingCheck ? "PARCEL" : "DELIVERY")
         formData.append("shipping_fee", shippingFee)

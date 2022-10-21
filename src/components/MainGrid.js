@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
-import { getProductDB } from '../redux/modules/product';
 
 function MainGrid(props) {
     const navigate = useNavigate()
@@ -23,30 +22,30 @@ function MainGrid(props) {
     //     }
     // }
 
-    const handleInterSect = (entries, observer) => {
-        entries.forEach(entry => {
-            if (!entry.isIntersecting) {
-                return;
-            } else {
-                observer.unobserve(entry.target);
-                setIsLoading(true);
-                // dispatch(getProductDB())
-                setIsLoading(false);
-                observer.observe(target.current)
-            }
-        });
-    }
+    // const handleInterSect = (entries, observer) => {
+    //     entries.forEach(entry => {
+    //         if (!entry.isIntersecting) {
+    //             return;
+    //         } else {
+    //             observer.unobserve(entry.target);
+    //             setIsLoading(true);
+    //             // dispatch(getProductDB())
+    //             setIsLoading(false);
+    //             observer.observe(target.current)
+    //         }
+    //     });
+    // }
 
-    useEffect(() => {
-        let observer;
-        if (target) {
-            observer = new IntersectionObserver(handleInterSect, {
-                threshold: 0.4,
-            });
-            observer.observe(target.current) // 타겟 엘리먼트 지정
-        }
-        return () => observer && observer.disconnect();
-    }, [target])
+    // useEffect(() => {
+    //     let observer;
+    //     if (target) {
+    //         observer = new IntersectionObserver(handleInterSect, {
+    //             threshold: 0.4,
+    //         });
+    //         observer.observe(target.current) // 타겟 엘리먼트 지정
+    //     }
+    //     return () => observer && observer.disconnect();
+    // }, [target])
 
     return (
         <Container>

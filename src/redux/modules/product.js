@@ -55,7 +55,7 @@ export const addProductDB = (product) => {
         await apis.addProduct(product)
             .then((res) => {
                 console.log(res.data)
-                window.location.assign("/seller-center")
+                // window.location.assign("/seller-center")
             })
             .catch((error) => {
                 console.log(error)
