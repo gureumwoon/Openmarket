@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = axios.create({
+export const api = axios.create({
     baseURL: "https://openmarket.weniv.co.kr/",
     headers: {
         'Content-type': 'application/json;charset=UTF-8',
@@ -29,6 +29,7 @@ export const apis = {
     sellerSignUp: (data) => api.post("accounts/signup_seller/", data),
     // product
     getProduct: () => api.get("products/"),
+    getProduct2: () => api.get("products/?page=2"),
     getOneProduct: (id) => api.get(`products/${id}/`),
     addProduct: (data) => api.post("products/", data),
     getSellerProduct: () => api.get("seller/"),

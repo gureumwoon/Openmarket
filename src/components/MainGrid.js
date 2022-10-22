@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
+import { api, apis } from '../shared/api';
 
 function MainGrid(props) {
     const navigate = useNavigate()
@@ -10,42 +11,36 @@ function MainGrid(props) {
     console.log(product)
 
     const [isLoading, setIsLoading] = useState(false);
+    const [page, setPage] = useState(1)
+    const [list, setList] = useState([])
     const target = useRef(null)
 
-    // const handleInterSect = ([entry], observer) => {
-    //     if (entry.isIntersecting && !isLoading) {
-    //         observer.unobserve(entry.target);
-    //         setIsLoading(true);
-    //         dispatch(getProductDB())
-    //         setIsLoading(false);
-    //         observer.observe(entry.target)
-    //     }
-    // }
+    useEffect(() => {
+        let observer;
+        if (target) {
+            observer = new IntersectionObserver(handleInterSect, {
+                threshold: 0.4,
+            });
+            observer.observe(target.current) // 타겟 엘리먼트 지정
+        }
+        return () => observer && observer.disconnect();
+    }, [target])
 
-    // const handleInterSect = (entries, observer) => {
-    //     entries.forEach(entry => {
-    //         if (!entry.isIntersecting) {
-    //             return;
-    //         } else {
-    //             observer.unobserve(entry.target);
-    //             setIsLoading(true);
-    //             // dispatch(getProductDB())
-    //             setIsLoading(false);
-    //             observer.observe(target.current)
-    //         }
-    //     });
-    // }
+    const getData = async () => {
+        const response = await api.get(`/products/?page=${page}`)
+        setList(prev => [...prev, ...response.data.results]); //리스트 추가
+    }
 
-    // useEffect(() => {
-    //     let observer;
-    //     if (target) {
-    //         observer = new IntersectionObserver(handleInterSect, {
-    //             threshold: 0.4,
-    //         });
-    //         observer.observe(target.current) // 타겟 엘리먼트 지정
-    //     }
-    //     return () => observer && observer.disconnect();
-    // }, [target])
+    const handleInterSect = ([entry], observer) => {
+        if (entry.isIntersecting && !isLoading) {
+            observer.unobserve(entry.target);
+            setPage(prev => prev + 1) // 페이지 값 증가
+            setIsLoading(true);
+            // dispatch(getProductDB())
+            setIsLoading(false);
+            observer.observe(entry.target)
+        }
+    }
 
     return (
         <Container>

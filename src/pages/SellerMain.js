@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getProductDB } from '../redux/modules/product'
+import { getProductDB, getProductDB2 } from '../redux/modules/product'
 
 // components
 import Nav from "../components/Nav"
@@ -32,6 +32,7 @@ function SellerMain() {
 
     useEffect(() => {
         dispatch(getProductDB())
+        dispatch(getProductDB2())
     }, [dispatch])
 
     return (

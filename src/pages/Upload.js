@@ -44,9 +44,6 @@ function Upload() {
     console.log("프리뷰이미지", attachment)
     console.log("업로드이미지", encodImage)
 
-    useEffect(() => {
-
-    })
 
     const handleProductName = (e) => {
         setProductName(e.target.value)
@@ -74,6 +71,7 @@ function Upload() {
     const selectImg = (e) => {
         const reader = new FileReader();
         const theFile = fileInput.current.files[0];
+        setEncodImage(theFile)
         reader.readAsDataURL(theFile)
         reader.onloadend = (finishiedEvent) => {
             const {
@@ -133,21 +131,22 @@ function Upload() {
         dispatch(addProductDB(formData))
     }
 
-    const urlToFile = (url) => {
-        // const data = url.blob();
+    const urlToFile = async (url) => {
+        const response = await fetch(url);
+        const data = response.blob();
         // const ext = url.split(".").pop()
         const filename = url.split("/").pop()
         const filename2 = filename.split("_").shift()
         const filename3 = filename.split(".").pop()
         const metadata = { type: "image/jpeg" };
-        return new File([url], filename2 + "." + filename3, metadata);
+        return new File([data], filename2 + "." + filename3, metadata);
     }
 
     const handleModify = () => {
 
         const file2 = fileInput.current.files[0];
         console.log("업로드이미지3", file2)
-        const file = urlToFile(modifyItem[0].image)
+        const file = urlToFile(attachment)
         console.log("수정할 이미지", file)
 
         const formData = new FormData();
