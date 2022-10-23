@@ -36,18 +36,18 @@ export const getProductDB = () => {
 }
 
 // 나머지 게시물 불러오기
-export const getProductDB2 = () => {
-    return async function (dispatch) {
-        await apis.getProduct2()
-            .then((res) => {
-                console.log("추가상품", res)
-                dispatch(getProduct(res.data.results))
-            })
-            .catch((error) => {
-                console.log("추가상품에러", error)
-            })
-    }
-}
+// export const getProductDB2 = () => {
+//     return async function (dispatch) {
+//         await apis.getProduct2()
+//             .then((res) => {
+//                 console.log("추가상품", res)
+//                 dispatch(getProduct(res.data.results))
+//             })
+//             .catch((error) => {
+//                 console.log("추가상품에러", error)
+//             })
+//     }
+// }
 
 // 게시물 하나 불러오기
 export const getOneProductDB = (productId) => {

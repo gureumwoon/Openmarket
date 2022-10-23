@@ -1,66 +1,73 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
-import { api, apis } from '../shared/api';
+import { api } from '../shared/api';
 
-function MainGrid(props) {
+function MainGrid() {
     const navigate = useNavigate()
-    const dispatch = useDispatch()
     const product = useSelector((state) => state.product.products)
-    console.log(product)
+    console.log("상품", product)
 
-    const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(1)
+    console.log("페이지", page)
     const [list, setList] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [moreData, setMoreData] = useState(true)
     const target = useRef(null)
+    console.log("리스트", list)
+
+    const handleInterSect = async ([entry], observer) => {
+        if (entry.isIntersecting) {
+            observer.unobserve(entry.target);
+            await getData(page)
+            // setPage((prev) => prev + 1)  // 페이지 값 증가
+            observer.observe(entry.target)
+        }
+        return;
+    }
+
+    const getData = async (page) => {
+        console.log("페이지2", page)
+        await api.get(`/products/?page=${page}`).then((res) => {
+            console.log("페치데이터", `/products/?page=${page}`)
+            setList((prev) => prev.concat(res.data.results))//리스트 추가
+            setMoreData(res.data.results.length >= 15)
+            if (moreData) {
+                setPage((prev) => prev + 1)  // 페이지 값 증가
+            }
+        })
+    }
+
+    // useEffect(() => {
+    //     getData()
+    // }, [page])
 
     useEffect(() => {
         let observer;
-        if (target) {
+        if (target.current && moreData) {
             observer = new IntersectionObserver(handleInterSect, {
-                threshold: 0.4,
+                threshold: 0.6,
             });
             observer.observe(target.current) // 타겟 엘리먼트 지정
         }
         return () => observer && observer.disconnect();
     }, [target])
 
-    const getData = async () => {
-        const response = await api.get(`/products/?page=${page}`)
-        setList(prev => [...prev, ...response.data.results]); //리스트 추가
-    }
-
-    const handleInterSect = ([entry], observer) => {
-        if (entry.isIntersecting && !isLoading) {
-            observer.unobserve(entry.target);
-            setPage(prev => prev + 1) // 페이지 값 증가
-            setIsLoading(true);
-            // dispatch(getProductDB())
-            setIsLoading(false);
-            observer.observe(entry.target)
-        }
-    }
-
     return (
         <Container>
             {
-                product.map((p, i) => {
-                    const lastTarget = i === product.length - 9
-                    return (
-                        <div
-                            key={i}
-                            ref={lastTarget ? target : null}
-                        >
-                            <img src={p.image} alt="" onClick={() => navigate(`/detail/${p.product_id}`)} />
-                            <p className='product-name'>{p.seller_store}</p>
-                            <p className='product'>{p.product_name}</p>
-                            <span className='product-price'>{p.price}</span>
-                            <span>원</span>
-                        </div>
-                    )
+                list.map((p, i) => {
+                    return <div key={i}>
+                        <img src={p.image} alt="" onClick={() => navigate(`/detail/${p.product_id}`)} />
+                        <p className='product-name'>{p.seller_store}</p>
+                        <p className='product'>{p.product_name}</p>
+                        <span className='product-price'>{p.price}</span>
+                        <span>원</span>
+                    </div>
                 })
             }
+            <div ref={target}></div>
         </Container>
     )
 }
