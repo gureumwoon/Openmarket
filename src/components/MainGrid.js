@@ -12,47 +12,35 @@ function MainGrid() {
     const [page, setPage] = useState(1)
     console.log("페이지", page)
     const [list, setList] = useState([])
-    const [loading, setLoading] = useState(false)
     const [moreData, setMoreData] = useState(true)
-    const target = useRef(null)
-    console.log("리스트", list)
+    const target = useRef(null);
 
-    const handleInterSect = async ([entry], observer) => {
-        if (entry.isIntersecting) {
-            observer.unobserve(entry.target);
-            await getData(page)
-            // setPage((prev) => prev + 1)  // 페이지 값 증가
-            observer.observe(entry.target)
-        }
-        return;
-    }
-
-    const getData = async (page) => {
-        console.log("페이지2", page)
+    const getData = async () => {
         await api.get(`/products/?page=${page}`).then((res) => {
             console.log("페치데이터", `/products/?page=${page}`)
             setList((prev) => prev.concat(res.data.results))//리스트 추가
-            setMoreData(res.data.results.length >= 15)
-            if (moreData) {
-                setPage((prev) => prev + 1)  // 페이지 값 증가
-            }
+            setPage(prev => prev + 1)
+        }).catch((error) => {
+            setMoreData(false)
+            return;
         })
     }
 
-    // useEffect(() => {
-    //     getData()
-    // }, [page])
-
     useEffect(() => {
         let observer;
-        if (target.current && moreData) {
-            observer = new IntersectionObserver(handleInterSect, {
-                threshold: 0.6,
-            });
+        if (target.current) {
+            const handleInterSect = async ([entry], observer) => {
+                if (entry.isIntersecting) {
+                    observer.unobserve(entry.target);
+                    await getData();
+                    observer.observe(entry.target)
+                }
+            };
+            observer = new IntersectionObserver(handleInterSect, { threshold: 0.6, });
             observer.observe(target.current) // 타겟 엘리먼트 지정
         }
         return () => observer && observer.disconnect();
-    }, [target])
+    }, [target, page])
 
     return (
         <Container>
@@ -67,7 +55,7 @@ function MainGrid() {
                     </div>
                 })
             }
-            <div ref={target}></div>
+            {moreData ? <div ref={target}></div> : null}
         </Container>
     )
 }
