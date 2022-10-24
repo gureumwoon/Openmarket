@@ -33,7 +33,7 @@ function Nav(props) {
     if (seller_nav) {
         return (
             <SellerNavigation>
-                <div>
+                <div onClick={() => navigate("/")}>
                     <img style={{ width: "80px", height: "24px" }} src={Hodu} alt="Logo" />
                 </div>
                 <h1>판매자 센터</h1>
@@ -44,7 +44,7 @@ function Nav(props) {
         return (
             <Navigation>
                 <div>
-                    <h1>
+                    <h1 onClick={() => navigate("/")}>
                         <img src={Hodu} alt="Logo" />
                     </h1>
                     <Input nav_input placeholder="상품을 검색해보세요!" />
@@ -70,16 +70,21 @@ function Nav(props) {
     return (
         <Navigation>
             <div className='container-search'>
-                <h1>
+                <h1 onClick={() => navigate("/")}>
                     <img src={Hodu} alt="Logo" />
                 </h1>
                 <Input nav_input placeholder="상품을 검색해보세요!" />
             </div>
             <div className='container-userIcon'>
-                <Link to="/login">
+                <div className='seller-mypage' onClick={() => setModal(!modal)}>
                     <img src={UserIcon} alt="mypage-button" />
                     <p>마이페이지</p>
-                </Link>
+                    {
+                        isLogin ?
+                            modal === true ? <UserModal _onClick={handleLogOut} /> : null
+                            : null
+                    }
+                </div>
                 <Button src={ShoppingIcon} seller_nav_button _onClick={() => navigate("/seller-center")}>판매자센터</Button>
             </div>
         </Navigation>
@@ -103,6 +108,7 @@ const Navigation = styled.nav`
   }
   h1 {
     margin-right: 30px;
+    cursor: pointer;
   }
   a , .my-page{
     display: flex;
@@ -118,8 +124,14 @@ const Navigation = styled.nav`
       font-size: 12px;
       color: #767676;
     }
-    .container-useIcon {
+    .container-userIcon {
         position: relative;
+        .seller-mypage {
+            display: flex;
+            flex-direction: column;
+            margin-right: 30px;
+            cursor: pointer;
+        }
     }
 `
 
@@ -131,6 +143,9 @@ const SellerNavigation = styled.nav`
     display: flex;
     align-items: center;
     flex-direction: row;
+    div {
+        cursor: pointer;
+    }
     img {
         margin-right: 16px;
     }

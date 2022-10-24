@@ -25,9 +25,9 @@ function ProductDetail() {
     const [modal, setModal] = useState(0);
     const [itemDupCheck, setItemDupCheck] = useState()
 
-    useEffect(() => {
-        dispatch(getCartDB())
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(getCartDB())
+    // }, [dispatch])
 
     useEffect(() => {
         dispatch(getOneProductDB(id))
@@ -98,7 +98,7 @@ function ProductDetail() {
                     <div className='info'>
                         <p>{product.seller_store}</p>
                         <p>{product.product_name}</p>
-                        <span className='info-price'>{product.price}</span>
+                        <span className='info-price'>{product.price.toLocaleString()}</span>
                         <span>원</span>
                     </div>
                     <div className='info2'>
@@ -113,7 +113,7 @@ function ProductDetail() {
                         <p>총 상품 금액</p>
                         <div>
                             <p>총 수량 {quantity}개</p>
-                            <span>{product.price * quantity}</span>
+                            <span>{(product.price * quantity).toLocaleString()}</span>
                             <span>원</span>
                         </div>
                     </div>

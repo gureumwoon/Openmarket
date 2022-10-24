@@ -108,7 +108,7 @@ const Modal = styled.div`
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 95px;
+    top: 80px;
     z-index: 1;
     .triangle {
         width: 30px;
