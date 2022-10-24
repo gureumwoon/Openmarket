@@ -1,29 +1,28 @@
 import React, { useState } from 'react'
-import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-
+import { apis } from '../shared/api';
+import styled from "styled-components";
+// Component
+import UserModal from './UserModal';
 // elements
 import Button from "../elements/Button";
 import Input from "../elements/Input";
-
 // assets
 import Hodu from "../assets/images/Nav-hodu.png";
 import UserIcon from "../assets/images/icon-user.svg";
 import Cart from "../assets/images/icon-shopping-cart.svg";
 import ShoppingIcon from "../assets/images/icon-shopping-bag.svg";
-import UserModal from './UserModal';
-import { apis } from '../shared/api';
 
 function Nav(props) {
+    const { seller_nav, user_nav, children } = props;
+
     const isLogin = localStorage.getItem("token")
     const navigate = useNavigate();
     const [modal, setModal] = useState(false);
-    const { seller_nav, user_nav, children } = props
 
     const handleLogOut = () => {
         apis.signOut()
             .then((res) => {
-                console.log("로그아웃", res);
                 localStorage.clear()
                 window.location.assign("/")
             })
@@ -31,8 +30,6 @@ function Nav(props) {
                 console.log("로그아웃에러", error)
             })
     }
-
-
     if (seller_nav) {
         return (
             <SellerNavigation>
@@ -90,7 +87,6 @@ function Nav(props) {
 }
 
 const Navigation = styled.nav`
-  /* position: relative; */
   width: 100%;
   height: 90px;
   display: flex;

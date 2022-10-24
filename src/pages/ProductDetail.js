@@ -1,36 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
 import { getOneProductDB } from '../redux/modules/product';
 import { addCartDB, getCartDB } from '../redux/modules/cart';
-import { addPaymentDB } from '../redux/modules/payment';
-
-//elements
-import Button from '../elements/Button';
-
 //components
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import UserModal from '../components/UserModal';
+//elements
+import Button from '../elements/Button';
 
 function ProductDetail() {
     const { id } = useParams()
-    console.log(id)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const product = useSelector((state) => state.product.productOne)
     const product_stock = product.stock
     const cartList = useSelector((state) => state.cart.cartList)
-    console.log(cartList)
-    console.log(product)
     const isLogin = localStorage.getItem("token")
-    const userId = localStorage.getItem("id")
     const userType = localStorage.getItem("type")
 
     const [quantity, setQuantity] = useState(1)
     const [modal, setModal] = useState(0);
-    const [orderInfo, setOrderInfo] = useState()
     const [itemDupCheck, setItemDupCheck] = useState()
 
     useEffect(() => {
@@ -54,13 +46,6 @@ function ProductDetail() {
     }
 
     const handleBuyItNow = () => {
-        // const data = {
-        //     product_id: product.product_id,
-        //     quantity: quantity,
-        //     order_kind: "direct_order",
-        //     total_price: (product.price * quantity) + product.shipping_fee,
-        // }
-        // dispatch(addPatymentDB(data))
         navigate("/payment", {
             state: {
                 product_id: product.product_id,
@@ -77,24 +62,19 @@ function ProductDetail() {
 
     const handleAddCart = () => {
         setItemDupCheck(cartList.map((c) => c.product_id).includes(product.product_id))
-        console.log(itemDupCheck)
         const itemData = {
             product_id: product.product_id,
             quantity: quantity,
             check: itemDupCheck
         }
-        // if (cartList.some((c) => c.quantity >= product.stock)) {
-        //     window.alert("수량이 넘침")
-        // }
         if (cartList.some((c) => c.quantity >= product.stock) === true || itemDupCheck === true) {
             setModal(1)
         }
         else {
             dispatch(addCartDB(itemData));
-            // navigate("/cart");
         }
     }
-    console.log(quantity)
+
     const modalAddCart = () => {
         setItemDupCheck(cartList.map((c) => c.product_id).includes(product.product_id))
         const itemData = {
@@ -103,7 +83,6 @@ function ProductDetail() {
             check: itemDupCheck
         }
         dispatch(addCartDB(itemData));
-        // navigate("/cart");
     }
 
     return (
@@ -124,11 +103,6 @@ function ProductDetail() {
                     </div>
                     <div className='info2'>
                         <p>택배배송/무료배송</p>
-                        {/* <div className='quantity-container'>
-                            <button>-</button>
-                            <div>1</div>
-                            <button>+</button>
-                        </div> */}
                         <Button
                             quantity_button
                             _onClickMinus={handleMinus}

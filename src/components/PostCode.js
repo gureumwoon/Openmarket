@@ -1,11 +1,8 @@
 import React from 'react';
 import DaumPostcode from 'react-daum-postcode';
-import styled from "styled-components";
 
 const PostCodeModal = (props) => {
     const { onComplete } = props;
-
-
 
     const handleSearch = (data) => {
         console.log(data)

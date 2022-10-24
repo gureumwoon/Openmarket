@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
-import styled from "styled-components";
 import { useDispatch } from 'react-redux';
-import { sellerSignUpDB, signUpDB } from '../redux/modules/user';
 import { apis } from '../shared/api';
-
+import { sellerSignUpDB, signUpDB } from '../redux/modules/user';
+import styled from "styled-components";
 // elements
 import Input from "../elements/Input";
 import Button from "../elements/Button";
 import Tab from "../elements/Tab";
-
 //assets
 import Hodu from "../assets/images/Logo-hodu15.png";
 import arrowUp from "../assets/images/icon-up-arrow.svg";
@@ -21,7 +19,6 @@ function SignUp() {
     const [tab, setTab] = useState(0)
     const [checkBox, setCheckBox] = useState(false)
     const [dropdown, setDropDown] = useState(false)
-
 
     // 구매 회원가입 정보 저장
     const [id, setId] = useState("")
@@ -140,13 +137,11 @@ function SignUp() {
         }
         apis.dupcheck(signUpData)
             .then((res) => {
-                console.log("중복확인", res)
                 tab === 0 ?
                     setIdMessage(res.data.Success) :
                     setSalesIdMessage(res.data.Success)
             })
             .catch((error) => {
-                console.log("중복확인에러", error)
                 tab === 0 ?
                     setIdMessage(error.response.data.FAIL_Message) :
                     setSalesIdMessage(error.response.data.FAIL_Message)
@@ -421,16 +416,8 @@ function SignUp() {
         }
     }
 
-    // StoreName Input focus out 했을시 빈칸일때
-    // const storeNameBlankCheck = () => {
-    //     if (storeName === "") {
-    //         setSalesStoreNameMessage("필수 정보입니다")
-    //         setSalesIsStoreName(false)
-    //     }
-    // }
 
     // 사업자 등록번호 유효성 체크
-
     const binCheck = (e) => {
         setBin(e.target.value)
         const regBin = /^\d{10}$/
@@ -452,11 +439,9 @@ function SignUp() {
         }
         apis.companyNumCheck(companyNumberData)
             .then((res) => {
-                console.log("중복확인", res)
                 setSalesBinMessage(res.data.Success)
             })
             .catch((error) => {
-                console.log("중복확인에러", error)
                 setSalesBinMessage(error.response.data.FAIL_Message)
             })
         setIsCoNumCheck(true)

@@ -1,34 +1,27 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { getProductDB } from '../redux/modules/product';
+// Components
 import styled from "styled-components";
 import DeliveryInfo from '../components/DeliveryInfo';
 import Nav from '../components/Nav'
 import PaymentGrid from '../components/PaymentGrid';
-import { getProductDB } from '../redux/modules/product';
 
 function Payment() {
+    const isLogin = localStorage.getItem("token")
     const location = useLocation();
     const dispatch = useDispatch();
-    const isLogin = localStorage.getItem("token")
     const productList = useSelector((state) => state.product.products)
-    console.log(productList.product_id)
-    const productIdList = productList.map((p) => p.product_id)
-    console.log(productIdList)
     const cart = useSelector((state) => state.cart.cartList)
-    console.log(cart)
     const product = productList.filter((p) => p.product_id === location.state.product_id)
-    console.log(product[0])
     const orderKind = location.state.order_kind
-
-
     const sum = location.state.total_price
-    console.log(location.state.item)
-
 
     useEffect(() => {
         dispatch(getProductDB())
     }, [dispatch])
+
     return (
         <div>
             <Nav user_nav children={isLogin ? "마이페이지" : "로그인"} />

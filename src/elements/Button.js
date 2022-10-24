@@ -41,7 +41,6 @@ const Button = (props) => {
         return (
             <SellerTabBtn disabled={_disabled}>
                 {children}
-                {/* <p>1</p> */}
             </SellerTabBtn>
         )
     }

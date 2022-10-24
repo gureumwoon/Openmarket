@@ -4,17 +4,13 @@ import produce from "immer";
 
 // Actions
 const SIGNIN = "user/SIGNIN";
-const SIGNOUT = "user/SIGNOUT";
 
 const initialState = {
     user: null,
-    is_login: false,
 }
 
 // Action Creators
 const signInUser = createAction(SIGNIN, (user) => ({ user }));
-const signOutUser = createAction(SIGNOUT, (user) => ({ user }));
-
 
 export const signUpDB = (data) => {
     console.log(data)
@@ -63,7 +59,6 @@ export const dupCheckDB = (data) => {
 }
 
 export const signInDB = (data) => {
-    console.log(data)
     return async function (dispatch) {
         await apis.signIn(data)
             .then((res) => {

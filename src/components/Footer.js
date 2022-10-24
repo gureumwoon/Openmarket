@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from "styled-components";
-
 // assets
 import Insta from "../assets/images/icon-insta.svg"
 import Fbook from "../assets/images/icon-fb.svg"

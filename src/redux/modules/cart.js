@@ -113,7 +113,6 @@ export default handleActions(
     {
         [GETCART]: (state, action) =>
             produce(state, (draft) => {
-                console.log("장바구니", state)
                 draft.cartList = action.payload.cartItem
             }),
         [GETCARTITEM]: (state, action) =>
@@ -132,16 +131,12 @@ export default handleActions(
             }),
         [DELETEITEM]: (state, action) =>
             produce(state, (draft) => {
-                const idx = state.cartList.findIndex((c) => c.cart_item_id === action.payload.cartItemId)
-                console.log("삭제리듀서", draft.cartList[idx].cart_item_id, action.payload.cartItemId)
                 draft.cartList = draft.cartList.filter((item) =>
                     item.cart_item_id !== action.payload.cartItemId
                 )
             }),
         [DELETEALLITEM]: (state, action) =>
             produce(state, (draft) => {
-                console.log(draft.cartList)
-                console.log(action.payload)
                 draft.cartList = []
             })
     },

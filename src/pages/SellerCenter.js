@@ -1,17 +1,13 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
-import { deleteProductDB, getSellerProductDB } from '../redux/modules/product';
-
-//element
-import Button from '../elements/Button';
-
+import { getSellerProductDB } from '../redux/modules/product';
 //components
 import Nav from '../components/Nav'
-import UserModal from '../components/UserModal';
 import SellerCenterItem from '../components/SellerCenterItem';
-
+//element
+import Button from '../elements/Button';
 //assets
 import PlusIcon from "../assets/images/icon-plus.svg";
 

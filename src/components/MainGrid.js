@@ -1,23 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import { api } from '../shared/api';
 
 function MainGrid() {
     const navigate = useNavigate()
-    const product = useSelector((state) => state.product.products)
-    console.log("상품", product)
-
     const [page, setPage] = useState(1)
-    console.log("페이지", page)
     const [list, setList] = useState([])
     const [moreData, setMoreData] = useState(true)
     const target = useRef(null);
 
     const getData = async () => {
         await api.get(`/products/?page=${page}`).then((res) => {
-            console.log("페치데이터", `/products/?page=${page}`)
             setList((prev) => prev.concat(res.data.results))//리스트 추가
             setPage(prev => prev + 1)
         }).catch((error) => {

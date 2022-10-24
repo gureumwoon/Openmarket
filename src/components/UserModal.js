@@ -1,23 +1,12 @@
-import React, { useState } from 'react'
-import styled from "styled-components";
-
-//elements
-import Button from '../elements/Button';
-
-//assets
-import DeleteIcon from '../assets/images/icon-delete.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { modifyCartDB } from '../redux/modules/cart';
 import { signOutDB } from '../redux/modules/user';
+import styled from "styled-components";
+import Button from '../elements/Button';
+import DeleteIcon from '../assets/images/icon-delete.svg';
 
 function UserModal(props) {
-    const dispatch = useDispatch();
-    const cart = useSelector((state) => state.cart.cartList)
-    const cartItemId = useSelector((state) => state.cart.cartList.cart_item_id)
-
-
     const { display, modal_to_check, _disabled, children, children2, children3, btn_children_1, btn_children_2, margin, _onClick, _onClickMinus, _onClickPlus, _onClickBg, _onClick2 } = props;
-
+    const dispatch = useDispatch();
 
     const handleLogOut = () => {
         dispatch(signOutDB())

@@ -10,7 +10,6 @@ const initialState = {
 }
 
 // Action Creators
-
 const addPayment = createAction(ADDPAYMENT, (item) => ({ item }))
 
 export const addPatymentDB = (item) => {
@@ -32,7 +31,6 @@ export default handleActions(
     {
         [ADDPAYMENT]: (state, action) =>
             produce(state, (draft) => {
-                console.log("페이펀트리스트", action.payload)
                 draft.paymentList = action.payload.item
             })
     },

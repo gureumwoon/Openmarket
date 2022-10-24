@@ -1,33 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import styled from "styled-components";
 import { useDispatch, useSelector } from 'react-redux';
-import Button from '../elements/Button';
-import CartCheckBox from './CartCheckBox';
+import { useNavigate } from 'react-router-dom';
+import styled from "styled-components";
 import { getProductDB } from '../redux/modules/product';
-
+import { deleteCartItemDB, modifyCartDB } from '../redux/modules/cart';
+import CartCheckBox from './CartCheckBox';
+import UserModal from './UserModal';
+import Button from '../elements/Button';
 //assets
 import MinusIcon from "../assets/images/minus-icon_2.svg";
 import PlusIcon from "../assets/images/plus-icon_2.svg";
 import DeleteIcon from '../assets/images/icon-delete.svg';
-import UserModal from './UserModal';
-import { deleteCartItemDB, modifyCartDB } from '../redux/modules/cart';
-import { useNavigate } from 'react-router-dom';
 
 function CartGrid(props) {
-    const { cart_sum_grid, sum, shippingFee, onChange, checked, checkList, setCheckList, isCheck, setIsCheck } = props;
+    const { cart_sum_grid, sum, shippingFee, onChange, checked, isCheck } = props;
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const cartList = useSelector((state) => state.cart.cartList)
     const product = useSelector((state) => state.product.products)
     const cartId = cartList.map((c, i) => c.product_id)
     const item = product.filter((i) => cartId.includes(i.product_id))
-    console.log(props.product_id)
-
 
     const [modal, setModal] = useState(0);
-    const [itemId, setItemId] = useState();
+    const [itemId, setItemId] = useState("");
     const [count, setCount] = useState(props.quantityList)
-    console.log(count)
 
     const cartToPayment = () => {
         if (props.cart.is_active === true && isCheck === true) {
@@ -103,7 +99,6 @@ function CartGrid(props) {
     return (
         <>
             {
-                // item && item.map((p, i) => {
                 <Grid >
                     <CartCheckBox
                         margin="0 40px 0 30px"
@@ -144,19 +139,14 @@ function CartGrid(props) {
                             <UserModal modal_to_check
                                 children={count}
                                 _onClickMinus={() => {
-                                    // let countCopy = [...count]
-                                    console.log()
                                     if (1 < count) {
                                         setCount(count - 1)
                                     }
-                                    // setCount(countCopy)
                                 }}
                                 _onClickPlus={() => {
-                                    // let countCopy = [...count]
                                     if (count < props.stock) {
                                         setCount(count + 1)
                                     }
-                                    // setCount(countCopy)
                                 }}
                                 btn_children_1="취소"
                                 btn_children_2="수정"
@@ -167,11 +157,9 @@ function CartGrid(props) {
                                         product_id: props.product_id,
                                         quantity: count,
                                         is_active: isCheck,
-                                        // item[i].product_id === cartList[i].product_id
                                     }
                                     const cartItemId = props.cart.cart_item_id
                                     dispatch(modifyCartDB(cartItemId, itemData))
-                                    console.log("아이디", cartItemId)
                                     setModal(0)
                                 }}
                                 _onClickBg={() => setModal(0)}

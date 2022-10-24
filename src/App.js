@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 // routes
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
-import SellerMain from './pages/SellerMain';
+import Main from './pages/Main';
 import SellerCenter from './pages/SellerCenter';
 import Upload from './pages/Upload';
 import ProductDetail from './pages/ProductDetail';
@@ -17,7 +17,7 @@ function App() {
       <Routes>
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<SellerMain />} />
+        <Route path="/" element={<Main />} />
         <Route path="/seller-center" element={<SellerCenter />} />
         <Route path="/upload" element={<Upload />} />
         <Route path="/edit/:id" element={<Upload />} />

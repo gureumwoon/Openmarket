@@ -1,17 +1,15 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import styled from "styled-components";
-
-import Bg1 from "../assets/images/bg.jpg"
-import Bg2 from "../assets/images/google-logo.png"
-import Bg3 from "../assets/images/modalclose.gif"
+// assets
+import Bg1 from "../assets/images/banner-img.jfif"
+import Bg2 from "../assets/images/banner-img2.png"
+import Bg3 from "../assets/images/banner-img3.jpg"
 import Vector1 from "../assets/images/Vector.png"
 import Vector2 from "../assets/images/Vector2.png"
 
 function Banner() {
-    const [bannerList, setBannerList] = useState([Bg1, Bg2, Bg3])
+    const bannerList = [Bg1, Bg2, Bg3]
     const [slide, setSlide] = useState(0)
-
-    // const imgSlideRef = useRef()
 
     const handleSlidePrev = () => {
         if (slide !== 0) {
@@ -28,7 +26,6 @@ function Banner() {
             setSlide(0)
         }
     }
-
 
     return (
         <BannerContainer>

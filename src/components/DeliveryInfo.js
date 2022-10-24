@@ -1,12 +1,12 @@
+import { useDispatch } from 'react-redux';
 import React, { useState } from 'react'
+import { addPatymentDB } from '../redux/modules/payment';
 import styled from "styled-components";
-
+// Component
+import PostCodeModal from './PostCode';
 //element
 import Input from '../elements/Input';
 import Button from '../elements/Button';
-import PostCodeModal from './PostCode';
-import { useDispatch, useSelector } from 'react-redux';
-import { addPatymentDB } from '../redux/modules/payment';
 
 function DeliveryInfo(props) {
     const { shipping_fee, price, product_id, quantity, order_kind } = props;
@@ -24,17 +24,15 @@ function DeliveryInfo(props) {
     const [phone3, setPhone3] = useState();
     const [address, setAddress] = useState();
     const [zipcode, setZipcode] = useState();
-    const [detailAddress, setDetailAddress] = useState()
+    const [detailAddress, setDetailAddress] = useState();
     const [addressMessage, setAddressMessage] = useState();
     const [paymentMethod, setPaymentMethod] = useState();
-    const [isOpen, setIsOpen] = useState(false)
-    const [isCheck, setIsCheck] = useState()
+    const [isOpen, setIsOpen] = useState(false);
+    const [isCheck, setIsCheck] = useState();
 
     const fullPhoneNum = phone + phone2 + phone3;
     const fullAddress = address + detailAddress;
     const sumPrice = price + shipping_fee
-    // console.log(fullAddress)
-    // console.log(fullPhoneNum)
 
     const handlePostCode = () => {
         setIsOpen(!isOpen)
@@ -53,7 +51,6 @@ function DeliveryInfo(props) {
             }
             fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
         }
-        console.log(data)
         setAddress(fullAddress)
         setZipcode(data.zonecode)
     }

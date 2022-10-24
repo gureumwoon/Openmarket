@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from "styled-components";
-import CartGrid from '../components/CartGrid';
-import Footer from '../components/Footer';
-
-// components
+import { deleteAllItemDB, getCartDB } from '../redux/modules/cart';
+// Components
 import Nav from '../components/Nav'
 import CartCheckBox from '../components/CartCheckBox';
+import CartGrid from '../components/CartGrid';
+import Footer from '../components/Footer';
+// Element
 import Button from '../elements/Button';
-import { deleteAllItemDB, getCartDB } from '../redux/modules/cart';
 import DeleteIcon from '../assets/images/icon-delete.svg';
-import { useNavigate } from 'react-router-dom';
-
 
 function ShoppingCart() {
-    const navigate = useNavigate();
-
     const [checkList, setCheckList] = useState([])
+    const [modal, setModal] = useState(0);
+    const [isCheck, setIsCheck] = useState(false)
 
+    const navigate = useNavigate();
     const dispatch = useDispatch()
     const isLogin = localStorage.getItem("token")
     const cart = useSelector((state) => state.cart.cartList)
@@ -28,10 +28,7 @@ function ShoppingCart() {
     const item = product.filter((i) => cartId.includes(i.product_id))
     const checkedProduct = item.filter((c, i) => checkList.includes(c.product_id))
 
-    const [modal, setModal] = useState(0);
-    const [isCheck, setIsCheck] = useState(false)
-
-    const amount = [];
+    const quantity = [];
     const price = [];
     const price2 = [];
     const shippingFee = [];
@@ -41,7 +38,6 @@ function ShoppingCart() {
             const allCheck = []
             cart.forEach((cartItem) => allCheck.push(cartItem.product_id))
             setCheckList(allCheck)
-            console.log(allCheck)
             setIsCheck(true)
         } else {
             setCheckList([])
@@ -60,7 +56,7 @@ function ShoppingCart() {
     }
 
     checkedCart && checkedCart.map((c, i) =>
-        amount.push(checkedCart.length === 0 ? 0 : checkedCart[i].quantity)
+        quantity.push(checkedCart.length === 0 ? 0 : checkedCart[i].quantity)
     )
 
     checkedProduct && checkedProduct.map((p, i) =>
@@ -69,11 +65,10 @@ function ShoppingCart() {
 
     // 제품의 가격을 cart리스트의 quantity(수량)만큼 곱해서 배열에 넣기
     for (let i = 0; i < checkedCart.length; i++) {
-        price2.push(amount[i] * price[i])
+        price2.push(quantity[i] * price[i])
     }
 
     // 장바구니에 들어있는 제품들 가격의 합계 구하기.
-
     const sum = price2.length !== 0 ? price2.reduce((acc, cur) =>
         acc + cur
     ) : 0
@@ -137,7 +132,7 @@ function ShoppingCart() {
                                         {...c}
                                         cart={cart[i]}
                                         quantityList={quantityList[i]}
-                                        amount={amount[i]}
+                                        quantity={quantity[i]}
                                         _onClickPlus={() => setModal(1)}
                                         _onClickMinus={() => setModal(1)}
                                         isCheck={isCheck}

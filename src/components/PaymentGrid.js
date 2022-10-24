@@ -1,12 +1,7 @@
 import React from 'react'
 import styled from "styled-components";
 
-//assets
-import ProductImg from "../assets/images/product-img.png";
-import { deleteCartItemDB } from '../redux/modules/cart';
-
 function PaymentGrid(props) {
-    // const { product_image, shop_name, product_name, quantity, shipping_fee, price, order_kind } = props;
     return (
         <Grid>
             <div className='product-info'>

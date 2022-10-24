@@ -35,20 +35,6 @@ export const getProductDB = () => {
     }
 }
 
-// 나머지 게시물 불러오기
-// export const getProductDB2 = () => {
-//     return async function (dispatch) {
-//         await apis.getProduct2()
-//             .then((res) => {
-//                 console.log("추가상품", res)
-//                 dispatch(getProduct(res.data.results))
-//             })
-//             .catch((error) => {
-//                 console.log("추가상품에러", error)
-//             })
-//     }
-// }
-
 // 게시물 하나 불러오기
 export const getOneProductDB = (productId) => {
     return async function (dispatch) {
@@ -136,7 +122,6 @@ export default handleActions(
             }),
         [DELETEPRODUCT]: (state, action) =>
             produce(state, (draft) => {
-                console.log("상품삭제", action.payload)
                 draft.sellerProducts = draft.sellerProducts.filter((product) =>
                     product.product_id !== action.payload.productId
                 )

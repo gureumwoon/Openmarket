@@ -1,20 +1,15 @@
-import React, { Fragment, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import styled from "styled-components";
-
-//Components
-import Button from '../elements/Button';
 import { deleteProductDB } from '../redux/modules/product';
+import styled from "styled-components";
 import UserModal from './UserModal';
+import Button from '../elements/Button';
 
 function SellerCenterItem(props) {
-    const { _onClick } = props;
     const dispatch = useDispatch()
-
-    const [modal, setModal] = useState(0);
-
     const navigate = useNavigate();
+    const [modal, setModal] = useState(0);
 
     return (
         <Item>
