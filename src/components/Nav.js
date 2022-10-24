@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from "react-router-dom";
+import React, { Fragment, useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import { apis } from '../shared/api';
 import styled from "styled-components";
 // Component
@@ -50,16 +50,16 @@ function Nav(props) {
                     <Input nav_input placeholder="상품을 검색해보세요!" />
                 </div>
                 <div>
-                    <Link to="/login">
+                    <div className='navigate-cart' onClick={() => navigate("/cart")}>
                         <img src={Cart} alt="mypage-button" />
                         <p>장바구니</p>
-                    </Link>
+                    </div>
                     <div className="my-page" onClick={() => { isLogin ? setModal(!modal) : navigate("/login") }}>
                         <img src={UserIcon} alt="mypage-button" />
                         <p>{children}</p>
                         {
                             isLogin ?
-                                modal === true ? <UserModal _onClick={handleLogOut} /> : null
+                                modal === true ? <UserModal _onClick={handleLogOut} modal_top="95px" /> : null
                                 : null
                         }
                     </div>
@@ -81,7 +81,7 @@ function Nav(props) {
                     <p>마이페이지</p>
                     {
                         isLogin ?
-                            modal === true ? <UserModal _onClick={handleLogOut} /> : null
+                            modal === true ? <UserModal _onClick={handleLogOut} modal_top="80px" /> : null
                             : null
                     }
                 </div>
@@ -110,15 +110,18 @@ const Navigation = styled.nav`
     margin-right: 30px;
     cursor: pointer;
   }
+  .navigate-cart {
+    display: flex;
+    flex-direction: column;
+    margin-right: 26px;
+    cursor: pointer;
+  }
   a , .my-page{
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-right: 30px;
     cursor: pointer;
-    img {
-        width: 32px;
-    }
   }
     p {
       font-size: 12px;

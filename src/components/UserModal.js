@@ -1,11 +1,11 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { signOutDB } from '../redux/modules/user';
 import styled from "styled-components";
 import Button from '../elements/Button';
 import DeleteIcon from '../assets/images/icon-delete.svg';
 
 function UserModal(props) {
-    const { display, modal_to_check, _disabled, children, children2, children3, btn_children_1, btn_children_2, margin, _onClick, _onClickMinus, _onClickPlus, _onClickBg, _onClick2 } = props;
+    const { display, modal_to_check, modal_top, _disabled, children, children2, children3, btn_children_1, btn_children_2, margin, _onClick, _onClickMinus, _onClickPlus, _onClickBg, _onClick2 } = props;
     const dispatch = useDispatch();
 
     const handleLogOut = () => {
@@ -37,7 +37,7 @@ function UserModal(props) {
         )
     }
     return (
-        <Modal>
+        <Modal modal_top={modal_top}>
             <div className='triangle'></div>
             <ModalContent>
                 <p>마이페이지</p>
@@ -108,7 +108,7 @@ const Modal = styled.div`
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 80px;
+    top: ${(props) => props.modal_top};
     z-index: 1;
     .triangle {
         width: 30px;
