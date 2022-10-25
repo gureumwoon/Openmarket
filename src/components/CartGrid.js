@@ -70,7 +70,7 @@ function CartGrid(props) {
                 <div className='product-price'>
                     <div>
                         <p>총 상품금액</p>
-                        <span>{sum}</span>
+                        <span>{sum.toLocaleString()}</span>
                         <span>원</span>
                     </div>
                     <img src={MinusIcon} alt="" />
@@ -82,14 +82,14 @@ function CartGrid(props) {
                     <img src={PlusIcon} alt="" />
                     <div>
                         <p>배송비</p>
-                        <span>{shippingFee}</span>
+                        <span>{shippingFee.toLocaleString()}</span>
                         <span>원</span>
                     </div>
                 </div>
                 <div className='price-sum'>
                     <p>결제 예정 금액</p>
                     <div>
-                        <span>{sum}</span>
+                        <span>{sum.toLocaleString()}</span>
                         <span>원</span>
                     </div>
                 </div>
@@ -110,8 +110,8 @@ function CartGrid(props) {
                         <div className='info-text'>
                             <p>{props.seller_store}</p>
                             <p>{props.product_name}</p>
-                            <p>{props.price}</p>
-                            <p>택배배송/ {props.shipping_fee === 0 ? "무료배송" : props.shipping_fee}</p>
+                            <p>{props.price.toLocaleString()}</p>
+                            <p>택배배송/ {props.shipping_fee === 0 ? "무료배송" : props.shipping_fee.toLocaleString()}</p>
                         </div>
                     </div>
                     <Button quantity_button margin="0 148px 0 0"
@@ -129,7 +129,7 @@ function CartGrid(props) {
                         }
                     </Button>
                     <div className='cart-price'>
-                        <p>{props.price * (props.quantityList)}원</p>
+                        <p>{(props.price * props.quantityList).toLocaleString()}원</p>
                         <Button width="130px" height="40px" font_weight="500" _onClick={cartToPayment}>주문하기</Button>
                     </div>
                     <img className="icon-delete" src={DeleteIcon} alt="" onClick={() => setModal(2)} />

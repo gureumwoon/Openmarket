@@ -17,7 +17,6 @@ function ProductDetail() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const product = useSelector((state) => state.product.productOne)
-    console.log(product)
     const product_stock = product.stock
     const cartList = useSelector((state) => state.cart.cartList)
     const isLogin = localStorage.getItem("token")
@@ -69,7 +68,7 @@ function ProductDetail() {
             quantity: quantity,
             check: itemDupCheck
         }
-        if (cartList.some((c) => c.quantity >= product.stock) === true || itemDupCheck === true) {
+        if (cartList.some((c) => c.quantity <= product.stock) || itemDupCheck) {
             setModal(1)
         }
         else {
@@ -78,7 +77,6 @@ function ProductDetail() {
     }
 
     const modalAddCart = () => {
-        setItemDupCheck(cartList.map((c) => c.product_id).includes(product.product_id))
         const itemData = {
             product_id: product.product_id,
             quantity: quantity,
@@ -104,7 +102,7 @@ function ProductDetail() {
                         <span>원</span>
                     </div>
                     <div className='info2'>
-                        <p>택배배송/무료배송</p>
+                        <p>택배배송/{product.shipping_fee === 0 ? "무료배송" : product.shipping_fee?.toLocaleString()}</p>
                         <Button
                             quantity_button
                             _onClickMinus={handleMinus}
