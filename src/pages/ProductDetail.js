@@ -10,12 +10,14 @@ import Footer from '../components/Footer'
 import UserModal from '../components/UserModal';
 //elements
 import Button from '../elements/Button';
+import { comma } from '../elements/Comma';
 
 function ProductDetail() {
     const { id } = useParams()
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const product = useSelector((state) => state.product.productOne)
+    console.log(product)
     const product_stock = product.stock
     const cartList = useSelector((state) => state.cart.cartList)
     const isLogin = localStorage.getItem("token")
@@ -98,7 +100,7 @@ function ProductDetail() {
                     <div className='info'>
                         <p>{product.seller_store}</p>
                         <p>{product.product_name}</p>
-                        <span className='info-price'>{product.price.toLocaleString()}</span>
+                        <span className='info-price'>{product.price?.toLocaleString()}</span>
                         <span>원</span>
                     </div>
                     <div className='info2'>
@@ -113,7 +115,7 @@ function ProductDetail() {
                         <p>총 상품 금액</p>
                         <div>
                             <p>총 수량 {quantity}개</p>
-                            <span>{(product.price * quantity).toLocaleString()}</span>
+                            <span>{(product.price * quantity)?.toLocaleString()}</span>
                             <span>원</span>
                         </div>
                     </div>

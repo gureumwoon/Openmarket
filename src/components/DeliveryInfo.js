@@ -270,7 +270,7 @@ function DeliveryInfo(props) {
                             <div>
                                 <p>-상품금액</p>
                                 <p>
-                                    <span>{price}</span>
+                                    <span>{price.toLocaleString()}</span>
                                     <span>원</span>
                                 </p>
                             </div>
@@ -285,14 +285,14 @@ function DeliveryInfo(props) {
                                 <div>
                                     <p>-배송비</p>
                                     <p>
-                                        <span>{shipping_fee}</span>
+                                        <span>{shipping_fee.toLocaleString()}</span>
                                         <span>원</span>
                                     </p>
                                 </div>
                             </div>
                             <div>
                                 <p>-결제금액</p>
-                                <p>{sumPrice}원</p>
+                                <p>{sumPrice.toLocaleString()}원</p>
                             </div>
                         </div>
                         <div className='payment-container_bottom'>

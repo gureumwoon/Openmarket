@@ -13,8 +13,10 @@ function Payment() {
     const location = useLocation();
     const dispatch = useDispatch();
     const productList = useSelector((state) => state.product.products)
+    console.log(productList)
     const cart = useSelector((state) => state.cart.cartList)
     const product = productList.filter((p) => p.product_id === location.state.product_id)
+    console.log(product)
     const orderKind = location.state.order_kind
     const sum = location.state.total_price
 
@@ -38,11 +40,11 @@ function Payment() {
                 {
                     orderKind === "direct_order" || orderKind === "cart_one_order" ?
                         <PaymentGrid
-                            image={product[0].image}
-                            shop_name={product[0].store_name}
-                            product_name={product[0].product_name}
+                            image={product[0]?.image}
+                            shop_name={product[0]?.store_name}
+                            product_name={product[0]?.product_name}
                             quantity={location.state.quantity}
-                            shipping_fee={product[0].shipping_fee === 0 ? 0 : product[0].shipping_fee}
+                            shipping_fee={product[0]?.shipping_fee === 0 ? 0 : product[0]?.shipping_fee}
                             price={location.state.total_price - location.state.shipping_fee}
                             order_kind={orderKind}
                         /> : null
@@ -61,7 +63,7 @@ function Payment() {
                 }
                 <div className='price-sum'>
                     <p>총 주문금액</p>
-                    <p>{sum}원</p>
+                    <p>{sum.toLocaleString()}원</p>
                 </div>
                 <DeliveryInfo
                     shipping_fee={location.state.shipping_fee === 0 ? 0 : location.state.shipping_fee}
