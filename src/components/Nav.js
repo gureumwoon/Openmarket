@@ -14,7 +14,8 @@ import Cart from "../assets/images/icon-shopping-cart.svg";
 import ShoppingIcon from "../assets/images/icon-shopping-bag.svg";
 
 function Nav(props) {
-    const { seller_nav, user_nav, children } = props;
+    console.log(props.isCart)
+    const { seller_nav, user_nav, children, filter, color } = props;
 
     const isLogin = localStorage.getItem("token")
     const navigate = useNavigate();
@@ -50,13 +51,17 @@ function Nav(props) {
                     <Input nav_input placeholder="상품을 검색해보세요!" />
                 </div>
                 <div>
-                    <div className='navigate-cart' onClick={() => navigate("/cart")}>
-                        <img src={Cart} alt="mypage-button" />
-                        <p>장바구니</p>
+                    <div className='navigate-cart' onClick={() => navigate("/cart", {
+                        state: {
+                            isCart: true
+                        }
+                    })}>
+                        <img src={Cart} alt="mypage-button" style={{ filter: `${filter}` }} />
+                        <p style={{ color: `${color}` }}>장바구니</p>
                     </div>
                     <div className="my-page" onClick={() => { isLogin ? setModal(!modal) : navigate("/login") }}>
-                        <img src={UserIcon} alt="mypage-button" />
-                        <p>{children}</p>
+                        <img src={UserIcon} alt="mypage-button" style={{ filter: `${modal === true ? "invert(55%) sepia(42%) saturate(1617%) hue-rotate(89deg) brightness(100%) contrast(76%)" : "none"}` }} />
+                        <p style={{ color: `${modal === true ? "#21BF48" : "none"}` }}>{children}</p>
                         {
                             isLogin ?
                                 modal === true ? <UserModal _onClick={handleLogOut} modal_top="95px" /> : null
@@ -77,8 +82,8 @@ function Nav(props) {
             </div>
             <div className='container-userIcon'>
                 <div className='seller-mypage' onClick={() => setModal(!modal)}>
-                    <img src={UserIcon} alt="mypage-button" />
-                    <p>마이페이지</p>
+                    <img src={UserIcon} alt="mypage-button" style={{ filter: `${modal === true ? "invert(55%) sepia(42%) saturate(1617%) hue-rotate(89deg) brightness(100%) contrast(76%)" : "none"}` }} />
+                    <p style={{ color: `${modal === true ? "#21BF48" : "none"}` }}>마이페이지</p>
                     {
                         isLogin ?
                             modal === true ? <UserModal _onClick={handleLogOut} modal_top="80px" /> : null

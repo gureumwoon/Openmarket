@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from "styled-components";
 import { deleteAllItemDB, getCartDB } from '../redux/modules/cart';
@@ -18,6 +18,8 @@ function ShoppingCart() {
     const [isCheck, setIsCheck] = useState(false)
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const cartPageCheck = location.state.isCart
     const dispatch = useDispatch()
     const isLogin = localStorage.getItem("token")
     const cart = useSelector((state) => state.cart.cartList)
@@ -103,7 +105,12 @@ function ShoppingCart() {
 
     return (
         <div>
-            <Nav user_nav children={isLogin ? "마이페이지" : "로그인"} />
+            <Nav
+                user_nav
+                children={isLogin ? "마이페이지" : "로그인"}
+                color={location.state.isCart ? "#21BF48" : "none"}
+                filter={location.state.isCart ? "invert(55%) sepia(42%) saturate(1617%) hue-rotate(89deg) brightness(100%) contrast(76%)" : "none"}
+            />
             <Main>
                 <h1>장바구니</h1>
                 <div className='cart-nav'>
