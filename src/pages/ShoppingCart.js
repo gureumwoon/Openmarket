@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from "styled-components";
-import { deleteAllItemDB, getCartDB } from '../redux/modules/cart';
+import { deleteAllItemDB, deleteCartItemDB, getCartDB } from '../redux/modules/cart';
 // Components
 import Nav from '../components/Nav'
 import CartCheckBox from '../components/CartCheckBox';
@@ -19,16 +19,21 @@ function ShoppingCart() {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const cartPageCheck = location.state.isCart
     const dispatch = useDispatch()
     const isLogin = localStorage.getItem("token")
     const cart = useSelector((state) => state.cart.cartList)
     const quantityList = cart.map((q) => q.quantity)
     const cartId = cart.map((c) => c.product_id)
     const product = useSelector((state) => state.product.products)
+    console.log(product)
     const checkedCart = cart.filter((c, i) => checkList.includes(c.product_id))
     const item = product.filter((i) => cartId.includes(i.product_id))
     const checkedProduct = item.filter((c, i) => checkList.includes(c.product_id))
+
+    const productId = product.map((p) => p.product_id)
+    const checkCartItem = cart.filter((p, i) => productId.includes(checkList[i]))
+    const checkCartItemId = checkCartItem.map((c) => c.cart_item_id)
+    console.log(checkCartItemId)
 
     const quantity = [];
     const price = [];
@@ -83,7 +88,13 @@ function ShoppingCart() {
     const shippingFeeSum = shippingFee.length !== 0 ? shippingFee.reduce((acc, cur) => acc + cur) : 0
 
     const handleDeleteAll = () => {
-        dispatch(deleteAllItemDB())
+        if (checkList.length === cart.length) {
+            dispatch(deleteAllItemDB())
+        } else {
+            checkCartItemId.map((c) =>
+                dispatch(deleteCartItemDB(c)
+                ))
+        }
     }
 
     const navigateToPayment = () => {
@@ -108,8 +119,8 @@ function ShoppingCart() {
             <Nav
                 user_nav
                 children={isLogin ? "마이페이지" : "로그인"}
-                color={location.state.isCart ? "#21BF48" : "none"}
-                filter={location.state.isCart ? "invert(55%) sepia(42%) saturate(1617%) hue-rotate(89deg) brightness(100%) contrast(76%)" : "none"}
+                color={location.state?.isCart ? "#21BF48" : "none"}
+                filter={location.state?.isCart ? "invert(55%) sepia(42%) saturate(1617%) hue-rotate(89deg) brightness(100%) contrast(76%)" : "none"}
             />
             <Main>
                 <h1>장바구니</h1>

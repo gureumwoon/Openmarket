@@ -1,70 +1,162 @@
-# Getting Started with Create React App
+# 🛒 Open Market (호두마켓)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+오픈마켓 서비스는 판매자와 구매자를 구별하여 판매자가 상품을 등록, 판매하며 구매자는 구매하는 서비스입니다.
 
-## Available Scripts
+상품을 판매하려고 한다면 판매자로 로그인하여 상품 정보를 등록 및 수정할 수 있습니다. 판매자가 상품을 구매하는 것은 불가능합니다. 오픈마켓에 등록되어 있는 상품을 구매하고자 한다면 상품의 세부사항을 확인한 뒤, 장바구니에 넣어, 상품을 구매할 수 있습니다.
 
-In the project directory, you can run:
+***
 
-### `npm start`
+## ⚙️ 기술 스택
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white">
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black">
+<img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=Redux&logoColor=white">
+<img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white">
+<img src="https://img.shields.io/badge/Thunk-764ABC?style=for-the-badge&logo=Thunk&logoColor=white">
+<img src="https://img.shields.io/badge/React Router-CA4245?style=for-the-badge&logo=React Router&logoColor=white">
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+***
 
-### `npm test`
+## 💡 주요기능
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+메인페이지(무한스크롤)
 
-### `npm run build`
+### 구매자
+- 로그인 페이지
+- 회원 가입 페이지
+- 상품 목록 페이지
+- 상품 상세 페이지
+- 장바구니 페이지
+- 주문/결제 페이지
+  
+### 판매자
+- 로그인 페이지
+- 회원 가입 페이지
+- 상품 목록 페이지
+- 상품 상세 페이지
+- 판매자 센터 페이지
+- 상품 등록 페이지
+- 상품 삭제 & 수정
+  
+## 회원가입
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+          <img
+            src="https://user-images.githubusercontent.com/83581867/197980825-33c174b0-b77b-4a4e-941c-4d66064d9034.gif"
+            width="500px;"
+            alt=""
+          /><br/><sub><b>구매자 회원가입</b></sub><br />
+      </td>
+       <td align="center">
+          <img
+            src="https://user-images.githubusercontent.com/83581867/198013665-a0685b69-4f35-4f68-8e54-3dc647a627d4.gif"
+            width="500px;"
+            alt=""
+          /><br /><sub><b>판매자 회원가입</b></sub><br />
+      </td>
+    </tr>
+  </table>
+</div>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 로그인
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<div align="center">
+  <table>
+    <tr>
+       <td align="center">
+          <img
+            src="https://user-images.githubusercontent.com/83581867/198020802-2b5eba60-fad8-43d2-a40c-ec384fa30c83.gif"
+            alt=""
+          /><br /><sub><b>로그인</b></sub><br />
+      </td>
+    </tr>
+  </table>
+</div>
 
-### `npm run eject`
+## 상품 등록 페이지
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<div align="center">
+  <table>
+    <tr>
+       <td align="center">
+          <img
+            src="https://user-images.githubusercontent.com/83581867/198225388-a1610c99-4b05-41ba-95ae-0993e121aa68.gif"
+            alt=""
+          /><br /><sub><b>상품등록(판매자 계정)</b></sub><br />
+      </td>
+    </tr>
+  </table>
+</div>
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 상품 상세 페이지 & 판매자 센터
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+          <img
+            src="https://user-images.githubusercontent.com/83581867/198120167-7a7b2c84-af3a-49a4-bedc-62dcabc728da.gif"
+            width="500px;"
+            alt=""
+          /><br/><sub><b>상세페이지(판매자 계정)</b></sub><br />
+      </td>
+       <td align="center">
+          <img
+            src="https://user-images.githubusercontent.com/83581867/198120167-7a7b2c84-af3a-49a4-bedc-62dcabc728da.gif"
+            width="500px;"
+            alt=""
+          /><br /><sub><b>상세페이지(구매자 계정)</b></sub><br />
+      </td>
+    </tr>
+  </table>
+</div>
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 상품 삭제 & 수정
 
-## Learn More
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+          <img
+            src="https://user-images.githubusercontent.com/83581867/198221567-b2ad536b-dc93-4878-9073-b878d5a3805c.gif"
+            width="500px;"
+            alt=""
+          /><br/><sub><b>상품삭제</b></sub><br />
+      </td>
+       <td align="center">
+          <img
+            src="https://user-images.githubusercontent.com/83581867/198241667-6b63c788-467e-417f-b4a7-640a5679fb51.gif"
+            width="500px;"
+            alt=""
+          /><br /><sub><b>상품수정</b></sub><br />
+      </td>
+    </tr>
+  </table>
+</div>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 구매자 계정
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 장바구니
 
-### Code Splitting
+<div align="center">
+  <table>
+    <tr>
+       <td align="center">
+          <img
+            src="https://user-images.githubusercontent.com/83581867/198225388-a1610c99-4b05-41ba-95ae-0993e121aa68.gif"
+            alt=""
+          /><br /><sub><b>상품등록(판매자 계정)</b></sub><br />
+      </td>
+    </tr>
+  </table>
+</div>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

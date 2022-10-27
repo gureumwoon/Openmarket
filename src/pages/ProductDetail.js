@@ -19,6 +19,8 @@ function ProductDetail() {
     const product = useSelector((state) => state.product.productOne)
     const product_stock = product.stock
     const cartList = useSelector((state) => state.cart.cartList)
+    const cartItem = cartList.filter((c) => c.product_id !== id)
+    console.log(cartItem)
     const isLogin = localStorage.getItem("token")
     const userType = localStorage.getItem("type")
 
@@ -68,7 +70,7 @@ function ProductDetail() {
             quantity: quantity,
             check: itemDupCheck
         }
-        if (cartList.some((c) => c.quantity <= product.stock) || itemDupCheck) {
+        if (cartItem.quantity <= product.stock || itemDupCheck) {
             setModal(1)
         }
         else {

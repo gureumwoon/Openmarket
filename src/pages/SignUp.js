@@ -443,6 +443,7 @@ function SignUp() {
             })
             .catch((error) => {
                 setSalesBinMessage(error.response.data.FAIL_Message)
+                setSalesIsBin(false)
             })
         setIsCoNumCheck(true)
     }

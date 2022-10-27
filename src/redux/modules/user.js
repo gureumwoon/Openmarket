@@ -23,7 +23,6 @@ export const signUpDB = (data) => {
             })
             .catch((error) => {
                 console.log(error)
-                window.alert(error)
                 window.alert(error.response.data.errorMessage)
             })
     }
@@ -71,7 +70,7 @@ export const signInDB = (data) => {
                 window.location.assign("/")
             })
             .catch((error) => {
-                window.alert(error.response.data)
+                window.alert(error.response.data.FAIL_Message)
             })
     }
 }

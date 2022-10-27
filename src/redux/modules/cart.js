@@ -32,7 +32,7 @@ export const addCartDB = (data) => {
                 window.location.assign("/cart")
             })
             .catch((error) => {
-                console.log("장바구니에러", error.response)
+                console.log("장바구니에러", error)
                 if (error.response.status === 406) {
                     window.alert(error.response.data.FAIL_message)
                 }
@@ -121,7 +121,7 @@ export default handleActions(
             }),
         [ADDCART]: (state, action) =>
             produce(state, (draft) => {
-                draft.cartList = action.payload.cartList
+                draft.cartList = action.payload.cartItem
             }),
         [MODIFYCARTITEM]: (state, action) =>
             produce(state, (draft) => {
