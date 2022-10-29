@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import plusBtn from "../assets/images/plus-icon_2.svg"
+import minusBtn from "../assets/images/minus-icon_2.svg"
 
 const Button = (props) => {
     const {
@@ -14,6 +16,7 @@ const Button = (props) => {
         font_size,
         font_weight,
         _disabled,
+        active,
         _onClick,
         _onClickMinus,
         _onClickPlus,
@@ -46,7 +49,7 @@ const Button = (props) => {
     }
     if (tab_active_button) {
         return (
-            <TabBtn {...styles} disabled={_disabled} onClick={_onClick}>
+            <TabBtn {...styles} active={active} onClick={_onClick}>
                 {children}
                 <div></div>
             </TabBtn>
@@ -55,9 +58,13 @@ const Button = (props) => {
     if (quantity_button) {
         return (
             <QuantityBtn {...styles} disabled={_disabled}>
-                <button onClick={_onClickMinus}>-</button>
+                <button onClick={_onClickMinus}>
+                    <img src={minusBtn} alt="" />
+                </button>
                 <div>{children}</div>
-                <button onClick={_onClickPlus}>+</button>
+                <button onClick={_onClickPlus}>
+                    <img src={plusBtn} alt="" />
+                </button>
             </QuantityBtn>
         )
     }
@@ -107,12 +114,12 @@ const TabBtn = styled.button`
     align-items: center;
     font-size: 18px;
     font-weight: bold;
-    color: ${(props) => props.disabled ? "#767676" : "#21BF48"};
+    color: ${(props) => props.active ? "#21BF48" : "#767676"};
     div {
         width: 100%;
         height: 6px;
         margin-top: 12px;
-        background-color: ${(props) => props.disabled ? "#E0E0E0;" : "#21BF48"};
+        background-color: ${(props) => props.active ? "#21BF48" : "#E0E0E0"};
     }
 `
 
@@ -168,6 +175,9 @@ const QuantityBtn = styled.div`
                 }
                 button {
                     width: 50px;
+                    img {
+                        width: 100%;
+                    }
                 }
 `
 

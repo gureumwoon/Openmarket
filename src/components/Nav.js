@@ -14,7 +14,6 @@ import Cart from "../assets/images/icon-shopping-cart.svg";
 import ShoppingIcon from "../assets/images/icon-shopping-bag.svg";
 
 function Nav(props) {
-    console.log(props.isCart)
     const { seller_nav, user_nav, children, filter, color } = props;
 
     const isLogin = localStorage.getItem("token")

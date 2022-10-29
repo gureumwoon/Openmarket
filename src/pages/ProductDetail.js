@@ -3,14 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getOneProductDB } from '../redux/modules/product';
-import { addCartDB, getCartDB } from '../redux/modules/cart';
+import { addCartDB } from '../redux/modules/cart';
 //components
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import UserModal from '../components/UserModal';
 //elements
 import Button from '../elements/Button';
-import { comma } from '../elements/Comma';
 
 function ProductDetail() {
     const { id } = useParams()
@@ -20,13 +19,14 @@ function ProductDetail() {
     const product_stock = product.stock
     const cartList = useSelector((state) => state.cart.cartList)
     const cartItem = cartList.filter((c) => c.product_id !== id)
-    console.log(cartItem)
     const isLogin = localStorage.getItem("token")
     const userType = localStorage.getItem("type")
 
     const [quantity, setQuantity] = useState(1)
     const [modal, setModal] = useState(0);
     const [itemDupCheck, setItemDupCheck] = useState()
+    const [tabMenu, setTabMenu] = useState(["버튼", "리뷰", "Q&A", "반품/교환정보"])
+    const [isActive, setIsActive] = useState(0)
 
     // useEffect(() => {
     //     dispatch(getCartDB())
@@ -43,7 +43,7 @@ function ProductDetail() {
     }
 
     const handlePlus = () => {
-        if (quantity <= product_stock) {
+        if (quantity <= product_stock - 1) {
             setQuantity(quantity + 1)
         }
     }
@@ -126,10 +126,11 @@ function ProductDetail() {
                 </div>
             </SectionOne>
             <SectionTwo>
-                <Button tab_active_button>버튼</Button>
-                <Button tab_active_button _disabled={true} >리뷰</Button>
-                <Button tab_active_button _disabled={true}>Q&A</Button>
-                <Button tab_active_button _disabled={true}>반품/교환정보</Button>
+                {
+                    tabMenu.map((m, i) => {
+                        return <Button tab_active_button active={isActive === i} _onClick={() => setIsActive(i)}>{m.name}</Button>
+                    })
+                }
             </SectionTwo>
             <Footer />
             {
