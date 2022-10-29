@@ -130,7 +130,7 @@ const Navigation = styled.nav`
   }
     p {
       font-size: 12px;
-      /* color: #767676; */
+      color: #767676;
     }
     .container-userIcon {
         position: relative;
