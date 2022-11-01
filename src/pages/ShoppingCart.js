@@ -11,8 +11,9 @@ import Footer from '../components/Footer';
 // Element
 import Button from '../elements/Button';
 import DeleteIcon from '../assets/images/icon-delete.svg';
+import { getProductDB } from '../redux/modules/product';
 
-function ShoppingCart() {
+function ShoppingCart({ list, page }) {
     const [checkList, setCheckList] = useState([])
     const [modal, setModal] = useState(0);
     const [isCheck, setIsCheck] = useState(false)
@@ -22,18 +23,17 @@ function ShoppingCart() {
     const dispatch = useDispatch()
     const isLogin = localStorage.getItem("token")
     const cart = useSelector((state) => state.cart.cartList)
+    const productList = useSelector((state) => state.product.products)
+    console.log(productList)
     const quantityList = cart.map((q) => q.quantity)
     const cartId = cart.map((c) => c.product_id)
-    const product = useSelector((state) => state.product.products)
-    console.log(product)
     const checkedCart = cart.filter((c, i) => checkList.includes(c.product_id))
-    const item = product.filter((i) => cartId.includes(i.product_id))
+    const item = list.filter((i) => cartId.includes(i.product_id))
     const checkedProduct = item.filter((c, i) => checkList.includes(c.product_id))
-
-    const productId = product.map((p) => p.product_id)
+    const productId = list.map((p) => p.product_id)
     const checkCartItem = cart.filter((p, i) => productId.includes(checkList[i]))
     const checkCartItemId = checkCartItem.map((c) => c.cart_item_id)
-    console.log(checkCartItemId)
+
 
     const quantity = [];
     const price = [];
@@ -90,7 +90,10 @@ function ShoppingCart() {
     const handleDeleteAll = () => {
         if (checkList.length === cart.length) {
             dispatch(deleteAllItemDB())
-        } else {
+        } else if (checkList.length === 0) {
+            window.alert("삭제할 상품을 선택해주세요")
+        }
+        else {
             checkCartItemId.map((c) =>
                 dispatch(deleteCartItemDB(c)
                 ))
@@ -113,6 +116,20 @@ function ShoppingCart() {
     useEffect(() => {
         dispatch(getCartDB())
     }, [dispatch])
+
+    useEffect(() => {
+        dispatch(getProductDB(1))
+    }, [dispatch])
+
+    // useEffect(() => {
+    //     api.get(`/products/?page=${page}`).then((res) => {
+    //         setList((prev) => prev.concat(res.data.results))//리스트 추가
+    //         setPage(prev => prev + 1)
+    //     }).catch((error) => {
+    //         return;
+    //     })
+    // }, [page])
+
 
     return (
         <div>

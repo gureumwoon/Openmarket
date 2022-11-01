@@ -59,11 +59,11 @@ const Button = (props) => {
         return (
             <QuantityBtn {...styles} disabled={_disabled}>
                 <button onClick={_onClickMinus}>
-                    <img src={minusBtn} alt="" />
+                    <img className="minus-btn" src={minusBtn} alt="" />
                 </button>
                 <div>{children}</div>
                 <button onClick={_onClickPlus}>
-                    <img src={plusBtn} alt="" />
+                    <img className="plus-btn" src={plusBtn} alt="" />
                 </button>
             </QuantityBtn>
         )
@@ -175,7 +175,8 @@ const QuantityBtn = styled.div`
                 }
                 button {
                     width: 50px;
-                    img {
+                    .minus-btn,
+                    .plus-btn {
                         width: 100%;
                     }
                 }

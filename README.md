@@ -76,21 +76,6 @@
   </table>
 </div>
 
-## 상품 등록 페이지
-
-<div align="center">
-  <table>
-    <tr>
-       <td align="center">
-          <img
-            src="https://user-images.githubusercontent.com/83581867/198225388-a1610c99-4b05-41ba-95ae-0993e121aa68.gif"
-            alt=""
-          /><br /><sub><b>상품등록(판매자 계정)</b></sub><br />
-      </td>
-    </tr>
-  </table>
-</div>
-
 ## 상품 상세 페이지 & 판매자 센터
 
 <div align="center">
@@ -105,10 +90,25 @@
       </td>
        <td align="center">
           <img
-            src="https://user-images.githubusercontent.com/83581867/198120167-7a7b2c84-af3a-49a4-bedc-62dcabc728da.gif"
+            src="https://user-images.githubusercontent.com/83581867/198873229-e5be1820-0a94-4529-a887-90cd37558914.gif"
             width="500px;"
             alt=""
           /><br /><sub><b>상세페이지(구매자 계정)</b></sub><br />
+      </td>
+    </tr>
+  </table>
+</div>
+
+## 상품등록
+
+<div align="center">
+  <table>
+    <tr>
+       <td align="center">
+          <img
+            src="https://user-images.githubusercontent.com/83581867/198225388-a1610c99-4b05-41ba-95ae-0993e121aa68.gif"
+            alt=""
+          /><br /><sub><b>상품등록(판매자 계정)</b></sub><br />
       </td>
     </tr>
   </table>
@@ -137,22 +137,38 @@
   </table>
 </div>
 
-## 구매자 계정
+## 장바구니 기능
 
-### 장바구니
+- ### 상세페이지
 
 <div align="center">
   <table>
     <tr>
        <td align="center">
           <img
-            src="https://user-images.githubusercontent.com/83581867/198225388-a1610c99-4b05-41ba-95ae-0993e121aa68.gif"
+            src="https://user-images.githubusercontent.com/83581867/198882086-dd0a812f-245a-4b44-a4b3-d97dc722510b.gif"
             alt=""
-          /><br /><sub><b>상품등록(판매자 계정)</b></sub><br />
+          /><br /><sub><b>상세페이지(장바구니기능)</b></sub><br />
       </td>
     </tr>
   </table>
 </div>
+
+- ### 장바구니페이지
+
+<div align="center">
+  <table>
+    <tr>
+       <td align="center">
+          <img
+            src="https://user-images.githubusercontent.com/83581867/198882086-dd0a812f-245a-4b44-a4b3-d97dc722510b.gif"
+            alt=""
+          /><br /><sub><b>로그인</b></sub><br />
+      </td>
+    </tr>
+  </table>
+</div>
+
 
 
 

@@ -28,8 +28,7 @@ export const apis = {
     // seller-user
     sellerSignUp: (data) => api.post("accounts/signup_seller/", data),
     // product
-    getProduct: () => api.get("products/"),
-    getProduct2: () => api.get("products/?page=2"),
+    getProduct: (page) => api.get(`products/?page=${page}`),
     getOneProduct: (id) => api.get(`products/${id}/`),
     addProduct: (data) => api.post("products/", data),
     getSellerProduct: () => api.get("seller/"),

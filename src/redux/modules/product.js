@@ -22,15 +22,16 @@ const getSellerProduct = createAction(GETSELLERPRODUCT, (products) => ({ product
 const deleteProduct = createAction(DELETEPRODUCT, (productId) => ({ productId }))
 const modifyProduct = createAction(MODIFYPRODUCT, (product) => ({ product }))
 
-export const getProductDB = () => {
+export const getProductDB = (page) => {
     return async function (dispatch) {
-        await apis.getProduct()
+        await apis.getProduct(page)
             .then((res) => {
                 console.log("상품", res.data)
                 dispatch(getProduct(res.data.results))
             })
             .catch((error) => {
                 console.log("상품에러", error)
+                return;
             })
     }
 }
@@ -110,7 +111,8 @@ export default handleActions(
     {
         [GETPRODUCT]: (state, action) =>
             produce(state, (draft) => {
-                draft.products = action.payload.products
+                console.log(action.payload)
+                draft.products.concat(action.payload.products)
             }),
         [GETONEPRODUCT]: (state, action) =>
             produce(state, (draft) => {

@@ -27,7 +27,7 @@ function UserModal(props) {
                             :
                             <Button quantity_button children={children} _disabled={_disabled} display={display} _onClickMinus={_onClickMinus} _onClickPlus={_onClickPlus} />
                     }
-                    <img src={DeleteIcon} alt="" onClick={_onClick} />
+                    <img className="delete-btn" src={DeleteIcon} alt="" onClick={_onClick} />
                     <BtnContainer margin={margin}>
                         <Button width="100px" height="40px" margin="0 10px 0 0" bg="#FFFF" color="#767676" border="1px solid #c4c4c4" _onClick={_onClick}>{btn_children_1}</Button>
                         <Button width="100px" height="40px" _onClick={_onClick2}>{btn_children_2}</Button>
@@ -81,7 +81,7 @@ const CheckModal = styled.div`
     top: 50%;
     left: calc(50% - 200px);
     z-index: 10;
-    img {
+    .delete-btn {
         position: absolute;      
         top: 18px;
         right: 18px;

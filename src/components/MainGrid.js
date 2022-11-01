@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
-import { getProductDB } from '../redux/modules/product';
 import { api } from '../shared/api';
 
 function MainGrid() {
@@ -21,10 +20,6 @@ function MainGrid() {
             return;
         })
     }
-
-    // useEffect(() => {
-    //     dispatch(getProductDB())
-    // }, [dispatch])
 
     useEffect(() => {
         let observer;

@@ -59,9 +59,9 @@ function CartGrid(props) {
         }
     }
 
-    useEffect(() => {
-        dispatch(getProductDB())
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(getProductDB())
+    // }, [dispatch])
 
 
     if (cart_sum_grid) {

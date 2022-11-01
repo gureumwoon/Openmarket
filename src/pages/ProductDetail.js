@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getOneProductDB } from '../redux/modules/product';
-import { addCartDB } from '../redux/modules/cart';
+import { addCartDB, getCartDB } from '../redux/modules/cart';
 //components
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
@@ -18,22 +18,20 @@ function ProductDetail() {
     const product = useSelector((state) => state.product.productOne)
     const product_stock = product.stock
     const cartList = useSelector((state) => state.cart.cartList)
-    const cartItem = cartList.filter((c) => c.product_id !== id)
+    const cartItemId = cartList === [] ? null : cartList.map((c) => c.product_id)
+    const cartItem = cartList === [] ? null : cartList.find((c) => c.product_id === product.product_id)
     const isLogin = localStorage.getItem("token")
     const userType = localStorage.getItem("type")
 
     const [quantity, setQuantity] = useState(1)
     const [modal, setModal] = useState(0);
-    const [itemDupCheck, setItemDupCheck] = useState()
+    const [itemDupCheck, setItemDupCheck] = useState(true)
     const [tabMenu, setTabMenu] = useState(["버튼", "리뷰", "Q&A", "반품/교환정보"])
     const [isActive, setIsActive] = useState(0)
 
-    // useEffect(() => {
-    //     dispatch(getCartDB())
-    // }, [dispatch])
-
     useEffect(() => {
         dispatch(getOneProductDB(id))
+        dispatch(getCartDB())
     }, [dispatch, id])
 
     const handleMinus = () => {
@@ -64,17 +62,16 @@ function ProductDetail() {
     }
 
     const handleAddCart = () => {
-        setItemDupCheck(cartList.map((c) => c.product_id).includes(product.product_id))
         const itemData = {
             product_id: product.product_id,
             quantity: quantity,
             check: itemDupCheck
         }
-        if (cartItem.quantity <= product.stock || itemDupCheck) {
+        if (cartItemId.includes(product.product_id) && cartItem.quantity + quantity <= product.stock) {
             setModal(1)
         }
-        else {
-            dispatch(addCartDB(itemData));
+        else if (cartList === [] || !cartItemId.includes(product.product_id) || cartItem.quantity + quantity > product.stock) {
+            dispatch(addCartDB(itemData, navigate));
         }
     }
 
@@ -84,7 +81,9 @@ function ProductDetail() {
             quantity: quantity,
             check: itemDupCheck
         }
-        dispatch(addCartDB(itemData));
+        if (cartItem.quantity + quantity <= product.stock || cartItem.quantity + quantity > product.stock) {
+            dispatch(addCartDB(itemData, navigate));
+        }
     }
 
     return (
@@ -128,7 +127,7 @@ function ProductDetail() {
             <SectionTwo>
                 {
                     tabMenu.map((m, i) => {
-                        return <Button tab_active_button active={isActive === i} _onClick={() => setIsActive(i)}>{m.name}</Button>
+                        return <Button key={i} tab_active_button active={isActive === i} _onClick={() => setIsActive(i)}>{m}</Button>
                     })
                 }
             </SectionTwo>

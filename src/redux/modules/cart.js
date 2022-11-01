@@ -22,14 +22,16 @@ const modifyCart = createAction(MODIFYCARTITEM, (cartItem) => ({ cartItem }));
 const deleteItem = createAction(DELETEITEM, (cartItemId) => ({ cartItemId }));
 const deleteAllItem = createAction(DELETEALLITEM, () => ({}));
 
-export const addCartDB = (data) => {
-    console.log(data)
+export const addCartDB = (data, navigate) => {
     return async function (dispatch) {
         await apis.addCart(data)
             .then((res) => {
-                console.log("장바구니데이터", res)
-                dispatch(addCart(res.data))
-                window.location.assign("/cart")
+                // dispatch(addCart(res.data))
+                navigate("/cart", {
+                    state: {
+                        isCart: true
+                    }
+                })
             })
             .catch((error) => {
                 console.log("장바구니에러", error)
@@ -44,7 +46,6 @@ export const getCartDB = () => {
     return async function (dispatch) {
         await apis.getCart()
             .then((res) => {
-                console.log("장바구니아이템", res.data)
                 dispatch(getCart(res.data.results))
             })
             .catch((error) => {
@@ -57,8 +58,7 @@ export const getItemtCartDB = () => {
     return async function (dispatch) {
         await apis.getItemCart()
             .then((res) => {
-                console.log("장바구니아이템", res.data)
-                dispatch(getCartItem(res.data))
+                dispatch(getCartItem(res.data.results))
             })
             .catch((error) => {
                 console.log("장바구니아이템에러", error)
@@ -72,7 +72,6 @@ export const modifyCartDB = (cartItemId, cartItem) => {
     return async function (dispatch) {
         await apis.modifyQuantity(cartItemId, cartItem)
             .then((res) => {
-                console.log("수량변경", res)
                 dispatch(modifyCart(res.data))
             })
             .catch((error) => {
@@ -86,7 +85,7 @@ export const deleteCartItemDB = (cartItemId) => {
     return async function (dispatch) {
         await apis.deleteItem(cartItemId)
             .then((res) => {
-                console.log("개별삭제", res)
+                console.log(res)
                 dispatch(deleteItem(cartItemId))
             })
             .catch((error) => {
@@ -100,7 +99,6 @@ export const deleteAllItemDB = () => {
     return async function (dispatch) {
         await apis.deleteAllItem()
             .then((res) => {
-                console.log("전체삭제", res)
                 dispatch(deleteAllItem(res.data))
             })
             .catch((error) => {
@@ -113,6 +111,7 @@ export default handleActions(
     {
         [GETCART]: (state, action) =>
             produce(state, (draft) => {
+                console.log(action.payload)
                 draft.cartList = action.payload.cartItem
             }),
         [GETCARTITEM]: (state, action) =>
@@ -121,7 +120,7 @@ export default handleActions(
             }),
         [ADDCART]: (state, action) =>
             produce(state, (draft) => {
-                draft.cartList = action.payload.cartItem
+                draft.cartList.unshift(action.payload.cartItem)
             }),
         [MODIFYCARTITEM]: (state, action) =>
             produce(state, (draft) => {
