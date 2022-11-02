@@ -13,7 +13,8 @@ import Button from '../elements/Button';
 import DeleteIcon from '../assets/images/icon-delete.svg';
 import { getProductDB } from '../redux/modules/product';
 
-function ShoppingCart({ list, page }) {
+function ShoppingCart({ list, itemCount }) {
+    console.log(itemCount)
     const [checkList, setCheckList] = useState([])
     const [modal, setModal] = useState(0);
     const [isCheck, setIsCheck] = useState(false)
@@ -24,7 +25,13 @@ function ShoppingCart({ list, page }) {
     const isLogin = localStorage.getItem("token")
     const cart = useSelector((state) => state.cart.cartList)
     const productList = useSelector((state) => state.product.products)
-    console.log(productList)
+    console.log("장바구니페이지상품목록", productList)
+    const pageNumbers = [];
+    console.log("아이템카운트", itemCount)
+    for (let i = 1; i <= Math.ceil(itemCount / 15); i++) {
+        pageNumbers.push(i);
+    }
+    console.log(pageNumbers)
     const quantityList = cart.map((q) => q.quantity)
     const cartId = cart.map((c) => c.product_id)
     const checkedCart = cart.filter((c, i) => checkList.includes(c.product_id))
@@ -117,9 +124,22 @@ function ShoppingCart({ list, page }) {
         dispatch(getCartDB())
     }, [dispatch])
 
+    // useEffect(() => {
+    //     dispatch(getProductDB(page))
+    // }, [dispatch, page])
+
+
     useEffect(() => {
-        dispatch(getProductDB(1))
-    }, [dispatch])
+        if (pageNumbers.length - 1 < Math.ceil(itemCount / 15)) {
+            pageNumbers.map((p) => {
+                return dispatch(getProductDB(p))
+            })
+        } else {
+            return;
+        }
+    }, [dispatch, itemCount])
+
+    console.log(Math.ceil(itemCount / 15))
 
     // useEffect(() => {
     //     api.get(`/products/?page=${page}`).then((res) => {

@@ -12,22 +12,32 @@ import Upload from './pages/Upload';
 import ProductDetail from './pages/ProductDetail';
 import ShoppingCart from './pages/ShoppingCart';
 import Payment from './pages/PaymentPage';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProductDB } from './redux/modules/product';
 
 
 function App() {
+
+  const productList = useSelector((state) => state.product.products)
+  console.log("상품리스트", productList)
+  const itemCount = useSelector((state) => state.product.count)
+  console.log(itemCount)
+
+  const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [moreData, setMoreData] = useState(true)
   const [list, setList] = useState([]);
 
-  useEffect(() => {
-    api.get(`/products/?page=${page}`).then((res) => {
-      setList((prev) => prev.concat(res.data.results))//리스트 추가
-      setPage(prev => prev + 1)
-    }).catch((error) => {
-      setMoreData(false)
-      return;
-    })
-  }, [page])
+
+  // useEffect(() => {
+  //   api.get(`/products/?page=${page}`).then((res) => {
+  //     setList((prev) => prev.concat(res.data.results))//리스트 추가
+  //     setPage(prev => prev + 1)
+  //   }).catch((error) => {
+  //     setMoreData(false)
+  //     return;
+  //   })
+  // }, [page])
 
 
   return (
@@ -40,7 +50,7 @@ function App() {
         <Route path="/upload" element={<Upload />} />
         <Route path="/edit/:id" element={<Upload />} />
         <Route path="/detail/:id" element={<ProductDetail />} />
-        <Route path="/cart" element={<ShoppingCart list={list} page={page} />} />
+        <Route path="/cart" element={<ShoppingCart list={list} itemCount={itemCount === 0 ? 1 : itemCount} />} />
         <Route path="/payment" element={<Payment />} />
       </Routes>
     </div>

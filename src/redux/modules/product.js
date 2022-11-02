@@ -11,12 +11,13 @@ const MODIFYPRODUCT = "product/MODIFYPRODUCT";
 
 const initialState = {
     products: [],
+    count: 0,
     productOne: [],
     sellerProducts: [],
 }
 
 //Action Creators
-const getProduct = createAction(GETPRODUCT, (products) => ({ products }))
+const getProduct = createAction(GETPRODUCT, (products, count) => ({ products, count }))
 const getOneProduct = createAction(GETONEPRODUCT, (productOne) => ({ productOne }))
 const getSellerProduct = createAction(GETSELLERPRODUCT, (products) => ({ products }))
 const deleteProduct = createAction(DELETEPRODUCT, (productId) => ({ productId }))
@@ -27,7 +28,7 @@ export const getProductDB = (page) => {
         await apis.getProduct(page)
             .then((res) => {
                 console.log("상품", res.data)
-                dispatch(getProduct(res.data.results))
+                dispatch(getProduct(res.data.results, res.data.count))
             })
             .catch((error) => {
                 console.log("상품에러", error)
@@ -112,7 +113,8 @@ export default handleActions(
         [GETPRODUCT]: (state, action) =>
             produce(state, (draft) => {
                 console.log(action.payload)
-                draft.products.concat(action.payload.products)
+                draft.products = draft.products.concat(action.payload.products)
+                draft.count = action.payload.count
             }),
         [GETONEPRODUCT]: (state, action) =>
             produce(state, (draft) => {
