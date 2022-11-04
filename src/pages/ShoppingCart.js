@@ -13,7 +13,7 @@ import Button from '../elements/Button';
 import DeleteIcon from '../assets/images/icon-delete.svg';
 import { getProductDB } from '../redux/modules/product';
 
-function ShoppingCart({ list, itemCount }) {
+function ShoppingCart({ itemCount }) {
     console.log(itemCount)
     const [checkList, setCheckList] = useState([])
     const [modal, setModal] = useState(0);
@@ -24,6 +24,7 @@ function ShoppingCart({ list, itemCount }) {
     const dispatch = useDispatch()
     const isLogin = localStorage.getItem("token")
     const cart = useSelector((state) => state.cart.cartList)
+
     const productList = useSelector((state) => state.product.products)
     console.log("장바구니페이지상품목록", productList)
     const pageNumbers = [];
@@ -31,13 +32,15 @@ function ShoppingCart({ list, itemCount }) {
     for (let i = 1; i <= Math.ceil(itemCount / 15); i++) {
         pageNumbers.push(i);
     }
+    pageNumbers.shift()
     console.log(pageNumbers)
     const quantityList = cart.map((q) => q.quantity)
     const cartId = cart.map((c) => c.product_id)
     const checkedCart = cart.filter((c, i) => checkList.includes(c.product_id))
-    const item = list.filter((i) => cartId.includes(i.product_id))
+    const item = productList.filter((i) => cartId.includes(i.product_id))
+    console.log(item)
     const checkedProduct = item.filter((c, i) => checkList.includes(c.product_id))
-    const productId = list.map((p) => p.product_id)
+    const productId = productList.map((p) => p.product_id)
     const checkCartItem = cart.filter((p, i) => productId.includes(checkList[i]))
     const checkCartItemId = checkCartItem.map((c) => c.cart_item_id)
 
@@ -124,22 +127,17 @@ function ShoppingCart({ list, itemCount }) {
         dispatch(getCartDB())
     }, [dispatch])
 
-    // useEffect(() => {
-    //     dispatch(getProductDB(page))
-    // }, [dispatch, page])
 
-
+    // 페이지별로 데이터 가져오기
     useEffect(() => {
-        if (pageNumbers.length - 1 < Math.ceil(itemCount / 15)) {
+        if (itemCount > 1 && productList.length < itemCount) {
             pageNumbers.map((p) => {
                 return dispatch(getProductDB(p))
             })
-        } else {
-            return;
+        } else if (itemCount <= 1) {
+            dispatch(getProductDB(1))
         }
     }, [dispatch, itemCount])
-
-    console.log(Math.ceil(itemCount / 15))
 
     // useEffect(() => {
     //     api.get(`/products/?page=${page}`).then((res) => {
@@ -149,7 +147,6 @@ function ShoppingCart({ list, itemCount }) {
     //         return;
     //     })
     // }, [page])
-
 
     return (
         <div>
@@ -181,11 +178,11 @@ function ShoppingCart({ list, itemCount }) {
                         </div> :
                         <>
                             {
-                                item && item.map((c, i) => {
+                                cart && cart.map((c, i) => {
                                     return <CartGrid
                                         key={i}
                                         {...c}
-                                        cart={cart[i]}
+                                        item={item.find((p, i) => c.product_id === p.product_id)}
                                         quantityList={quantityList[i]}
                                         quantity={quantity[i]}
                                         _onClickPlus={() => setModal(1)}

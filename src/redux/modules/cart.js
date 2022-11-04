@@ -111,6 +111,7 @@ export default handleActions(
     {
         [GETCART]: (state, action) =>
             produce(state, (draft) => {
+                console.log("장바구니", action.payload)
                 console.log(action.payload)
                 draft.cartList = action.payload.cartItem
             }),
@@ -130,6 +131,7 @@ export default handleActions(
             }),
         [DELETEITEM]: (state, action) =>
             produce(state, (draft) => {
+                console.log("장바구니아이템삭제", action.payload)
                 draft.cartList = draft.cartList.filter((item) =>
                     item.cart_item_id !== action.payload.cartItemId
                 )

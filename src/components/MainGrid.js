@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import { api } from '../shared/api';
@@ -27,7 +26,7 @@ function MainGrid() {
             const handleInterSect = async ([entry], observer) => {
                 if (entry.isIntersecting) {
                     observer.unobserve(entry.target);
-                    await getData();
+                    await getData()
                     observer.observe(entry.target)
                 }
             };

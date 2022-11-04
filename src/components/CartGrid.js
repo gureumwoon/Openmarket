@@ -26,34 +26,34 @@ function CartGrid(props) {
     const [count, setCount] = useState(props.quantityList)
 
     const cartToPayment = () => {
-        if (props.cart.is_active === true && isCheck === true) {
+        if (props.is_active === true && isCheck === true) {
             navigate("/payment", {
                 state: {
-                    product_id: props.product_id,
-                    quantity: props.cart.quantity,
+                    product_id: props.item.product_id,
+                    quantity: props.quantity,
                     order_kind: "cart_one_order",
-                    total_price: (props.price * props.cart.quantity) + props.shipping_fee,
-                    shipping_fee: props.shipping_fee
+                    total_price: (props.item.price * props.quantity) + props.item.shipping_fee,
+                    shipping_fee: props.item.shipping_fee
                 }
             })
         } else if (isCheck === false) {
             window.alert("구매하실 상품을 선택해주세요.")
         }
-        else if (props.cart.is_active === false) {
+        else if (props.is_active === false) {
             const itemData = {
-                product_id: props.product_id,
+                product_id: props.item.product_id,
                 quantity: count,
                 is_active: true,
                 // item[i].product_id === cartList[i].product_id
             }
-            dispatch(modifyCartDB(props.cart.cart_item_id, itemData))
+            dispatch(modifyCartDB(props.cart_item_id, itemData))
             navigate("/payment", {
                 state: {
-                    product_id: props.product_id,
-                    quantity: props.cart.quantity,
+                    product_id: props.item.product_id,
+                    quantity: props.quantity,
                     order_kind: "cart_one_order",
-                    total_price: props.price + props.shipping_fee,
-                    shipping_fee: props.shipping_fee
+                    total_price: props.item.price + props.item.shipping_fee,
+                    shipping_fee: props.item.shipping_fee
                 }
             })
         }
@@ -106,12 +106,12 @@ function CartGrid(props) {
                         checked={checked}
                     />
                     <div className='cart-info'>
-                        <img src={props.image} alt="" />
+                        <img src={props.item.image} alt="" />
                         <div className='info-text'>
-                            <p>{props.seller_store}</p>
-                            <p>{props.product_name}</p>
-                            <p>{props.price.toLocaleString()}</p>
-                            <p>택배배송/ {props.shipping_fee === 0 ? "무료배송" : props.shipping_fee.toLocaleString()}</p>
+                            <p>{props.item.seller_store}</p>
+                            <p>{props.item.product_name}</p>
+                            <p>{props.item.price.toLocaleString()}</p>
+                            <p>택배배송/ {props.item.shipping_fee === 0 ? "무료배송" : props.item.shipping_fee.toLocaleString()}</p>
                         </div>
                     </div>
                     <Button quantity_button margin="0 148px 0 0"
@@ -129,7 +129,7 @@ function CartGrid(props) {
                         }
                     </Button>
                     <div className='cart-price'>
-                        <p>{(props.price * props.quantityList).toLocaleString()}원</p>
+                        <p>{(props.item.price * props.quantityList).toLocaleString()}원</p>
                         <Button width="130px" height="40px" font_weight="500" _onClick={cartToPayment}>주문하기</Button>
                     </div>
                     <img className="icon-delete" src={DeleteIcon} alt="" onClick={() => setModal(2)} />
@@ -144,7 +144,7 @@ function CartGrid(props) {
                                     }
                                 }}
                                 _onClickPlus={() => {
-                                    if (count < props.stock) {
+                                    if (count < props.item.stock) {
                                         setCount(count + 1)
                                     }
                                 }}
@@ -158,7 +158,7 @@ function CartGrid(props) {
                                         quantity: count,
                                         is_active: isCheck,
                                     }
-                                    const cartItemId = props.cart.cart_item_id
+                                    const cartItemId = props.cart_item_id
                                     dispatch(modifyCartDB(cartItemId, itemData))
                                     setModal(0)
                                 }}
@@ -173,7 +173,7 @@ function CartGrid(props) {
                                 margin="40px 0 0 0"
                                 _onClick={() => setModal(0)}
                                 _onClick2={() => {
-                                    dispatch(deleteCartItemDB(props.cart.cart_item_id))
+                                    dispatch(deleteCartItemDB(props.cart_item_id))
                                     setModal(0)
                                 }}
                                 _onClickBg={() => setModal(0)}

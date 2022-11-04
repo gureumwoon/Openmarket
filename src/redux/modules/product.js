@@ -11,7 +11,7 @@ const MODIFYPRODUCT = "product/MODIFYPRODUCT";
 
 const initialState = {
     products: [],
-    count: 0,
+    count: 1,
     productOne: [],
     sellerProducts: [],
 }
@@ -24,6 +24,7 @@ const deleteProduct = createAction(DELETEPRODUCT, (productId) => ({ productId })
 const modifyProduct = createAction(MODIFYPRODUCT, (product) => ({ product }))
 
 export const getProductDB = (page) => {
+    console.log(page)
     return async function (dispatch) {
         await apis.getProduct(page)
             .then((res) => {

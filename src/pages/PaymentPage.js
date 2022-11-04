@@ -11,7 +11,6 @@ import PaymentGrid from '../components/PaymentGrid';
 function Payment() {
     const isLogin = localStorage.getItem("token")
     const location = useLocation();
-    const dispatch = useDispatch();
     const productList = useSelector((state) => state.product.products)
     console.log(productList)
     const cart = useSelector((state) => state.cart.cartList)
@@ -19,10 +18,6 @@ function Payment() {
     console.log(product)
     const orderKind = location.state.order_kind
     const sum = location.state.total_price
-
-    useEffect(() => {
-        dispatch(getProductDB())
-    }, [dispatch])
 
     return (
         <div>
