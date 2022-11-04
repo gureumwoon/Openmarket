@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
-import { getProductDB } from '../redux/modules/product';
 import { deleteCartItemDB, modifyCartDB } from '../redux/modules/cart';
 import CartCheckBox from './CartCheckBox';
 import UserModal from './UserModal';

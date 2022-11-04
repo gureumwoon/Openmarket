@@ -33,15 +33,12 @@ function ShoppingCart({ itemCount }) {
         pageNumbers.push(i);
     }
     pageNumbers.shift()
-    console.log(pageNumbers)
     const quantityList = cart.map((q) => q.quantity)
     const cartId = cart.map((c) => c.product_id)
     const checkedCart = cart.filter((c, i) => checkList.includes(c.product_id))
     const item = productList.filter((i) => cartId.includes(i.product_id))
-    console.log(item)
     const checkedProduct = item.filter((c, i) => checkList.includes(c.product_id))
-    const productId = productList.map((p) => p.product_id)
-    const checkCartItem = cart.filter((p, i) => productId.includes(checkList[i]))
+    const checkCartItem = cart.filter((p, i) => checkList.includes(p.product_id))
     const checkCartItemId = checkCartItem.map((c) => c.cart_item_id)
 
 
@@ -189,8 +186,8 @@ function ShoppingCart({ itemCount }) {
                                         _onClickMinus={() => setModal(1)}
                                         isCheck={isCheck}
                                         _onClick={() => setModal(2)}
-                                        onChange={(e) => checkSingleBox(e.target.checked, cartId[i])}
-                                        checked={checkList.includes(cartId[i]) ? true : false}
+                                        onChange={(e) => checkSingleBox(e.target.checked, c.product_id)}
+                                        checked={checkList.includes(c.product_id) ? true : false}
                                     />
                                 })
                             }
