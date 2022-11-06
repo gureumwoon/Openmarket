@@ -161,14 +161,61 @@
     <tr>
        <td align="center">
           <img
-            src="https://user-images.githubusercontent.com/83581867/198882086-dd0a812f-245a-4b44-a4b3-d97dc722510b.gif"
+            src="https://user-images.githubusercontent.com/83581867/200166107-eb093cc1-f26c-4ad4-bbbc-e1f3ef71bb53.gif"
             alt=""
-          /><br /><sub><b>로그인</b></sub><br />
+          /><br /><sub><b>장바구니페이지</b></sub><br />
       </td>
     </tr>
   </table>
 </div>
 
+- ### 구매하기
+
+구매페이지로의 이동 방법 3가지
+1. 상세페이지에서 바로구매
+   
+<div align="center">
+  <table>
+    <tr>
+       <td align="center">
+          <img
+            src="https://user-images.githubusercontent.com/83581867/200167918-416712aa-a7d2-4963-8caa-91657dcb6f07.gif"
+            alt=""
+          />
+      </td>
+    </tr>
+  </table>
+</div>
+
+2. 장바구니 페이지에서 구매
+   
+<div align="center">
+  <table>
+    <tr>
+       <td align="center">
+          <img
+            src="https://user-images.githubusercontent.com/83581867/200167918-416712aa-a7d2-4963-8caa-91657dcb6f07.gif"
+            alt=""
+          />
+      </td>
+    </tr>
+  </table>
+</div>   
+
+3. 장바구니 페이지에서 개별구매
+
+<div align="center">
+  <table>
+    <tr>
+       <td align="center">
+          <img
+            src="https://user-images.githubusercontent.com/83581867/200167918-416712aa-a7d2-4963-8caa-91657dcb6f07.gif"
+            alt=""
+          />
+      </td>
+    </tr>
+  </table>
+</div>
 
 
 

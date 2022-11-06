@@ -14,8 +14,8 @@ function PaymentGrid(props) {
             </div>
             <div className='price-container'>
                 <p>-</p>
-                <p>{props.shipping_fee.toLocaleString()}</p>
-                <p>{props.price.toLocaleString()}원</p>
+                <p>{props.shipping_fee?.toLocaleString()}</p>
+                <p>{props.price?.toLocaleString()}원</p>
             </div>
         </Grid>
     )

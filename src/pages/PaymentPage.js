@@ -46,7 +46,7 @@ function Payment() {
                 }
                 {
                     orderKind === "cart_order" &&
-                    location.state.item.map((cartItem, i) => {
+                    location.state.checkedProduct.map((cartItem, i) => {
                         return <PaymentGrid
                             key={i}
                             {...cartItem}

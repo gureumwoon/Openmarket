@@ -69,7 +69,7 @@ function CartGrid(props) {
                 <div className='product-price'>
                     <div>
                         <p>총 상품금액</p>
-                        <span>{sum.toLocaleString()}</span>
+                        <span>{(sum - shippingFee).toLocaleString()}</span>
                         <span>원</span>
                     </div>
                     <img src={MinusIcon} alt="" />
@@ -105,12 +105,12 @@ function CartGrid(props) {
                         checked={checked}
                     />
                     <div className='cart-info'>
-                        <img src={props.item.image} alt="" />
+                        <img src={props.item?.image} alt="" />
                         <div className='info-text'>
-                            <p>{props.item.seller_store}</p>
-                            <p>{props.item.product_name}</p>
-                            <p>{props.item.price.toLocaleString()}</p>
-                            <p>택배배송/ {props.item.shipping_fee === 0 ? "무료배송" : props.item.shipping_fee.toLocaleString()}</p>
+                            <p>{props.item?.seller_store}</p>
+                            <p>{props.item?.product_name}</p>
+                            <p>{props.item?.price.toLocaleString()}</p>
+                            <p>택배배송/ {props.item?.shipping_fee === 0 ? "무료배송" : props.item?.shipping_fee.toLocaleString()}</p>
                         </div>
                     </div>
                     <Button quantity_button margin="0 148px 0 0"
@@ -128,7 +128,7 @@ function CartGrid(props) {
                         }
                     </Button>
                     <div className='cart-price'>
-                        <p>{(props.item.price * props.quantityList).toLocaleString()}원</p>
+                        <p>{(props.item?.price * props.quantityList).toLocaleString()}원</p>
                         <Button width="130px" height="40px" font_weight="500" _onClick={cartToPayment}>주문하기</Button>
                     </div>
                     <img className="icon-delete" src={DeleteIcon} alt="" onClick={() => setModal(2)} />

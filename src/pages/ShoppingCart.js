@@ -41,7 +41,6 @@ function ShoppingCart({ itemCount }) {
     const checkCartItem = cart.filter((p, i) => checkList.includes(p.product_id))
     const checkCartItemId = checkCartItem.map((c) => c.cart_item_id)
 
-
     const quantity = [];
     const price = [];
     const price2 = [];
@@ -108,14 +107,18 @@ function ShoppingCart({ itemCount }) {
     }
 
     const navigateToPayment = () => {
-        navigate("/payment", {
-            state: {
-                total_price: sum + shippingFeeSum,
-                order_kind: "cart_order",
-                item,
-                shipping_fee: shippingFeeSum
-            }
-        })
+        if (checkList.length > 0) {
+            navigate("/payment", {
+                state: {
+                    total_price: sum + shippingFeeSum,
+                    order_kind: "cart_order",
+                    checkedProduct,
+                    shipping_fee: shippingFeeSum
+                }
+            })
+        } else {
+            window.alert("주문할 상품을 선택해주세요.")
+        }
     }
 
     console.log(sum + shippingFeeSum)

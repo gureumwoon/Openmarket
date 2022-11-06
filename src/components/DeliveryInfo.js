@@ -534,7 +534,7 @@ const PaymentInfo = styled.div`
             flex-direction: column;
     }
     .payment-option {
-        width: 760px;
+        width: 100%;
         margin-right: 40px;
         @media screen and (max-width:1300px) {
             margin-bottom: 70px;
@@ -557,7 +557,11 @@ const PaymentInfo = styled.div`
 }
 .final-payment {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
     .final-payment_txt {
+        width: 480px;
         font-size: 24px;
         font-weight: 500;
         margin-bottom: 18px;
