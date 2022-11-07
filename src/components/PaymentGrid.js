@@ -5,17 +5,17 @@ function PaymentGrid(props) {
     return (
         <Grid>
             <div className='product-info'>
-                <img src={props.image} alt="" />
+                <img src={props.item.image} alt="" />
                 <div>
-                    <p>{props.shop_name}</p>
-                    <p>{props.product_name}</p>
+                    <p>{props.item.shop_name}</p>
+                    <p>{props.item.product_name}</p>
                     <p>수량: {props.quantity}개</p>
                 </div>
             </div>
             <div className='price-container'>
                 <p>-</p>
-                <p>{props.shipping_fee?.toLocaleString()}</p>
-                <p>{props.price?.toLocaleString()}원</p>
+                <p>{props.item.shipping_fee?.toLocaleString()}</p>
+                <p>{(props.item.price * props.quantity).toLocaleString()}원</p>
             </div>
         </Grid>
     )

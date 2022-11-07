@@ -14,7 +14,6 @@ import DeleteIcon from '../assets/images/icon-delete.svg';
 import { getProductDB } from '../redux/modules/product';
 
 function ShoppingCart({ itemCount }) {
-    console.log(itemCount)
     const [checkList, setCheckList] = useState([])
     const [modal, setModal] = useState(0);
     const [isCheck, setIsCheck] = useState(false)
@@ -26,9 +25,7 @@ function ShoppingCart({ itemCount }) {
     const cart = useSelector((state) => state.cart.cartList)
 
     const productList = useSelector((state) => state.product.products)
-    console.log("장바구니페이지상품목록", productList)
     const pageNumbers = [];
-    console.log("아이템카운트", itemCount)
     for (let i = 1; i <= Math.ceil(itemCount / 15); i++) {
         pageNumbers.push(i);
     }
@@ -72,8 +69,8 @@ function ShoppingCart({ itemCount }) {
         quantity.push(checkedCart.length === 0 ? 0 : checkedCart[i].quantity)
     )
 
-    checkedProduct && checkedProduct.map((p, i) =>
-        price.push(checkedProduct.length === 0 ? 0 : checkedProduct[i].price)
+    checkCartItem && checkCartItem.map((p, i) =>
+        price.push(checkCartItem.length === 0 ? 0 : checkedProduct.find((c, i) => p.product_id === c.product_id).price)
     )
 
     // 제품의 가격을 cart리스트의 quantity(수량)만큼 곱해서 배열에 넣기
@@ -92,7 +89,6 @@ function ShoppingCart({ itemCount }) {
     )
 
     const shippingFeeSum = shippingFee.length !== 0 ? shippingFee.reduce((acc, cur) => acc + cur) : 0
-
     const handleDeleteAll = () => {
         if (checkList.length === cart.length) {
             dispatch(deleteAllItemDB())
@@ -112,7 +108,8 @@ function ShoppingCart({ itemCount }) {
                 state: {
                     total_price: sum + shippingFeeSum,
                     order_kind: "cart_order",
-                    checkedProduct,
+                    checkCartItem,
+                    item,
                     shipping_fee: shippingFeeSum
                 }
             })
@@ -120,8 +117,6 @@ function ShoppingCart({ itemCount }) {
             window.alert("주문할 상품을 선택해주세요.")
         }
     }
-
-    console.log(sum + shippingFeeSum)
 
     useEffect(() => {
         dispatch(getCartDB())
@@ -191,12 +186,14 @@ function ShoppingCart({ itemCount }) {
                                         _onClick={() => setModal(2)}
                                         onChange={(e) => checkSingleBox(e.target.checked, c.product_id)}
                                         checked={checkList.includes(c.product_id) ? true : false}
+                                        checkedProduct={checkedProduct}
+                                        checkCartItem={checkCartItem}
                                     />
                                 })
                             }
                             <CartGrid cart_sum_grid
                                 sum={sum + shippingFeeSum}
-                                shippingFee={shippingFeeSum}
+                                shippingFeeSum={shippingFeeSum}
                             />
                             <Button
                                 width="220px"

@@ -12,7 +12,7 @@ import PlusIcon from "../assets/images/plus-icon_2.svg";
 import DeleteIcon from '../assets/images/icon-delete.svg';
 
 function CartGrid(props) {
-    const { cart_sum_grid, sum, shippingFee, onChange, checked, isCheck } = props;
+    const { cart_sum_grid, sum, shippingFeeSum, onChange, checked, isCheck } = props;
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const cartList = useSelector((state) => state.cart.cartList)
@@ -28,10 +28,10 @@ function CartGrid(props) {
         if (props.is_active === true && isCheck === true) {
             navigate("/payment", {
                 state: {
-                    product_id: props.item.product_id,
-                    quantity: props.quantity,
+                    item: props.checkedProduct[0],
+                    quantity: props.checkCartItem[0].quantity,
                     order_kind: "cart_one_order",
-                    total_price: (props.item.price * props.quantity) + props.item.shipping_fee,
+                    total_price: (props.checkedProduct[0].price * props.checkCartItem[0].quantity) + props.checkedProduct[0].shipping_fee,
                     shipping_fee: props.item.shipping_fee
                 }
             })
@@ -48,8 +48,8 @@ function CartGrid(props) {
             dispatch(modifyCartDB(props.cart_item_id, itemData))
             navigate("/payment", {
                 state: {
-                    product_id: props.item.product_id,
-                    quantity: props.quantity,
+                    item: props.checkedProduct[0],
+                    quantity: props.checkCartItem[0].quantity,
                     order_kind: "cart_one_order",
                     total_price: props.item.price + props.item.shipping_fee,
                     shipping_fee: props.item.shipping_fee
@@ -58,18 +58,13 @@ function CartGrid(props) {
         }
     }
 
-    // useEffect(() => {
-    //     dispatch(getProductDB())
-    // }, [dispatch])
-
-
     if (cart_sum_grid) {
         return (
             <SumGrid>
                 <div className='product-price'>
                     <div>
                         <p>총 상품금액</p>
-                        <span>{(sum - shippingFee).toLocaleString()}</span>
+                        <span>{(sum - shippingFeeSum).toLocaleString()}</span>
                         <span>원</span>
                     </div>
                     <img src={MinusIcon} alt="" />
@@ -81,7 +76,7 @@ function CartGrid(props) {
                     <img src={PlusIcon} alt="" />
                     <div>
                         <p>배송비</p>
-                        <span>{shippingFee.toLocaleString()}</span>
+                        <span>{shippingFeeSum.toLocaleString()}</span>
                         <span>원</span>
                     </div>
                 </div>

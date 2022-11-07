@@ -12,10 +12,8 @@ function Payment() {
     const isLogin = localStorage.getItem("token")
     const location = useLocation();
     const productList = useSelector((state) => state.product.products)
-    console.log(productList)
     const cart = useSelector((state) => state.cart.cartList)
     const product = productList.filter((p) => p.product_id === location.state.product_id)
-    console.log(product)
     const orderKind = location.state.order_kind
     const sum = location.state.total_price
 
@@ -35,24 +33,19 @@ function Payment() {
                 {
                     orderKind === "direct_order" || orderKind === "cart_one_order" ?
                         <PaymentGrid
-                            image={product[0]?.image}
-                            shop_name={product[0]?.store_name}
-                            product_name={product[0]?.product_name}
+                            item={location.state.item}
                             quantity={location.state.quantity}
-                            shipping_fee={product[0]?.shipping_fee === 0 ? 0 : product[0]?.shipping_fee}
-                            price={location.state.total_price - location.state.shipping_fee}
                             order_kind={orderKind}
                         /> : null
                 }
                 {
                     orderKind === "cart_order" &&
-                    location.state.checkedProduct.map((cartItem, i) => {
+                    location.state.checkCartItem.map((cartItem, i) => {
                         return <PaymentGrid
                             key={i}
                             {...cartItem}
+                            item={location.state.item.find((p, i) => cartItem.product_id === p.product_id)}
                             order_kind={orderKind}
-                            quantity={cart[i].quantity}
-                            price={cartItem.price * cart[i].quantity}
                         />
                     })
                 }

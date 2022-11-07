@@ -49,6 +49,7 @@ function ProductDetail() {
     const handleBuyItNow = () => {
         navigate("/payment", {
             state: {
+                item: product,
                 product_id: product.product_id,
                 quantity: quantity,
                 product_image: product.image,
