@@ -32,7 +32,7 @@ function CartGrid(props) {
                     quantity: props.checkCartItem[0].quantity,
                     order_kind: "cart_one_order",
                     total_price: (props.checkedProduct[0].price * props.checkCartItem[0].quantity) + props.checkedProduct[0].shipping_fee,
-                    shipping_fee: props.item.shipping_fee
+                    shipping_fee: props.item.shipping_fee,
                 }
             })
         } else if (isCheck === false) {
@@ -51,8 +51,8 @@ function CartGrid(props) {
                     item: props.checkedProduct[0],
                     quantity: props.checkCartItem[0].quantity,
                     order_kind: "cart_one_order",
-                    total_price: props.item.price + props.item.shipping_fee,
-                    shipping_fee: props.item.shipping_fee
+                    total_price: (props.checkedProduct[0].price * props.checkCartItem[0].quantity) + props.checkedProduct[0].shipping_fee,
+                    shipping_fee: props.item.shipping_fee,
                 }
             })
         }
@@ -150,7 +150,7 @@ function CartGrid(props) {
                                     const itemData = {
                                         product_id: props.product_id,
                                         quantity: count,
-                                        is_active: isCheck,
+                                        is_active: true //isCheck,
                                     }
                                     const cartItemId = props.cart_item_id
                                     dispatch(modifyCartDB(cartItemId, itemData))

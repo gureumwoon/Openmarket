@@ -44,7 +44,7 @@ function Payment() {
                         return <PaymentGrid
                             key={i}
                             {...cartItem}
-                            item={location.state.item.find((p, i) => cartItem.product_id === p.product_id)}
+                            item={location.state.checkedProduct.find((p, i) => cartItem.product_id === p.product_id)}
                             order_kind={orderKind}
                         />
                     })
@@ -59,6 +59,7 @@ function Payment() {
                     quantity={location.state.quantity}
                     product_id={location.state.product_id}
                     order_kind={location.state.order_kind}
+                    difference={location.state.difference}
                 />
             </Main>
 

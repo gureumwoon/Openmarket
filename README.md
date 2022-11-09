@@ -194,7 +194,7 @@
     <tr>
        <td align="center">
           <img
-            src="https://user-images.githubusercontent.com/83581867/200167918-416712aa-a7d2-4963-8caa-91657dcb6f07.gif"
+            src="https://user-images.githubusercontent.com/83581867/200555013-a6e3eb9f-c64b-4cbd-b2ef-666cf26882fd.gif"
             alt=""
           />
       </td>

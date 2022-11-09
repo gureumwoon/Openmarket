@@ -33,6 +33,8 @@ function DeliveryInfo(props) {
     const fullPhoneNum = phone + phone2 + phone3;
     const fullAddress = address + detailAddress;
     const sumPrice = price + shipping_fee
+    console.log("sumPrice", sumPrice)
+    console.log("difference", props.difference)
 
     const handlePostCode = () => {
         setIsOpen(!isOpen)
@@ -73,7 +75,7 @@ function DeliveryInfo(props) {
             address: fullAddress,
             address_message: addressMessage,
             payment_method: paymentMethod,
-            total_price: sumPrice
+            total_price: sumPrice + props.difference
         }
         dispatch(addPatymentDB(data))
     }
