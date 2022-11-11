@@ -68,18 +68,15 @@ function ShoppingCart({ itemCount }) {
     checkedCart && checkedCart.map((c, i) =>
         quantity.push(checkedCart.length === 0 ? 0 : checkedCart[i].quantity)
     )
-    console.log("quantity", quantity)
 
     checkCartItem && checkCartItem.map((p, i) =>
         price.push(checkCartItem.length === 0 ? 0 : checkedProduct.find((c, i) => p.product_id === c.product_id).price)
     )
-    console.log("price", price)
 
     // 제품의 가격을 cart리스트의 quantity(수량)만큼 곱해서 배열에 넣기
     for (let i = 0; i < checkedCart.length; i++) {
         price2.push(quantity[i] * price[i])
     }
-    console.log("price2", price2)
 
     // 장바구니에 들어있는 제품들 가격의 합계 구하기.
     const sum = price2.length !== 0 ? price2.reduce((acc, cur) =>
@@ -90,7 +87,6 @@ function ShoppingCart({ itemCount }) {
     checkedProduct.map((p) =>
         shippingFee.push(p.length === 0 ? 0 : p.shipping_fee)
     )
-    console.log("shippingFee", shippingFee)
 
     const shippingFeeSum = shippingFee.length !== 0 ? shippingFee.reduce((acc, cur) => acc + cur) : 0
 
@@ -103,30 +99,25 @@ function ShoppingCart({ itemCount }) {
     cart && cart.map((c, i) =>
         totalQuantity.push(c.quantity)
     )
-    console.log("totalQuantity", totalQuantity)
 
     item && item.map((p, i) =>
         totalPrice.push(item.find((a, i) => p.product_id === cart[i].product_id).price)
     )
-    console.log("totalPrice", totalPrice)
 
     item && item.map((p, i) =>
         totalShippingFee.push(item.find((a, i) => p.product_id === cart[i]?.product_id)?.shipping_fee)
     )
-    console.log("totalShippingFee", totalShippingFee)
 
     for (let i = 0; i < cart.length; i++) {
         totalPrice2.push(totalQuantity[i] * totalPrice[i])
     }
-    console.log("totalPrice2", totalPrice2)
 
     const resultSum = sum + shippingFeeSum // 체크한 상품의 총액
     const totalSum = totalPrice2.length === 0 ? 0 : totalPrice2.reduce((acc, cur) => acc + cur)
     const totalShippingFeeSum = totalShippingFee.length === 0 ? 0 : totalShippingFee.reduce((acc, cur) => acc + cur)
     const resultSum2 = totalSum + totalShippingFeeSum // 장바구니 전체 상품의 총액
-    console.log("resultSum2", resultSum2)
     const difference = resultSum2 - resultSum // 전체 상품의 총액과 선택한 상품 총액의 차
-    console.log(difference)
+
     const handleDeleteAll = () => {
         if (checkList.length === cart.length) {
             dispatch(deleteAllItemDB())
@@ -150,7 +141,6 @@ function ShoppingCart({ itemCount }) {
                     checkedProduct,
                     item,
                     shipping_fee: shippingFeeSum,
-                    difference
                 }
             })
         } else {
@@ -228,6 +218,7 @@ function ShoppingCart({ itemCount }) {
                                         checked={checkList.includes(c.product_id) ? true : false}
                                         checkedProduct={checkedProduct}
                                         checkCartItem={checkCartItem}
+                                        difference={difference}
                                     />
                                 })
                             }

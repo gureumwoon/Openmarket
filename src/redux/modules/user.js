@@ -23,7 +23,11 @@ export const signUpDB = (data) => {
             })
             .catch((error) => {
                 console.log(error)
-                window.alert(error.response.data.errorMessage)
+                if (error.response.data.username[0] === '이 필드는 blank일 수 없습니다.') {
+                    console.lor(error)
+                } else {
+                    window.alert(error.response.data.errorMessage)
+                }
             })
     }
 }

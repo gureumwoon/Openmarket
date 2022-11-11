@@ -475,13 +475,18 @@ function SignUp() {
 
             })
             .catch((error) => {
-                if (error.response.data.phone_number == "해당 스토어이름은 이미 존재합니다.") {
+                console.log(error)
+                if (error.response.data.store_name == "해당 스토어이름은 이미 존재합니다.") {
                     setSalesStoreNameMessage("해당 스토어이름은 이미 존재합니다.")
                     setSalesIsStoreName(false)
+                } else if (error.response.data.store_name == '이 필드는 blank일 수 없습니다.') {
+                    setSalesStoreNameMessage("필수 정보입니다.")
+                    setSalesIsStoreName(false)
                 } else {
-                    setSalesStoreNameMessage("사용 가능한 스토어 이름입니다.")
+                    setSalesStoreNameMessage("사용 가능한 스토어 이름 입니다.")
                     setSalesIsStoreName(true)
                 }
+
             })
     }
 
@@ -514,7 +519,7 @@ function SignUp() {
                 window.alert("아이디 중복확인을 해주세요.")
             }
             const signupData = {
-                username: id,
+                username: isCheck === true ? id : "",
                 password: pw,
                 password2: pw2,
                 phone_number: phoneData,
@@ -530,12 +535,12 @@ function SignUp() {
                 window.alert("아이디 중복확인/ 사업자등록번호 인증을 완료해주세요.")
             }
             const signupData = {
-                username: sellerId,
+                username: isCheck === true ? sellerId : "",
                 password: sellerPw,
                 password2: sellerPw2,
                 phone_number: sellerPhoneData,
                 name: sellerName,
-                company_registration_number: bin,
+                company_registration_number: isCoNumCheck === true ? bin : 0,
                 store_name: storeName,
             }
             dispatch(sellerSignUpDB(signupData))
@@ -651,7 +656,18 @@ function SignUp() {
                                 </>
                             )}
 
-                            <Input label="이름" height="44px" _onChange={nameCheck} _onBlur={nameBlankCheck} />
+                            <Input
+                                label="이름"
+                                height="44px"
+                                _onChange={nameCheck}
+                                _onBlur={nameBlankCheck}
+                                borderColor={
+                                    name.length === 0 ? "#EB5757" : "#21BF48"
+                                }
+                                borderBottomColor={
+                                    name.length === 0 ? "#EB5757" : "#21BF48"
+                                }
+                            />
                             {name.length === 0 && (
                                 <>
                                     <Message className="error">
@@ -840,7 +856,18 @@ function SignUp() {
                                     </Message>
                                 </>
                             )}
-                            <Input label="이름" height="44px" _onChange={(e) => setSellerName(e.target.value)} _onBlur={nameBlankCheck} />
+                            <Input
+                                label="이름"
+                                height="44px"
+                                _onChange={(e) => setSellerName(e.target.value)}
+                                _onBlur={nameBlankCheck}
+                                borderColor={
+                                    sellerName.length === 0 ? "#EB5757" : "#21BF48"
+                                }
+                                borderBottomColor={
+                                    sellerName.length === 0 ? "#EB5757" : "#21BF48"
+                                }
+                            />
                             {sellerName.length === 0 && (
                                 <>
                                     <Message className="error">
@@ -906,12 +933,12 @@ function SignUp() {
                                     _onChange={email2Check}
                                     _onBlur={emailBlankCheck}
                                     borderColor={
-                                        sellerEmail2.length >= 0 && (
+                                        sellerEmail.length >= 0 && (
                                             salesIsEmail ? "#21BF48" : "#EB5757"
                                         )
                                     }
                                     borderBottomColor={
-                                        sellerEmail2.length >= 0 && (
+                                        sellerEmail.length >= 0 && (
                                             salesIsEmail ? "#21BF48" : "#EB5757"
                                         )
                                     }
@@ -962,6 +989,16 @@ function SignUp() {
                                 height="44px"
                                 _onChange={storeNameCheck}
                                 _onBlur={storeNameBlankCheck}
+                                borderColor={
+                                    storeName.length >= 0 && (
+                                        salesIsStoreName ? "#21BF48" : "#EB5757"
+                                    )
+                                }
+                                borderBottomColor={
+                                    storeName.length >= 0 && (
+                                        salesIsStoreName ? "#21BF48" : "#EB5757"
+                                    )
+                                }
                             />
                             {storeName.length >= 0 && (
                                 <>

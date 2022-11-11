@@ -29,10 +29,12 @@ function CartGrid(props) {
             navigate("/payment", {
                 state: {
                     item: props.checkedProduct[0],
+                    product_id: props.checkedProduct[0].product_id,
                     quantity: props.checkCartItem[0].quantity,
                     order_kind: "cart_one_order",
                     total_price: (props.checkedProduct[0].price * props.checkCartItem[0].quantity) + props.checkedProduct[0].shipping_fee,
                     shipping_fee: props.item.shipping_fee,
+                    difference: props.difference,
                 }
             })
         } else if (isCheck === false) {
