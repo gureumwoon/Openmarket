@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { apis } from '../shared/api';
 import { sellerSignUpDB, signUpDB } from '../redux/modules/user';
 import styled from "styled-components";
@@ -15,6 +16,7 @@ import pwCheckOff from "../assets/images/icon-check-off.svg";
 
 function SignUp() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [tab, setTab] = useState(0)
     const [checkBox, setCheckBox] = useState(false)
@@ -551,7 +553,7 @@ function SignUp() {
     return (
         <SignUpSection>
             <h1 style={{ margin: "70px 0 50px" }} >
-                <Logo src={Hodu} alt="Hodu Logo" />
+                <img src={Hodu} alt="Hodu Logo" onClick={() => navigate("/")} />
             </h1>
             <Tab tab={tab} setTab={setTab} children="구매회원가입" children2="판매회원가입" />
             <SignUpForm>
@@ -1030,6 +1032,9 @@ const SignUpSection = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    h1 {
+        cursor: pointer;
+    }
     .checkbox-label {
         display: flex;
         width: 380px;
@@ -1165,10 +1170,6 @@ const Message = styled.p`
   align-self: flex-start;
   margin-top: 10px;
   color: ${(props) => (props.className === "success" ? "#21BF48" : "#EB5757;")}
-`
-
-const Logo = styled.img`
-
 `
 
 export default SignUp

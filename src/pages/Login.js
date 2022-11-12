@@ -50,7 +50,7 @@ function Login() {
     return (
         <LoginSection>
             <h1 style={{ marginBottom: "70px" }}>
-                <img src={Hodu} alt="" />
+                <img src={Hodu} alt="Hodu Logo" onClick={() => navigate("/")} />
             </h1>
             <Tab tab={tab} setTab={setTab} children="구매로그인" children2="판매로그인" />
             <LoginForm>
@@ -116,6 +116,9 @@ const LoginSection = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 100px;
+  h1 {
+    cursor: pointer;
+  }
    .move-to_signup {
     margin-top: 30px;
     span {

@@ -47,19 +47,23 @@ function ProductDetail() {
     }
 
     const handleBuyItNow = () => {
-        navigate("/payment", {
-            state: {
-                item: product,
-                product_id: product.product_id,
-                quantity: quantity,
-                product_image: product.image,
-                product_name: product.product_name,
-                shipping_fee: product.shipping_fee,
-                store_name: product.store_name,
-                order_kind: "direct_order",
-                total_price: (product.price * quantity) + product.shipping_fee
-            }
-        })
+        if (!isLogin) {
+            setModal(2)
+        } else {
+            navigate("/payment", {
+                state: {
+                    item: product,
+                    product_id: product.product_id,
+                    quantity: quantity,
+                    product_image: product.image,
+                    product_name: product.product_name,
+                    shipping_fee: product.shipping_fee,
+                    store_name: product.store_name,
+                    order_kind: "direct_order",
+                    total_price: (product.price * quantity) + product.shipping_fee
+                }
+            })
+        }
     }
 
     const handleAddCart = () => {
@@ -67,6 +71,9 @@ function ProductDetail() {
             product_id: product.product_id,
             quantity: quantity,
             check: itemDupCheck
+        }
+        if (!isLogin) {
+            setModal(2)
         }
         if (cartItemId.includes(product.product_id) && cartItem.quantity + quantity <= product.stock) {
             setModal(1)
@@ -145,7 +152,21 @@ function ProductDetail() {
                         _onClick={() => setModal(0)}
                         _onClick2={modalAddCart}
                         _onClickBg={() => setModal(0)}
-                    /> : null
+                    /> :
+                    modal === 2 &&
+                    <UserModal modal_to_check
+                        _disabled={true}
+                        children2="로그인이 필요한 서비스입니다."
+                        children3="로그인 하시겠습니까?"
+                        btn_children_1="아니오"
+                        btn_children_2="예"
+                        margin="30px 0 0 0"
+                        _onClick={() => setModal(0)}
+                        _onClick2={() => {
+                            navigate("/login")
+                        }}
+                        _onClickBg={() => setModal(0)}
+                    />
             }
         </div>
     )
