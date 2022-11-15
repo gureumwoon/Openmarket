@@ -1,12 +1,16 @@
 # 🛒 Open Market (호두마켓)
 
+
 오픈마켓 서비스는 판매자와 구매자를 구별하여 판매자가 상품을 등록, 판매하며 구매자는 구매하는 서비스입니다.
 
 상품을 판매하려고 한다면 판매자로 로그인하여 상품 정보를 등록 및 수정할 수 있습니다. 판매자가 상품을 구매하는 것은 불가능합니다. 오픈마켓에 등록되어 있는 상품을 구매하고자 한다면 상품의 세부사항을 확인한 뒤, 장바구니에 넣어, 상품을 구매할 수 있습니다.
 
-***
 
 ## ⚙️ 기술 스택
+
+---
+<br />
+
 
 <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white">
 <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black">
@@ -15,11 +19,17 @@
 <img src="https://img.shields.io/badge/Thunk-764ABC?style=for-the-badge&logo=Thunk&logoColor=white">
 <img src="https://img.shields.io/badge/React Router-CA4245?style=for-the-badge&logo=React Router&logoColor=white">
 
-***
+
+<br />
 
 ## 💡 주요기능
 
-메인페이지(무한스크롤)
+---
+<br />
+
+
+- 메인페이지(무한스크롤)
+  
 
 ### 구매자
 - 로그인 페이지
@@ -197,6 +207,22 @@
 장바구니로 이동하시겠습니까?'라고 물어보는 모달창이 뜨고 '예' 버튼을 클릭하면 상품이 장바구니에 담긴다.
 - 장바구니의 수량과 내가 현재 장바구니에 넣으려는 수량의 합이 재고 이하의 갯수일 때, 장바구니 목록에 원하는 상품이 들어가 있는 걸 확인할 수 있다.
 
+<div align="center">
+  <table>
+    <tr>
+       <td align="center">
+          <img
+            src="https://user-images.githubusercontent.com/83581867/201475458-2fb61cb2-1957-4623-aede-2e6ce18a55e6.gif"
+            alt=""
+          /><br /><sub><b>상세페이지(계정없이)</b></sub><br />
+      </td>
+    </tr>
+  </table>
+</div>
+
+- 로그인 하지 않은 상태에서 바로구매나 장바구니 버튼을 누르면 '로그인이 필요한 서비스입니다.
+로그인 하시겠습니까?' 문구의 모달창이 뜨고 예 버튼을 클릭하면 로그인 페이지로 이동하게 된다.
+
 - ### 장바구니페이지
 
 <div align="center">
@@ -279,7 +305,80 @@
 - 장바구니 페이지에서 원하는 상품 하나를 선택하고 그 상품의 금액 밑에 있는 주문하기 버튼을 클릭한다.
 - 선택하지 않고 개별 주문하기 버튼을 클릭하면 '구매하실 상품을 선택해주세요.' 문구의 alert창이 뜬다.
 - 선택을 하고 주문하기 버튼을 클릭하면 주문/결제 페이지로 이동하고 나머지는 위의 주문하기 방식과 같다.
+  
+<br />
 
+## 🔨 트러블 슈팅
+
+---
+
+<br />
+
+<details>
+<summary>
+➡️ 카트에 넣은 상품이 장바구니 페이지에서 보이지 않음.
+</summary>
+
+  #### 원인
+
+  - api 주소가 paging 처리 되어 있어서 제일 최근에 업로드된 상품 15개만 불러와져서 그 뒤의 상품들이 불러와지지 않아서 상품이 조회가 안 되는 문제가 발생했다.
+
+ #### 해결방안
+ - [해결방안](https://velog.io/@codns1223/React-paging%EC%B2%98%EB%A6%AC%EB%90%9C-api%EC%97%90%EC%84%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0)
+</details>
+
+
+<details>
+<summary>
+ ➡️ 장바구니 상품 배열 순서 문제
+</summary>
+
+
+#### 원인
+
+
+- 장바구니의 배열이 cart 데이터의 순서로 되어있지 않고, product 데이터 배열에서 cart데이터 상품들의 product_id와 같은 상품들을 추출해서 그 배열로 정렬하게 만들어서 제일 최근에 추가한 상품인데도 장바구니 배열의 마지막에 추가 되는게 아니라 뜬금없는 중간에 추가되는 일이 발생함. 그래서 삭제할 때도 선택한 상품이 아닌 다른 상품이 삭제되는 일이 발생함.
+
+```javascript
+const cart = useSelector((state) => state.cart.cartList)
+const product = useSelector((state) => state.product.products)
+const cartId = cart.map((c, i) => c.product_id)
+const item = product.filter((i) => cartId.includes(i.product_id))
+
+ {
+      item && item.map((c, i) => {
+          return <CartGrid
+              key={i}
+              {...c}
+          />
+      })
+}            
+```
+
+#### 해결방안
+
+```javascript
+const cart = useSelector((state) => state.cart.cartList)
+const product = useSelector((state) => state.product.products)
+const cartId = cart.map((c, i) => c.product_id)
+const item = product.filter((i) => cartId.includes(i.product_id))
+
+ {
+      cart && cart.map((c, i) => {
+          return <CartGrid
+              key={i}
+              {...c}
+              item={item.find((p, i) => c.product_id === p.product_id)}
+          />
+      })
+}            
+```
+- 배열 순서를 cart데이터 순으로 바꾸기 위해서 cart 데이터로 map을 돌리게끔 바꿨지만 cart 데이터에는 상품의 데이터가 아니라
+  상품의 아이디 ,카트 아이디, 카트번호, 수량 정보만 들어 있어서 product 데이터가 필요하다.
+  그래서 find 함수를 이용해서 item 데이터에서 cart의 product_id와 item의 product_id가 같은 항목을 찾게끔 해줘서 item 배열을
+  cart 데이터 배열의 순서와 맞췄고 cartGrid 컴포넌트에서는 item을 props로 받아서 상품의 데이터를 표시해 줬다.
+
+</details>
 
 
 
