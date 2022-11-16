@@ -69,7 +69,7 @@
   </table>
 </div>
 
-- 칸에 <span style="background-color:#dcffe4; color:#000;">정보를 입력하지 않고</span> 넘어가려고 하면 <span style="background-color:#dcffe4; color:#000;">'필수 정보입니다'</span>라는 문구가 칸 아래에 붉은 글씨로 나타난다.(칸의 테두리 컬러도 붉은색으로 바뀐다.)
+-- 칸에 <span style="background-color:#dcffe4; color:#000;">정보를 입력하지 않고</span> 넘어가려고 하면 <span style="background-color:#dcffe4; color:#000;">'필수 정보입니다'</span>라는 문구가 칸 아래에 붉은 글씨로 나타난다.(칸의 테두리 컬러도 붉은색으로 바뀐다.)
 - <span style="background-color:#dcffe4; color:#000;">아이디는 String이어야 하고</span> 다른 조건은 없다. 입력을 마치고 중복확인을 해서 검증을 받아서 <span style="background-color:#dcffe4; color:#000;">중복 아이디가 아닌 경우에 회원가입이 가능하다.</span> 
 <span style="background-color:#dcffe4; color:#000;">중복아이디일 경우 '이미 사용 중인 아이디입니다.'</span>라는 경고문구가 나타나고 <span style="background-color:#dcffe4; color:#000;">중복아이디가 아닐 경우 '멋진 아이디네요 :)'</span>라는 문구가 나타난다.
 <span style="background-color:#dcffe4; color:#000;">아디이 중복확인을 하지 않고 회원가입 버튼을 누르면 '아이디 중복확인을 해주세요'</span>라는 문구가 띄워진 alert창이 나타난다.
