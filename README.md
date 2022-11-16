@@ -24,7 +24,7 @@
 ## 💡 주요기능
 
 
-
+<span style="background-color:#dcffe4; color:#000;">외않되</span>
 
 - 메인페이지(무한스크롤)
   
