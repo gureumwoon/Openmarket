@@ -24,11 +24,9 @@ const deleteProduct = createAction(DELETEPRODUCT, (productId) => ({ productId })
 const modifyProduct = createAction(MODIFYPRODUCT, (product) => ({ product }))
 
 export const getProductDB = (page) => {
-    console.log(page)
     return async function (dispatch) {
         await apis.getProduct(page)
             .then((res) => {
-                console.log("상품", res.data)
                 dispatch(getProduct(res.data.results, res.data.count))
             })
             .catch((error) => {
@@ -43,7 +41,6 @@ export const getOneProductDB = (productId) => {
     return async function (dispatch) {
         await apis.getOneProduct(productId)
             .then((res) => {
-                console.log("상품하나", res.data)
                 dispatch(getOneProduct(res.data))
             })
             .catch((error) => {
@@ -54,10 +51,9 @@ export const getOneProductDB = (productId) => {
 
 // 상품 업로드
 export const addProductDB = (product) => {
-    return async function (dispatch, getState) {
+    return async function (dispatch) {
         await apis.addProduct(product)
             .then((res) => {
-                console.log(res.data)
                 window.location.assign("/seller-center")
             })
             .catch((error) => {
@@ -71,7 +67,6 @@ export const getSellerProductDB = () => {
     return async function (dispatch) {
         await apis.getSellerProduct()
             .then((res) => {
-                console.log(res.data.results)
                 dispatch(getSellerProduct(res.data.results))
             })
             .catch((error) => {
@@ -85,7 +80,6 @@ export const deleteProductDB = (productId) => {
     return async function (dispatch) {
         await apis.deleteProduct(productId)
             .then((res) => {
-                console.log(res)
                 dispatch(deleteProduct(productId))
             })
             .catch((error) => {
@@ -99,7 +93,6 @@ export const modifyProductDB = (sellerProductId, product) => {
     return async function (dispatch) {
         await apis.modifyProduct(sellerProductId, product)
             .then((res) => {
-                console.log(res)
                 dispatch(modifyProduct(res.data))
                 window.location.assign("/seller-center")
             })
@@ -113,7 +106,6 @@ export default handleActions(
     {
         [GETPRODUCT]: (state, action) =>
             produce(state, (draft) => {
-                console.log(action.payload)
                 draft.products = draft.products.concat(action.payload.products)
                 draft.count = action.payload.count
             }),

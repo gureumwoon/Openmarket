@@ -3,7 +3,6 @@ import { createAction, handleActions } from "redux-actions";
 import produce from "immer";
 
 // Actions
-const ADDCART = "cart/ADDCART";
 const GETCART = "cart/GETCART";
 const GETCARTITEM = "cart/GETCARTITEM";
 const MODIFYCARTITEM = "cart/MODIFYCARTITEM";
@@ -15,7 +14,6 @@ const initialState = {
 }
 
 // Action Creators
-const addCart = createAction(ADDCART, (cartItem) => ({ cartItem }));
 const getCart = createAction(GETCART, (cartItem) => ({ cartItem }));
 const getCartItem = createAction(GETCARTITEM, (cartItem) => ({ cartItem }));
 const modifyCart = createAction(MODIFYCARTITEM, (cartItem) => ({ cartItem }));
@@ -85,7 +83,6 @@ export const deleteCartItemDB = (cartItemId) => {
     return async function (dispatch) {
         await apis.deleteItem(cartItemId)
             .then((res) => {
-                console.log(res)
                 dispatch(deleteItem(cartItemId))
             })
             .catch((error) => {
@@ -111,17 +108,11 @@ export default handleActions(
     {
         [GETCART]: (state, action) =>
             produce(state, (draft) => {
-                console.log("장바구니", action.payload)
-                console.log(action.payload)
                 draft.cartList = action.payload.cartItem
             }),
         [GETCARTITEM]: (state, action) =>
             produce(state, (draft) => {
                 draft.cartList = action.payload.cartItem
-            }),
-        [ADDCART]: (state, action) =>
-            produce(state, (draft) => {
-                draft.cartList.unshift(action.payload.cartItem)
             }),
         [MODIFYCARTITEM]: (state, action) =>
             produce(state, (draft) => {
@@ -131,7 +122,6 @@ export default handleActions(
             }),
         [DELETEITEM]: (state, action) =>
             produce(state, (draft) => {
-                console.log("장바구니아이템삭제", action.payload)
                 draft.cartList = draft.cartList.filter((item) =>
                     item.cart_item_id !== action.payload.cartItemId
                 )

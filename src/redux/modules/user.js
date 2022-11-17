@@ -17,7 +17,6 @@ export const signUpDB = (data) => {
     return async function (dispatch) {
         await apis.signUp(data)
             .then((res) => {
-                console.log(res)
                 window.alert("회원가입에 성공했습니다!")
                 window.location.assign("/login")
             })
@@ -37,7 +36,6 @@ export const sellerSignUpDB = (data) => {
     return async function (dispatch) {
         await apis.sellerSignUp(data)
             .then((res) => {
-                console.log(res)
                 window.alert("회원가입에 성공했습니다!")
                 window.location.assign("/login")
             })
@@ -65,11 +63,10 @@ export const signInDB = (data) => {
     return async function (dispatch) {
         await apis.signIn(data)
             .then((res) => {
-                console.log("로그인정보", res)
                 localStorage.setItem("token", res.data.token)
                 localStorage.setItem("type", res.data.user_type)
                 localStorage.setItem("id", res.data.id)
-                dispatch(signInUser({ data }))
+                dispatch(signInUser(data))
                 window.alert(`환영합니다 ${data.username}님 :)`)
                 window.location.assign("/")
             })
