@@ -9,6 +9,7 @@ function Input(props) {
         type,
         placeholder,
         defaultValue,
+        _onClick,
         _onChange,
         _onBlur,
         _onKeyDown,
@@ -44,7 +45,7 @@ function Input(props) {
                     onBlur={_onBlur}
                     {...styles}
                 />
-                <img className="search" src={Search} alt="search-icon" />
+                <img className="search" src={Search} alt="search-icon" onClick={_onClick} />
             </NavInputContainer>
         )
     }
