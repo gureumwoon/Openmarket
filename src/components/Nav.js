@@ -48,7 +48,7 @@ function Nav(props) {
                     <h1 onClick={() => navigate("/")}>
                         <img src={Hodu} alt="Logo" />
                     </h1>
-                    <Input nav_input placeholder="상품을 검색해보세요!" defaultValue={search} _onChange={(e) => setSearch(e.target.value)} _onClick={() => navigate(`/search/?search=${search}`)} />
+                    <Input nav_input placeholder="상품을 검색해보세요!" defaultValue={search} _onChange={(e) => setSearch(e.target.value)} _onClick={() => navigate("/search")} />
                 </div>
                 <div>
                     <div className='navigate-cart' onClick={() => navigate("/cart", {

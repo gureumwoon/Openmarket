@@ -29,7 +29,7 @@ function App() {
         <Route path="/detail/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<ShoppingCart itemCount={itemCount} />} />
         <Route path="/payment" element={<Payment />} />
-        <Route path="/search/?search=:id" element={<Search />} />
+        <Route path={['/search', '/info']} element={<Search />} />
       </Routes>
     </div>
   );
