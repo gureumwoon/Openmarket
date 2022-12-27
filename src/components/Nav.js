@@ -12,12 +12,15 @@ import Hodu from "../assets/images/Nav-hodu.png";
 import UserIcon from "../assets/images/icon-user.svg";
 import Cart from "../assets/images/icon-shopping-cart.svg";
 import ShoppingIcon from "../assets/images/icon-shopping-bag.svg";
+import { useDispatch } from 'react-redux';
+import { searchProductDB } from '../redux/modules/product';
 
 function Nav(props) {
     const { seller_nav, user_nav, children, filter, color } = props;
 
     const isLogin = localStorage.getItem("token")
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [modal, setModal] = useState(false);
     const [search, setSearch] = useState("");
 
@@ -31,6 +34,12 @@ function Nav(props) {
                 console.log("로그아웃에러", error)
             })
     }
+
+    const handleSearch = () => {
+        dispatch(searchProductDB(search))
+        // () => navigate(`/search?query=${search}`)
+    }
+
     if (seller_nav) {
         return (
             <SellerNavigation>
@@ -48,7 +57,13 @@ function Nav(props) {
                     <h1 onClick={() => navigate("/")}>
                         <img src={Hodu} alt="Logo" />
                     </h1>
-                    <Input nav_input placeholder="상품을 검색해보세요!" defaultValue={search} _onChange={(e) => setSearch(e.target.value)} _onClick={() => navigate(`/search?query=${search}`)} />
+                    <Input
+                        nav_input
+                        placeholder="상품을 검색해보세요!"
+                        defaultValue={search}
+                        _onChange={(e) => setSearch(e.target.value)}
+                        _onClick={handleSearch}
+                    />
                 </div>
                 <div>
                     <div className='navigate-cart' onClick={() => navigate("/cart", {

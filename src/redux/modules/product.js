@@ -8,12 +8,14 @@ const GETONEPRODUCT = "product/GETONEPRODUCT";
 const GETSELLERPRODUCT = "product/GETSELLERPRODUCT";
 const DELETEPRODUCT = "product/DELETEPRODUCT";
 const MODIFYPRODUCT = "product/MODIFYPRODUCT";
+const SEARCHPRODUCT = "product/SEARCHPRODUCT";
 
 const initialState = {
     products: [],
     count: 1,
     productOne: [],
     sellerProducts: [],
+    searchProduct: [],
 }
 
 //Action Creators
@@ -22,6 +24,7 @@ const getOneProduct = createAction(GETONEPRODUCT, (productOne) => ({ productOne 
 const getSellerProduct = createAction(GETSELLERPRODUCT, (products) => ({ products }))
 const deleteProduct = createAction(DELETEPRODUCT, (productId) => ({ productId }))
 const modifyProduct = createAction(MODIFYPRODUCT, (product) => ({ product }))
+const searchProduct = createAction(SEARCHPRODUCT, (product) => ({ product }))
 
 export const getProductDB = (page) => {
     return async function (dispatch) {
@@ -98,6 +101,19 @@ export const modifyProductDB = (sellerProductId, product) => {
             })
             .catch((error) => {
                 console.log(error)
+            })
+    }
+}
+
+// 상품 검색하기
+export const searchProductDB = (product) => {
+    return async function (dispatch) {
+        await apis.searchProduct(product)
+            .then((res) => {
+                console.log("검색", res)
+            })
+            .catch((error) => {
+                console.log("검색에러", error)
             })
     }
 }
