@@ -16,13 +16,13 @@ import { useDispatch } from 'react-redux';
 import { searchProductDB } from '../redux/modules/product';
 
 function Nav(props) {
-    const { seller_nav, user_nav, children, filter, color } = props;
+    const { seller_nav, user_nav, children, filter, color, _onClick, _onChange } = props;
 
     const isLogin = localStorage.getItem("token")
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [modal, setModal] = useState(false);
-    const [search, setSearch] = useState("");
+    const [search, setSearch] = useState();
 
     const handleLogOut = () => {
         apis.signOut()
@@ -35,9 +35,19 @@ function Nav(props) {
             })
     }
 
-    const handleSearch = () => {
-        dispatch(searchProductDB(search))
+    const handleSearch = (e) => {
+        // dispatch(searchProductDB(search))
         // () => navigate(`/search?query=${search}`)
+        console.log(e)
+        apis.searchProduct(search)
+            .then((res) => {
+                const list = res
+                console.log(list)
+                navigate(`/search?query=${search}`)
+            })
+            .catch((error) => {
+                console.log("서치에러", error)
+            })
     }
 
     if (seller_nav) {
@@ -60,7 +70,7 @@ function Nav(props) {
                     <Input
                         nav_input
                         placeholder="상품을 검색해보세요!"
-                        defaultValue={search}
+                        defaultValue={props.search}
                         _onChange={(e) => setSearch(e.target.value)}
                         _onClick={handleSearch}
                     />
@@ -93,7 +103,13 @@ function Nav(props) {
                 <h1 onClick={() => navigate("/")}>
                     <img src={Hodu} alt="Logo" />
                 </h1>
-                <Input nav_input placeholder="상품을 검색해보세요!" />
+                <Input
+                    nav_input
+                    placeholder="상품을 검색해보세요!"
+                    defaultValue={props.search}
+                    _onChange={(e) => setSearch(e.target.value)}
+                    _onClick={handleSearch}
+                />
             </div>
             <div className='container-userIcon'>
                 <div className='seller-mypage' onClick={() => setModal(!modal)}>
