@@ -12,15 +12,12 @@ import Hodu from "../assets/images/Nav-hodu.png";
 import UserIcon from "../assets/images/icon-user.svg";
 import Cart from "../assets/images/icon-shopping-cart.svg";
 import ShoppingIcon from "../assets/images/icon-shopping-bag.svg";
-import { useDispatch } from 'react-redux';
-import { searchProductDB } from '../redux/modules/product';
 
 function Nav(props) {
     const { seller_nav, user_nav, children, filter, color, _onClick, _onChange } = props;
 
     const isLogin = localStorage.getItem("token")
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const [modal, setModal] = useState(false);
     const [search, setSearch] = useState();
 
@@ -37,17 +34,11 @@ function Nav(props) {
 
     const handleSearch = (e) => {
         // dispatch(searchProductDB(search))
-        // () => navigate(`/search?query=${search}`)
-        console.log(e)
-        apis.searchProduct(search)
-            .then((res) => {
-                const list = res
-                console.log(list)
-                navigate(`/search?query=${search}`)
-            })
-            .catch((error) => {
-                console.log("서치에러", error)
-            })
+        navigate(`/search?query=${search}`, {
+            state: {
+                search
+            }
+        })
     }
 
     if (seller_nav) {
