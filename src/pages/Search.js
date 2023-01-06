@@ -22,15 +22,20 @@ function Search() {
         apis.searchProduct(page, location.state.search)
             .then((res) => {
                 // const list = res.data.results
+                console.log(res)
                 setList((p) => p.concat(res.data.results))
-                setPage((p) => p + 1)
+                if (page < Math.ceil(res.data.count / 15)) {
+                    setPage((p) => p + 1)
+                }
                 const filterList = list.filter((p) => p.product_name.toLocaleLowerCase().includes(location.state.search.toLocaleLowerCase()))
                 setSearchList(filterList)
             })
             .catch((error) => {
                 console.log("서치에러", error)
             })
-    }, [])
+    }, [page])
+    console.log(searchList)
+    console.log(list)
 
     return (
         <div>
@@ -39,7 +44,11 @@ function Search() {
                 :
                 <Nav user_nav children={isLogin ? "마이페이지" : "로그인"} />
             }
-            <SearchGrid />
+            {
+                searchList.map((p) => {
+                    return <SearchGrid {...p} />
+                })
+            }
         </div>
     )
 }
