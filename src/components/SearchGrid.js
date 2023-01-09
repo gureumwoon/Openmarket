@@ -5,7 +5,7 @@ function SearchGrid({ searchList }) {
     return (
         <Container>
             {searchList.map((p) => {
-                return <div>
+                return <div key={p.product_id}>
                     <img src={p.image} alt="" />
                     <p className='product-name'>{p.store_name}</p>
                     <p className='product'>{p.product_name}</p>
