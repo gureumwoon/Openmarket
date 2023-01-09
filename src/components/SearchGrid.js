@@ -1,16 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
 
-function SearchGrid(props) {
+function SearchGrid({ searchList }) {
     return (
         <Container>
-            <div>
-                <img src={props.image} alt="" />
-                <p className='product-name'>{props.store_name}</p>
-                <p className='product'>{props.product_name}</p>
-                <span className='product-price'>{props.price.toLocaleString()}</span>
-                <span>원</span>
-            </div>
+            {searchList.map((p) => {
+                return <div>
+                    <img src={p.image} alt="" />
+                    <p className='product-name'>{p.store_name}</p>
+                    <p className='product'>{p.product_name}</p>
+                    <span className='product-price'>{p.price}</span>
+                    <span>원</span>
+                </div>
+            })}
         </Container>
     )
 }
