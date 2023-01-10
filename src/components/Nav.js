@@ -64,6 +64,7 @@ function Nav(props) {
                         defaultValue={props.search}
                         _onChange={(e) => setSearch(e.target.value)}
                         _onClick={handleSearch}
+                        _onKeyPress={handleSearch}
                     />
                 </div>
                 <div>
