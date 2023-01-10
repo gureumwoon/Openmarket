@@ -13,6 +13,7 @@ function Input(props) {
         _onChange,
         _onBlur,
         _onKeyDown,
+        _onKeyPress,
         _maxLength,
         border,
         radius,
@@ -44,6 +45,7 @@ function Input(props) {
                     onChange={_onChange}
                     onBlur={_onBlur}
                     {...styles}
+                    onKeyPress={_onKeyPress}
                 />
                 <img className="search" src={Search} alt="search-icon" onClick={_onClick} />
             </NavInputContainer>
@@ -160,6 +162,9 @@ const UploadInputField = styled.input`
 const NavInputContainer = styled.div`
                 position: relative;
                 width: 400px;
+                img {
+                    cursor: pointer;
+                }
                 .search {
                     position: absolute;
                 top: 10px;
