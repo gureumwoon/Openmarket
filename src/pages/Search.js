@@ -19,7 +19,7 @@ function Search() {
                     setPage((p) => p + 1)
                     setList((p) => p.concat(res.data.results))
                 }
-                const filterList = list.filter((p) => p.product_name.toLocaleLowerCase().includes(location.state.search.toLocaleLowerCase()))
+                const filterList = list.filter((p) => p.product_name.replace(" ", "").toLocaleLowerCase().includes(location.state.search.toLocaleLowerCase().replace(" ", "")))
                 setSearchList(filterList)
             })
             .catch((error) => {
