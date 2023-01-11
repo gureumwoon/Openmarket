@@ -32,8 +32,14 @@ function Nav(props) {
             })
     }
 
+    const handleSearchEnter = (e) => {
+        if (e.key === "Enter") {
+            handleSearch()
+            console.log(e)
+        }
+    }
+
     const handleSearch = (e) => {
-        // dispatch(searchProductDB(search))
         navigate(`/search?query=${search}`, {
             state: {
                 search
@@ -64,7 +70,7 @@ function Nav(props) {
                         defaultValue={props.search}
                         _onChange={(e) => setSearch(e.target.value)}
                         _onClick={handleSearch}
-                        _onKeyPress={handleSearch}
+                        _onKeyUp={(e) => handleSearchEnter(e)}
                     />
                 </div>
                 <div>

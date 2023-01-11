@@ -13,7 +13,7 @@ function Input(props) {
         _onChange,
         _onBlur,
         _onKeyDown,
-        _onKeyPress,
+        _onKeyUp,
         _maxLength,
         border,
         radius,
@@ -45,7 +45,7 @@ function Input(props) {
                     onChange={_onChange}
                     onBlur={_onBlur}
                     {...styles}
-                    onKeyPress={_onKeyPress}
+                    onKeyUp={_onKeyUp}
                 />
                 <img className="search" src={Search} alt="search-icon" onClick={_onClick} />
             </NavInputContainer>
