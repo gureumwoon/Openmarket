@@ -10,6 +10,8 @@ import Footer from '../components/Footer'
 import UserModal from '../components/UserModal';
 //elements
 import Button from '../elements/Button';
+//helpers
+import ModalPortal from '../helpers/Portal';
 
 function ProductDetail() {
     const { id } = useParams()
@@ -140,34 +142,36 @@ function ProductDetail() {
                 }
             </SectionTwo>
             <Footer />
-            {
-                modal === 1 ?
-                    <UserModal modal_to_check
-                        display="none"
-                        children2="이미 장바구니에 있는 상품입니다."
-                        children3="장바구니로 이동하시겠습니까?"
-                        btn_children_1="아니오"
-                        btn_children_2="예"
-                        margin="40px 0 0 0"
-                        _onClick={() => setModal(0)}
-                        _onClick2={modalAddCart}
-                        _onClickBg={() => setModal(0)}
-                    /> :
-                    modal === 2 &&
-                    <UserModal modal_to_check
-                        _disabled={true}
-                        children2="로그인이 필요한 서비스입니다."
-                        children3="로그인 하시겠습니까?"
-                        btn_children_1="아니오"
-                        btn_children_2="예"
-                        margin="30px 0 0 0"
-                        _onClick={() => setModal(0)}
-                        _onClick2={() => {
-                            navigate("/login")
-                        }}
-                        _onClickBg={() => setModal(0)}
-                    />
-            }
+            <ModalPortal>
+                {
+                    modal === 1 ?
+                        <UserModal modal_to_check
+                            display="none"
+                            children2="이미 장바구니에 있는 상품입니다."
+                            children3="장바구니로 이동하시겠습니까?"
+                            btn_children_1="아니오"
+                            btn_children_2="예"
+                            margin="40px 0 0 0"
+                            _onClick={() => setModal(0)}
+                            _onClick2={modalAddCart}
+                            _onClickBg={() => setModal(0)}
+                        /> :
+                        modal === 2 &&
+                        <UserModal modal_to_check
+                            _disabled={true}
+                            children2="로그인이 필요한 서비스입니다."
+                            children3="로그인 하시겠습니까?"
+                            btn_children_1="아니오"
+                            btn_children_2="예"
+                            margin="30px 0 0 0"
+                            _onClick={() => setModal(0)}
+                            _onClick2={() => {
+                                navigate("/login")
+                            }}
+                            _onClickBg={() => setModal(0)}
+                        />
+                }
+            </ModalPortal>
         </div>
     )
 }

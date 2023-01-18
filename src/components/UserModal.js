@@ -54,7 +54,7 @@ const ModalBg = styled.div`
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 9;
+    /* z-index: 9; */
     opacity: 0.2;
     @media screen and (max-width:1320px) {
         width: 100%;
@@ -63,7 +63,7 @@ const ModalBg = styled.div`
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 9;
+        /* z-index: 9; */
         opacity: 0.2;
     }
 `
@@ -80,18 +80,13 @@ const CheckModal = styled.div`
     background-color: #FFFF;
     top: 50%;
     left: calc(50% - 200px);
-    z-index: 10;
+    /* z-index: 10; */
     .delete-btn {
         position: absolute;      
         top: 18px;
         right: 18px;
         cursor: pointer;
     }
-    /* div {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    } */
     p {
         text-align: center;
         line-height: 20px;
