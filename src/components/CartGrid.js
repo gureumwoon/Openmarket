@@ -10,6 +10,7 @@ import Button from '../elements/Button';
 import MinusIcon from "../assets/images/minus-icon_2.svg";
 import PlusIcon from "../assets/images/plus-icon_2.svg";
 import DeleteIcon from '../assets/images/icon-delete.svg';
+import ModalPortal from '../helpers/Portal';
 
 function CartGrid(props) {
     const { cart_sum_grid, sum, shippingFeeSum, onChange, checked, isCheck } = props;
@@ -129,52 +130,54 @@ function CartGrid(props) {
                         <Button width="130px" height="40px" font_weight="500" _onClick={cartToPayment}>주문하기</Button>
                     </div>
                     <img className="icon-delete" src={DeleteIcon} alt="" onClick={() => setModal(2)} />
-                    {
-                        itemId === props.product_id &&
-                            modal === 1 ?
-                            <UserModal modal_to_check
-                                children={count}
-                                _onClickMinus={() => {
-                                    if (1 < count) {
-                                        setCount(count - 1)
-                                    }
-                                }}
-                                _onClickPlus={() => {
-                                    if (count < props.item.stock) {
-                                        setCount(count + 1)
-                                    }
-                                }}
-                                btn_children_1="취소"
-                                btn_children_2="수정"
-                                margin="26px 0 0 0"
-                                _onClick={() => setModal(0)}
-                                _onClick2={() => {
-                                    const itemData = {
-                                        product_id: props.product_id,
-                                        quantity: count,
-                                        is_active: true //isCheck,
-                                    }
-                                    const cartItemId = props.cart_item_id
-                                    dispatch(modifyCartDB(cartItemId, itemData))
-                                    setModal(0)
-                                }}
-                                _onClickBg={() => setModal(0)}
-                            /> :
-                            modal === 2 &&
-                            <UserModal modal_to_check
-                                _disabled={true}
-                                children2="상품을 삭제하시겠습니까?"
-                                btn_children_1="취소"
-                                btn_children_2="확인"
-                                margin="40px 0 0 0"
-                                _onClick={() => setModal(0)}
-                                _onClick2={() => {
-                                    dispatch(deleteCartItemDB(props.cart_item_id))
-                                    setModal(0)
-                                }}
-                                _onClickBg={() => setModal(0)}
-                            />
-                    }
+                    <ModalPortal>
+                        {
+                            itemId === props.product_id &&
+                                modal === 1 ?
+                                <UserModal modal_to_check
+                                    children={count}
+                                    _onClickMinus={() => {
+                                        if (1 < count) {
+                                            setCount(count - 1)
+                                        }
+                                    }}
+                                    _onClickPlus={() => {
+                                        if (count < props.item.stock) {
+                                            setCount(count + 1)
+                                        }
+                                    }}
+                                    btn_children_1="취소"
+                                    btn_children_2="수정"
+                                    margin="26px 0 0 0"
+                                    _onClick={() => setModal(0)}
+                                    _onClick2={() => {
+                                        const itemData = {
+                                            product_id: props.product_id,
+                                            quantity: count,
+                                            is_active: true //isCheck,
+                                        }
+                                        const cartItemId = props.cart_item_id
+                                        dispatch(modifyCartDB(cartItemId, itemData))
+                                        setModal(0)
+                                    }}
+                                    _onClickBg={() => setModal(0)}
+                                /> :
+                                modal === 2 &&
+                                <UserModal modal_to_check
+                                    _disabled={true}
+                                    children2="상품을 삭제하시겠습니까?"
+                                    btn_children_1="취소"
+                                    btn_children_2="확인"
+                                    margin="40px 0 0 0"
+                                    _onClick={() => setModal(0)}
+                                    _onClick2={() => {
+                                        dispatch(deleteCartItemDB(props.cart_item_id))
+                                        setModal(0)
+                                    }}
+                                    _onClickBg={() => setModal(0)}
+                                />
+                        }
+                    </ModalPortal>
                 </Grid>
                 // })
             }

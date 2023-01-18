@@ -96,15 +96,15 @@ function ShoppingCart({ itemCount }) {
     const totalPrice2 = []
     const totalShippingFee = []
 
-    cart && cart.map((c, i) =>
+    cart.map((c, i) =>
         totalQuantity.push(c.quantity)
     )
 
-    item && item.map((p, i) =>
+    item.map((p, i) =>
         totalPrice.push(item.find((a, i) => p.product_id === cart[i].product_id).price)
     )
 
-    item && item.map((p, i) =>
+    item.map((p, i) =>
         totalShippingFee.push(item.find((a, i) => p.product_id === cart[i]?.product_id)?.shipping_fee)
     )
 
