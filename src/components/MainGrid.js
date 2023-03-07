@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
+import useInfiniteScroll from '../hooks/use-infinitescroll';
 import { api } from '../shared/api';
 
 function MainGrid() {
@@ -8,32 +9,42 @@ function MainGrid() {
     const [page, setPage] = useState(1)
     const [list, setList] = useState([])
     const [moreData, setMoreData] = useState(true)
-    const target = useRef(null);
 
     const getData = async () => {
         await api.get(`/products/?page=${page}`).then((res) => {
             setList((prev) => prev.concat(res.data.results))//리스트 추가
+            console.log(list)
             setPage(prev => prev + 1)
+            console.log(page)
         }).catch((error) => {
             setMoreData(false)
             return;
         })
     }
 
+    const target = useInfiniteScroll(async (entry, observer) => {
+        observer.unobserve(entry.target);
+        await getData()
+        observer.observe(entry.target)
+    })
+
+
     useEffect(() => {
-        let observer;
+        // let observer;
         if (target.current) {
-            const handleInterSect = async ([entry], observer) => {
-                if (entry.isIntersecting) {
-                    observer.unobserve(entry.target);
-                    await getData()
-                    observer.observe(entry.target)
-                }
-            };
-            observer = new IntersectionObserver(handleInterSect, { threshold: 0.6, });
-            observer.observe(target.current) // 타겟 엘리먼트 지정
+            console.log(target.current)
+            getData()
+            //     const handleInterSect = async ([entry], observer) => {
+            //         if (entry.isIntersecting) {
+            //             observer.unobserve(entry.target);
+            //             await getData()
+            //             observer.observe(entry.target)
+            //         }
+            //     };
+            //     observer = new IntersectionObserver(handleInterSect, { threshold: 0.6, });
+            //     observer.observe(target.current) // 타겟 엘리먼트 지정
         }
-        return () => observer && observer.disconnect();
+        // return () => observer && observer.disconnect();
     }, [target, page])
 
     return (
