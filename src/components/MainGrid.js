@@ -1,21 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import useInfiniteScroll from '../hooks/use-infinitescroll';
+import { getProductDB } from '../redux/modules/product';
 import { api } from '../shared/api';
 
 function MainGrid() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const itemCount = useSelector((state) => state.product.count)
+    const productList = useSelector((state) => state.product.products)
+    // console.log(itemCount)
     const [page, setPage] = useState(1)
     const [list, setList] = useState([])
     const [moreData, setMoreData] = useState(true)
 
     const getData = async () => {
         await api.get(`/products/?page=${page}`).then((res) => {
+            setPage((prev) => prev + 1)
             setList((prev) => prev.concat(res.data.results))//리스트 추가
             console.log(list)
-            setPage(prev => prev + 1)
-            console.log(page)
         }).catch((error) => {
             setMoreData(false)
             return;
@@ -23,29 +28,28 @@ function MainGrid() {
     }
 
     const target = useInfiniteScroll(async (entry, observer) => {
+        console.log(page)
         observer.unobserve(entry.target);
         await getData()
         observer.observe(entry.target)
     })
-
+    // console.log(target)
 
     useEffect(() => {
         // let observer;
-        if (target.current) {
-            console.log(target.current)
-            getData()
-            //     const handleInterSect = async ([entry], observer) => {
-            //         if (entry.isIntersecting) {
-            //             observer.unobserve(entry.target);
-            //             await getData()
-            //             observer.observe(entry.target)
-            //         }
-            //     };
-            //     observer = new IntersectionObserver(handleInterSect, { threshold: 0.6, });
-            //     observer.observe(target.current) // 타겟 엘리먼트 지정
-        }
-        // return () => observer && observer.disconnect();
-    }, [target, page])
+        // if (list.length < itemCount && target.current) {
+        //             const handleInterSect = async ([entry], observer) => {
+        //                 if (entry.isIntersecting) {
+        //                      observer.unobserve(entry.target);
+        //                     await getData()
+        //                     observer.observe(entry.target)
+        //                 }
+        //             };
+        //             observer = new IntersectionObserver(handleInterSect, { threshold: 0.6, });
+        //             observer.observe(target.current) // 타겟 엘리먼트 지정
+        // }
+        //     // return () => observer && observer.disconnect();
+    }, [])
 
     return (
         <Container>
