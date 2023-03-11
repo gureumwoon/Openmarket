@@ -1,18 +1,15 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
-function useInfiniteScroll(onIntersect, options) {
+function useInfiniteScroll(onIntersect) {
     const ref = useRef(null);
-    const [page, setPage] = useState(1)
 
     const handleIntersect = useCallback(([entry], observer) => {
         if (entry.isIntersecting) {
-            // observer.unobserve(entry.target);
+            observer.unobserve(entry.target);
             onIntersect(entry, observer);
-            setPage((prev) => prev + 1)
-            console.log(page)
             // observer.observe(entry.target)
         }
-    }, []);
+    }, [onIntersect]);
 
     useEffect(() => {
         let observer;
@@ -21,7 +18,7 @@ function useInfiniteScroll(onIntersect, options) {
             observer.observe(ref.current);
         }
         return () => observer && observer.disconnect();
-    }, [ref, handleIntersect, options]);
+    }, [ref, handleIntersect]);
 
     return ref;
 }

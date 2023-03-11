@@ -30,6 +30,7 @@ function ShoppingCart({ itemCount }) {
         pageNumbers.push(i);
     }
     pageNumbers.shift()
+
     const quantityList = cart.map((q) => q.quantity)
     const cartId = cart.map((c) => c.product_id)
     const checkedCart = cart.filter((c, i) => checkList.includes(c.product_id))
