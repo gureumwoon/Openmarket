@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from "styled-components";
 // assets
 import Bg1 from "../assets/images/banner-img.jfif"
@@ -10,6 +10,19 @@ import Vector2 from "../assets/images/Vector2.png"
 function Banner() {
     const bannerList = [Bg1, Bg2, Bg3]
     const [slide, setSlide] = useState(0)
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            if (slide !== bannerList.length - 1) {
+                setSlide(slide + 1)
+            } else {
+                setSlide(0)
+            }
+        }, 3000)
+        return () => {
+            clearInterval(timer); // timer 함수를 clearInterval을하여 return 한다.
+        };
+    }, [slide])
 
     const handleSlidePrev = () => {
         if (slide !== 0) {
