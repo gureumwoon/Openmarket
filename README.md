@@ -373,6 +373,23 @@
   
 <br />
 
+## 주문/결제하기 페이지
+
+<div align="center">
+  <table>
+    <tr>
+       <td align="center">
+          <img
+            src="https://user-images.githubusercontent.com/83581867/198020802-2b5eba60-fad8-43d2-a40c-ec384fa30c83.gif"
+            alt=""
+          /><br /><sub><b>로그인</b></sub><br />
+      </td>
+    </tr>
+  </table>
+</div>
+
+<br />
+
 ## 🔨 트러블 슈팅
 
 
