@@ -331,7 +331,7 @@
 
 <br />
 
-1. 장바구니 페이지에서 구매
+2. 장바구니 페이지에서 구매
    
 <div align="center">
   <table>
@@ -352,7 +352,7 @@
 
 <br />
 
-1. 장바구니 페이지에서 개별구매
+3. 장바구니 페이지에서 개별구매
 
 <div align="center">
   <table>
@@ -380,9 +380,9 @@
     <tr>
        <td align="center">
           <img
-            src="https://user-images.githubusercontent.com/83581867/198020802-2b5eba60-fad8-43d2-a40c-ec384fa30c83.gif"
+            src="https://user-images.githubusercontent.com/83581867/230795906-c54add1c-d6b3-4c05-a668-0ad9f34e8824.gif"
             alt=""
-          /><br /><sub><b>로그인</b></sub><br />
+          /><br /><sub><b>검색 </b></sub><br />
       </td>
     </tr>
   </table>
