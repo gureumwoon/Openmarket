@@ -8,24 +8,19 @@ function Search() {
     const userType = localStorage.getItem("type")
     const isLogin = localStorage.getItem("token")
     const location = useLocation();
-    const [page, setPage] = useState(1);
-    const [list, setList] = useState([]);
     const [searchList, setSearchList] = useState([]);
 
     useEffect(() => {
-        apis.searchProduct(page, location.state.search)
+        apis.searchProduct(location.state.search)
             .then((res) => {
-                if (page < Math.ceil(res.data.count / 15)) {
-                    setPage((p) => p + 1)
-                    setList((p) => p.concat(res.data.results))
-                }
+                const list = res.data.results
                 const filterList = list.filter((p) => p.product_name.replace(" ", "").toLocaleLowerCase().includes(location.state.search.toLocaleLowerCase().replace(" ", "")))
                 setSearchList(filterList)
             })
             .catch((error) => {
                 console.log("서치에러", error)
             })
-    }, [location.state.search, page])
+    }, [location.state.search])
 
     return (
         <div>

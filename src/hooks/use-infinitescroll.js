@@ -24,3 +24,4 @@ function useInfiniteScroll(onIntersect) {
 }
 
 export default useInfiniteScroll;
+

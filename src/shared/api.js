@@ -44,6 +44,6 @@ export const apis = {
     // order
     directOrder: (data) => api.post("order/", data),
     // search
-    searchProduct: (page, data) => api.get(`products/?page=${page}&search=${data}`)
+    searchProduct: (data) => api.get(`products/?search=${data}`)
 }
 
