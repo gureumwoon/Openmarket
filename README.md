@@ -46,6 +46,7 @@
 - 상품 상세 페이지
 - 장바구니 페이지
 - 주문/결제 페이지
+- 검색 
   
 ### 판매자
 - 로그인 페이지
@@ -373,7 +374,7 @@
   
 <br />
 
-## 주문/결제하기 페이지
+## 검색 기능
 
 <div align="center">
   <table>
@@ -382,7 +383,7 @@
           <img
             src="https://user-images.githubusercontent.com/83581867/230795906-c54add1c-d6b3-4c05-a668-0ad9f34e8824.gif"
             alt=""
-          /><br /><sub><b>검색 </b></sub><br />
+          /><br /><sub><b>검색 기능</b></sub><br />
       </td>
     </tr>
   </table>
