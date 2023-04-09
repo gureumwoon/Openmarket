@@ -9,7 +9,7 @@ function SearchGrid({ searchList }) {
                     <img src={p.image} alt="" />
                     <p className='product-name'>{p.store_name}</p>
                     <p className='product'>{p.product_name}</p>
-                    <span className='product-price'>{p.price}</span>
+                    <span className='product-price'>{p.price.toLocaleString()}</span>
                     <span>원</span>
                 </div>
             })}
