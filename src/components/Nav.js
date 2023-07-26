@@ -83,7 +83,11 @@ function Nav(props) {
                         <p style={{ color: `${color}` }}>장바구니</p>
                     </div>
                     <div className="my-page" onClick={() => { isLogin ? setModal(!modal) : navigate("/login") }}>
-                        <img src={UserIcon} alt="mypage-button" style={{ filter: `${modal === true ? "invert(55%) sepia(42%) saturate(1617%) hue-rotate(89deg) brightness(100%) contrast(76%)" : "none"}` }} />
+                        <img
+                            src={UserIcon}
+                            alt="mypage-button"
+                            style={{ filter: `${modal === true ? "invert(55%) sepia(42%) saturate(1617%) hue-rotate(89deg) brightness(100%) contrast(76%)" : "none"}` }}
+                        />
                         <p style={{ color: `${modal === true ? "#21BF48" : "#767676"}` }}>{children}</p>
                         {
                             isLogin ?
