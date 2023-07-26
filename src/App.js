@@ -22,7 +22,7 @@ function App() {
       <Routes>
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Main itemCount={itemCount} />} />
+        <Route path="/" element={<Main />} />
         <Route path="/seller-center" element={<SellerCenter />} />
         <Route path="/upload" element={<Upload />} />
         <Route path="/edit/:id" element={<Upload />} />
