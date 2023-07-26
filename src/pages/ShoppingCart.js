@@ -206,7 +206,7 @@ function ShoppingCart({ itemCount }) {
                             {
                                 cart && cart.map((c, i) => {
                                     return <CartGrid
-                                        key={i}
+                                        key={c.produc_id}
                                         {...c}
                                         item={item.find((p, i) => c.product_id === p.product_id)}
                                         quantityList={quantityList[i]}

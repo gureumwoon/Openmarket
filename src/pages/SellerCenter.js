@@ -51,7 +51,7 @@ function SellerCenter() {
                             sellerProducts.map((p, i) => {
                                 console.log("p", p)
                                 console.log("p2", sellerProducts[i].product_id)
-                                return <Fragment key={i}>
+                                return <Fragment key={p.product_id}>
                                     <SellerCenterItem
                                         {...p}
                                     />

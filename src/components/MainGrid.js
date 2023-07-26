@@ -28,7 +28,7 @@ function MainGrid() {
         <Container>
             {
                 list.map((p, i) => {
-                    return <div key={i}>
+                    return <div key={p.product_id}>
                         <img src={p.image} alt="" onClick={() => navigate(`/detail/${p.product_id}`)} />
                         <p className='product-name'>{p.seller_store}</p>
                         <p className='product'>{p.product_name}</p>

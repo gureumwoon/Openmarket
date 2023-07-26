@@ -4,7 +4,7 @@ import Banner from "../components/Banner"
 import Footer from '../components/Footer'
 import MainGrid from '../components/MainGrid'
 
-function SellerMain({ list, moreData }) {
+function SellerMain() {
     const userType = localStorage.getItem("type")
     const isLogin = localStorage.getItem("token")
 
@@ -16,7 +16,7 @@ function SellerMain({ list, moreData }) {
                 <Nav user_nav children={isLogin ? "마이페이지" : "로그인"} />
             }
             <Banner />
-            <MainGrid list={list} moreData={moreData} />
+            <MainGrid />
             <Footer />
         </div>
     )
