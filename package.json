@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.27.2",
+    "eslint": "^8.45.0",
     "immer": "^9.0.15",
     "query-string": "^8.1.0",
     "react": "^18.2.0",

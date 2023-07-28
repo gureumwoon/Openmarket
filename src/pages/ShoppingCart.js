@@ -13,7 +13,7 @@ import Button from '../elements/Button';
 import DeleteIcon from '../assets/images/icon-delete.svg';
 import { getProductDB } from '../redux/modules/product';
 
-function ShoppingCart({ itemCount }) {
+function ShoppingCart() {
     const [checkList, setCheckList] = useState([])
     const [modal, setModal] = useState(0);
     const [isCheck, setIsCheck] = useState(false)
@@ -23,6 +23,7 @@ function ShoppingCart({ itemCount }) {
     const dispatch = useDispatch()
     const isLogin = localStorage.getItem("token")
     const cart = useSelector((state) => state.cart.cartList)
+    const itemCount = useSelector((state) => state.product.count)
 
     const productList = useSelector((state) => state.product.products)
     const pageNumbers = [];
@@ -102,7 +103,7 @@ function ShoppingCart({ itemCount }) {
     )
 
     item.map((p, i) =>
-        totalPrice.push(item.find((a, i) => p.product_id === cart[i].product_id).price)
+        totalPrice.push(item.find((a, i) => p.product_id === cart[i].product_id)?.price)
     )
 
     item.map((p, i) =>
@@ -206,7 +207,7 @@ function ShoppingCart({ itemCount }) {
                             {
                                 cart && cart.map((c, i) => {
                                     return <CartGrid
-                                        key={c.produc_id}
+                                        key={c.product_id}
                                         {...c}
                                         item={item.find((p, i) => c.product_id === p.product_id)}
                                         quantityList={quantityList[i]}

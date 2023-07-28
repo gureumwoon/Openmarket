@@ -82,6 +82,7 @@ function Input(props) {
                 onChange={_onChange}
                 onBlur={_onBlur}
                 maxLength={_maxLength}
+                onKeyUp={_onKeyUp}
                 {...styles}
             />
         </label>

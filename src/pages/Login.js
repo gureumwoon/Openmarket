@@ -47,6 +47,13 @@ function Login() {
             dispatch(signInDB(loginData))
         }
     }
+
+    const handleLoginEnter = (e) => {
+        if (e.key === "Enter") {
+            handleLogin()
+            console.log(e)
+        }
+    }
     return (
         <LoginSection>
             <h1 style={{ marginBottom: "70px" }}>
@@ -64,7 +71,7 @@ function Login() {
                                 </Message>
                             </>
                         )}
-                        <Input type="password" placeholder="비밀번호" height="44px" padding="none" border="none" radius="none" borderBottom="1px solid #c4c4c4" borderColor="transparent" _onChange={(e) => setPw(e.target.value)} />
+                        <Input type="password" placeholder="비밀번호" height="44px" padding="none" border="none" radius="none" borderBottom="1px solid #c4c4c4" borderColor="transparent" _onChange={(e) => setPw(e.target.value)} _onKeyUp={(e) => handleLoginEnter(e)} />
                         {pw.length >= 0 && (
                             <>
                                 <Message >
@@ -85,7 +92,7 @@ function Login() {
                                 </Message>
                             </>
                         )}
-                        <Input type="password" placeholder="비밀번호" height="44px" padding="none" border="none" radius="none" borderBottom="1px solid #c4c4c4" borderColor="transparent" _onChange={(e) => setPw(e.target.value)} />
+                        <Input type="password" placeholder="비밀번호" height="44px" padding="none" border="none" radius="none" borderBottom="1px solid #c4c4c4" borderColor="transparent" _onChange={(e) => setPw(e.target.value)} _onKeyUp={(e) => handleLoginEnter(e)} />
                         {pw.length >= 0 && (
                             <>
                                 <Message>
@@ -95,8 +102,8 @@ function Login() {
                         )}
                         {
                             tab === 0 ?
-                                <Button height="50px" margin="52px 0 0" font_size="16px" font_weight="bold" _onClick={handleLogin}>로그인</Button> :
-                                <Button height="50px" margin="52px 0 0" font_size="16px" font_weight="bold" _onClick={handleLogin}>로그인</Button>
+                                <Button height="50px" margin="52px 0 0" font_size="16px" font_weight="bold" _onClick={handleLogin} >로그인</Button> :
+                                <Button height="50px" margin="52px 0 0" font_size="16px" font_weight="bold" _onClick={handleLogin} >로그인</Button>
                         }
                     </ul>
                 }

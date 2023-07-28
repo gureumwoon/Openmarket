@@ -1,6 +1,5 @@
 import './App.css';
 import { Routes, Route } from "react-router-dom";
-import { useSelector } from 'react-redux';
 
 // routes
 import SignUp from './pages/SignUp';
@@ -15,8 +14,6 @@ import Search from './pages/Search';
 
 function App() {
 
-  const itemCount = useSelector((state) => state.product.count)
-
   return (
     <div className="App">
       <Routes>
@@ -27,7 +24,7 @@ function App() {
         <Route path="/upload" element={<Upload />} />
         <Route path="/edit/:id" element={<Upload />} />
         <Route path="/detail/:id" element={<ProductDetail />} />
-        <Route path="/cart" element={<ShoppingCart itemCount={itemCount} />} />
+        <Route path="/cart" element={<ShoppingCart />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/search" element={<Search />} />
       </Routes>
